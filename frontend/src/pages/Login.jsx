@@ -19,13 +19,37 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate login
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsLoading(false)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  try {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", // for session cookie (since you use passport + cookie-session)
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
+    alert("✅ Login successful!");
+    // You can redirect or store token here:
+    // localStorage.setItem("token", data.token);
+    // window.location.href = "/dashboard";
+  } catch (error) {
+    alert(`❌ ${error.message}`);
+  } finally {
+    setIsLoading(false);
   }
+};
+
 
   const handleGoogleSignIn = () => {
     window.location.href = "http://localhost:5000/auth/google"

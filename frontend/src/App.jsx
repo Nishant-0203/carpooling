@@ -1,7 +1,7 @@
 // src/App.jsx
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar'; // Check file exists
-import Home from './pages/Home';          // Check file exists
+import Navbar from './components/layout/Navbar';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 

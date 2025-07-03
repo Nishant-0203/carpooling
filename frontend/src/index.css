@@ -1,1 +1,178 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+
+/* -------------------------------
+   Design System: Colors, Radius, etc.
+   All values use HSL as required
+---------------------------------- */
+@layer base {
+  :root {
+    --background: 222 45% 11%;
+    --foreground: 213 31% 91%;
+
+    --card: 222 45% 11%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 222 45% 11%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 192 95% 68%;
+    --primary-foreground: 222 45% 11%;
+
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 217 32% 17%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 213 31% 91%;
+
+    --border: 217 32% 17%;
+    --input: 217 32% 17%;
+    --ring: 192 95% 68%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 222 45% 11%;
+    --sidebar-foreground: 213 31% 91%;
+    --sidebar-primary: 192 95% 68%;
+    --sidebar-primary-foreground: 222 45% 11%;
+    --sidebar-accent: 217 32% 17%;
+    --sidebar-accent-foreground: 213 31% 91%;
+    --sidebar-border: 217 32% 17%;
+    --sidebar-ring: 192 95% 68%;
+  }
+
+  body {
+    background: linear-gradient(135deg, hsl(222, 70%, 9%) 0%, hsl(222, 50%, 12%) 100%);
+    min-height: 100vh;
+    color: hsl(var(--foreground));
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .with-border {
+    border: 1px solid hsl(var(--border));
+  }
+}
+
+/* -------------------------------
+   Utility Classes
+---------------------------------- */
+@layer utilities {
+  /* Glassmorphism */
+  .glass {
+    @apply backdrop-blur-md bg-white/5 border border-white/10 rounded-xl shadow-md;
+  }
+
+  .glass-strong {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 rounded-xl shadow-lg;
+  }
+
+  /* Neumorphism */
+  .neumorphic {
+    background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    box-shadow:
+      12px 12px 24px rgba(0,0,0,0.3),
+      -12px -12px 24px rgba(255,255,255,0.05),
+      inset 1px 1px 5px rgba(255,255,255,0.1),
+      inset -1px -1px 5px rgba(0,0,0,0.2);
+    border-radius: var(--radius);
+  }
+
+  /* Gradient Backgrounds */
+  .gradient-space {
+    background: linear-gradient(135deg, #0B1E3A 0%, #122E56 50%, #1A3A5C 100%);
+  }
+
+  .gradient-glow {
+    background: linear-gradient(135deg, rgba(0,255,255,0.1) 0%, rgba(138,43,226,0.1) 100%);
+  }
+
+  /* Glow Effects */
+  .glow-cyan {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 30px rgba(0, 255, 255, 0.2);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.4), 0 0 30px rgba(138, 43, 226, 0.2);
+  }
+
+  .glow-mint {
+    box-shadow: 0 0 15px rgba(152, 251, 152, 0.4), 0 0 30px rgba(152, 251, 152, 0.2);
+  }
+
+  /* Animation Utilities */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 3s linear infinite;
+  }
+}
+
+/* -------------------------------
+   Keyframes
+---------------------------------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
+  to { box-shadow: 0 0 30px rgba(0, 255, 255, 0.4); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* -------------------------------
+   Framer Motion Compatibility
+---------------------------------- */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+/* -------------------------------
+   Scrollbar Styling
+---------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.25);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 255, 0.5);
+}
