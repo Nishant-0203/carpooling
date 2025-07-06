@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,49 @@ const staggerContainer = {
 };
 
 export default function ContactPage() {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setFeedback(null);
+    try {
+      const res = await fetch("http://localhost:5000/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setFeedback({ type: "success", message: "Message sent successfully!" });
+        setForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        setFeedback({ type: "error", message: "Failed to send message. Please try again." });
+      }
+    } catch {
+      setFeedback({ type: "error", message: "Network error. Please try again." });
+    }
+    setLoading(false);
+  };
   const contactMethods = [
     {
       icon: <Mail className="w-6 h-6" />,
@@ -192,20 +236,40 @@ export default function ContactPage() {
                 <CardContent className="p-0">
                   <h2 className="text-3xl font-bold text-slate-800 mb-6">Send us a Message</h2>
 
-                  <form className="space-y-6">
+                  {feedback && (
+                    <div
+                      className={`mb-4 p-3 rounded-xl text-center ${
+                        feedback.type === "success"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {feedback.message}
+                    </div>
+                  )}
+
+                  <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-700">First Name</label>
                         <Input
+                          name="firstName"
+                          value={form.firstName}
+                          onChange={handleChange}
                           placeholder="Enter your first name"
                           className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-700">Last Name</label>
                         <Input
+                          name="lastName"
+                          value={form.lastName}
+                          onChange={handleChange}
                           placeholder="Enter your last name"
                           className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                          required
                         />
                       </div>
                     </div>
@@ -213,16 +277,23 @@ export default function ContactPage() {
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Email</label>
                       <Input
+                        name="email"
                         type="email"
+                        value={form.email}
+                        onChange={handleChange}
                         placeholder="Enter your email address"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                        required
                       />
                     </div>
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Phone Number</label>
                       <Input
+                        name="phone"
                         type="tel"
+                        value={form.phone}
+                        onChange={handleChange}
                         placeholder="Enter your phone number"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
                       />
@@ -231,21 +302,33 @@ export default function ContactPage() {
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Subject</label>
                       <Input
+                        name="subject"
+                        value={form.subject}
+                        onChange={handleChange}
                         placeholder="What's this about?"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                        required
                       />
                     </div>
 
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Message</label>
                       <Textarea
+                        name="message"
+                        value={form.message}
+                        onChange={handleChange}
                         placeholder="Tell us more about your inquiry..."
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl min-h-[120px] resize-none"
+                        required
                       />
                     </div>
 
-                    <Button className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                      Send Message
+                    <Button
+                      type="submit"
+                      className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                      disabled={loading}
+                    >
+                      {loading ? "Sending..." : "Send Message"}
                     </Button>
                   </form>
                 </CardContent>

@@ -6,7 +6,8 @@ import passport from 'passport';
 
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
-import './src/config/passport.js'; // this loads the Google OAuth strategy
+import contactRoutes from './src/routes/contact.js'; // 👈 NEW
+import './src/config/passport.js';
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/contact', contactRoutes); // 👈 NEW
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
