@@ -40,6 +40,7 @@ const handleSubmit = async (e) => {
     }
 
     alert("✅ Login successful!");
+    window.location.href = "/";
     // You can redirect or store token here:
     // localStorage.setItem("token", data.token);
     // window.location.href = "/dashboard";
@@ -52,7 +53,7 @@ const handleSubmit = async (e) => {
 
 
   const handleGoogleSignIn = () => {
-    window.location.href = "http://localhost:5000/auth/google"
+    window.location.href = "http://localhost:5000/api/auth/google";
   }
 
   return (

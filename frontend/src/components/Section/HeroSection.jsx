@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,6 +22,200 @@ import { Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const HeroSection = () => {
+  const locationOptions = [
+  // Chandigarh & Tricity
+  "Chandigarh, Chandigarh, India",
+  "Chandigarh Airport, Chandigarh, India",
+  "Chandigarh Railway Station, Chandigarh, India",
+  "Sector 17, Chandigarh, India",
+  "Sector 43, Chandigarh, India",
+  "Panchkula, Haryana, India",
+  "Mohali, Punjab, India",
+  "Zirakpur, Punjab, India",
+  "Manimajra, Chandigarh, India",
+  "IT Park, Chandigarh, India",
+
+  // Delhi NCR
+  "New Delhi, Delhi, India",
+  "Old Delhi, Delhi, India",
+  "Delhi Airport (IGI), Delhi, India",
+  "Delhi Railway Station, Delhi, India",
+  "Connaught Place, Delhi, India",
+  "Saket, Delhi, India",
+  "Noida, Uttar Pradesh, India",
+  "Greater Noida, Uttar Pradesh, India",
+  "Gurgaon, Haryana, India",
+  "Faridabad, Haryana, India",
+  "Ghaziabad, Uttar Pradesh, India",
+
+  // Mumbai Metropolitan Region
+  "Mumbai, Maharashtra, India",
+  "Mumbai Airport (BOM), Maharashtra, India",
+  "Mumbai Central Railway Station, Maharashtra, India",
+  "Andheri, Maharashtra, India",
+  "Bandra, Maharashtra, India",
+  "Borivali, Maharashtra, India",
+  "Navi Mumbai, Maharashtra, India",
+  "Thane, Maharashtra, India",
+
+  // Bangalore
+  "Bengaluru, Karnataka, India",
+  "Bangalore Airport (BLR), Karnataka, India",
+  "Majestic Bus Stand, Karnataka, India",
+  "KR Puram, Karnataka, India",
+  "Electronic City, Karnataka, India",
+  "Whitefield, Karnataka, India",
+
+  // Hyderabad
+  "Hyderabad, Telangana, India",
+  "Hyderabad Airport (RGIA), Telangana, India",
+  "Secunderabad, Telangana, India",
+  "Gachibowli, Telangana, India",
+  "Hitech City, Telangana, India",
+
+  // Kolkata
+  "Kolkata, West Bengal, India",
+  "Howrah Railway Station, West Bengal, India",
+  "Sealdah Railway Station, West Bengal, India",
+  "Kolkata Airport (CCU), West Bengal, India",
+  "Salt Lake City, West Bengal, India",
+
+  // Chennai
+  "Chennai, Tamil Nadu, India",
+  "Chennai Airport (MAA), Tamil Nadu, India",
+  "Chennai Central Railway Station, Tamil Nadu, India",
+  "T Nagar, Tamil Nadu, India",
+  "Velachery, Tamil Nadu, India",
+
+  // Pune
+  "Pune, Maharashtra, India",
+  "Shivajinagar, Maharashtra, India",
+  "Pune Railway Station, Maharashtra, India",
+  "Hinjewadi, Maharashtra, India",
+  "Kothrud, Maharashtra, India",
+
+  // Jaipur
+  "Jaipur, Rajasthan, India",
+  "Jaipur Railway Station, Rajasthan, India",
+  "Jaipur Airport (JAI), Rajasthan, India",
+  "Malviya Nagar, Rajasthan, India",
+
+  // Lucknow
+  "Lucknow, Uttar Pradesh, India",
+  "Charbagh Railway Station, Uttar Pradesh, India",
+  "Hazratganj, Uttar Pradesh, India",
+
+  // Ahmedabad
+  "Ahmedabad, Gujarat, India",
+  "Ahmedabad Airport (AMD), Gujarat, India",
+  "Sabarmati, Gujarat, India",
+  "Maninagar, Gujarat, India",
+
+  // Bhopal & Central India
+  "Bhopal, Madhya Pradesh, India",
+  "Habibganj Railway Station, Madhya Pradesh, India",
+  "Indore, Madhya Pradesh, India",
+  "Raipur, Chhattisgarh, India",
+  "Nagpur, Maharashtra, India",
+  "Jabalpur, Madhya Pradesh, India",
+
+  // North East India
+  "Guwahati, Assam, India",
+  "Dispur, Assam, India",
+  "Shillong, Meghalaya, India",
+  "Agartala, Tripura, India",
+  "Kohima, Nagaland, India",
+
+  // Hill Stations
+  "Shimla, Himachal Pradesh, India",
+  "Manali, Himachal Pradesh, India",
+  "Dharamshala, Himachal Pradesh, India",
+  "Nainital, Uttarakhand, India",
+  "Mussoorie, Uttarakhand, India",
+  "Ooty, Tamil Nadu, India",
+  "Munnar, Kerala, India",
+  "Darjeeling, West Bengal, India",
+  "Gangtok, Sikkim, India",
+
+  // Goa
+  "Goa, Goa, India",
+  "Panaji, Goa, India",
+  "Vasco da Gama, Goa, India",
+  "Madgaon Railway Station, Goa, India",
+
+  // Other major cities
+  "Varanasi, Uttar Pradesh, India",
+  "Patna, Bihar, India",
+  "Ranchi, Jharkhand, India",
+  "Jamshedpur, Jharkhand, India",
+  "Kanpur, Uttar Pradesh, India",
+  "Agra, Uttar Pradesh, India",
+  "Amritsar, Punjab, India",
+  "Ludhiana, Punjab, India",
+  "Surat, Gujarat, India",
+  "Rajkot, Gujarat, India",
+  "Coimbatore, Tamil Nadu, India",
+  "Madurai, Tamil Nadu, India",
+  "Vijayawada, Andhra Pradesh, India",
+  "Visakhapatnam, Andhra Pradesh, India",
+  "Trivandrum, Kerala, India",
+  "Kochi, Kerala, India",
+  "Ernakulam, Kerala, India"
+];
+
+const [fromSuggestions, setFromSuggestions] = useState([]);
+const [toSuggestions, setToSuggestions] = useState([]);
+
+const handleFromChange = (value) => {
+  setFromLocation(value);
+  setFromSuggestions(
+    locationOptions.filter((loc) =>
+      loc.toLowerCase().startsWith(value.toLowerCase())
+    )
+  );
+};
+
+const handleToChange = (value) => {
+  setToLocation(value);
+  setToSuggestions(
+    locationOptions.filter((loc) =>
+      loc.toLowerCase().startsWith(value.toLowerCase())
+    )
+  );
+};
+const handleSubmitRide = async () => {
+  const response = await fetch("http://localhost:5000/api/rides/submit-ride", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      fromLocation,
+      toLocation,
+      date: date ? date.toISOString().split('T')[0] : null,
+      time,
+      transportMode,
+    }),
+  });
+
+  const data = await response.json();
+  if (response.ok) {
+    alert("Ride submitted successfully!");
+  } else {
+    alert("Error: " + data.message);
+  }
+};
+
+
+const handleSuggestionClick = (value, type) => {
+  if (type === "from") {
+    setFromLocation(value);
+    setFromSuggestions([]);
+  } else {
+    setToLocation(value);
+    setToSuggestions([]);
+  }
+};
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
   const [date, setDate] = useState(null);
@@ -66,22 +261,54 @@ const HeroSection = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">From</label>
-                <Input
-                  placeholder="Enter pickup location"
-                  value={fromLocation}
-                  onChange={(e) => setFromLocation(e.target.value)}
-                  className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
-                />
+                <div className="relative">
+  <Input
+    placeholder="Enter pickup location"
+    value={fromLocation}
+    onChange={(e) => handleFromChange(e.target.value)}
+    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
+  />
+  {fromSuggestions.length > 0 && (
+    <ul className="absolute z-20 bg-white text-black w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto">
+      {fromSuggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          className="px-4 py-2 hover:bg-cyan-100 cursor-pointer"
+          onClick={() => handleSuggestionClick(suggestion, "from")}
+        >
+          {suggestion}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">To</label>
-                <Input
-                  placeholder="Enter destination"
-                  value={toLocation}
-                  onChange={(e) => setToLocation(e.target.value)}
-                  className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
-                />
+                <div className="relative">
+  <Input
+    placeholder="Enter destination"
+    value={toLocation}
+    onChange={(e) => handleToChange(e.target.value)}
+    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
+  />
+  {toSuggestions.length > 0 && (
+    <ul className="absolute z-20 bg-white text-black w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto">
+      {toSuggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          className="px-4 py-2 hover:bg-cyan-100 cursor-pointer"
+          onClick={() => handleSuggestionClick(suggestion, "to")}
+        >
+          {suggestion}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
               </div>
 
               {/* Date Picker */}
@@ -146,11 +373,13 @@ const HeroSection = () => {
             {/* CTA Button */}
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
-                size="lg"
-                className="w-full bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white font-semibold py-4 text-lg glow-cyan hover:glow-purple transition-all duration-300"
-              >
-                Find a Ride
-              </Button>
+  size="lg"
+  className="w-full bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white font-semibold py-4 text-lg glow-cyan hover:glow-purple transition-all duration-300"
+  onClick={handleSubmitRide}
+>
+  Find a Ride
+</Button>
+
             </motion.div>
           </Card>
         </motion.div>

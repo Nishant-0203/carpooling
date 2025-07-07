@@ -15,16 +15,23 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ name, email, password: hashedPassword });
+    const newUser = new User({ name, email, password }); // no manual hash
+    await newUser.save();
+
+    const token = newUser.generateAuthToken();
 
     console.log("✅ Registration successful for:", email);
-    res.status(201).json({ message: 'User registered successfully' });
+    res.status(201).json({
+      message: 'User registered successfully',
+      token,
+      user: { id: newUser._id, name: newUser.name, email: newUser.email }
+    });
   } catch (err) {
     console.error("❌ Registration error:", err.message);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -38,15 +45,13 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       console.log("❌ Login failed: Incorrect password");
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1d',
-    });
+    const token = user.generateAuthToken();
 
     console.log("✅ Login successful:", email);
     res.status(200).json({
@@ -56,6 +61,21 @@ export const loginUser = async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Login error:", err.message);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password');
+    if (!user) {
+      console.log("❌ User not found:", req.user._id);
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log("✅ User profile retrieved:", user.email);
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("❌ Error retrieving user profile:", err.message);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };

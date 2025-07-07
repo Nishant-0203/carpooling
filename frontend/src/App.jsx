@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import About from './pages/About';
 import RidesPage from './pages/Ride';
 import Footer from './components/layout/Footer';
+import PublishRide from './pages/OfferRidePage';
 const App = () => {
   return (
     <>
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/Contact" element={<ContactPage />} />
         <Route path="/rides" element={<RidesPage />} />
         <Route path="/Blog" element={<Blog />} />
+        <Route path="/OfferRide" element={<PublishRide />} />
           <Route path="/Register" element={<Register />} />
       </Routes>
       <Footer />

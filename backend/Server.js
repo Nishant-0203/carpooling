@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import session from 'cookie-session';
+import rideRoutes from './src/routes/rideRoutes.js';
+import session from 'express-session';
 import passport from 'passport';
-
+import rideRoutes from "./routes/ride.js";
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
 import contactRoutes from './src/routes/contact.js'; // 👈 NEW
@@ -14,16 +15,21 @@ dotenv.config();
 const app = express();
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
-
+app.use(rideRoutes);
 connectDB();
 
 app.use(session({
-  name: 'google-auth-session',
-  keys: ['key1', 'key2'],
-  maxAge: 24 * 60 * 60 * 1000,
+  secret: process.env.SESSION_SECRET || 'your_strong_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // true if you're using HTTPS
+    maxAge: 24 * 60 * 60 * 1000,
+  },
 }));
 
 app.use(passport.initialize());
+app.use('/api/rides', rideRoutes);
 app.use(passport.session());
 
 app.use('/api/auth', authRoutes);
