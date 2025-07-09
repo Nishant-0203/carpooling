@@ -25,7 +25,6 @@ const pathname = location.pathname;
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Rides", href: "/rides" },
-    { name: "Offer Ride", href: "/OfferRide" },
     { name: "About", href: "/About" },
     { name: "Blog", href: "/Blog" },
     { name: "Contact", href: "/Contact" },

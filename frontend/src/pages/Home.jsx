@@ -40,14 +40,12 @@ const Home = () => {
         ></div>
       </div>
 
-      <Navbar />
       <HeroSection />
       <TrustedBy />
       <HowItWorks />
       <LiveRides />
       <WhyRideSphere />
       <Testimonials />
-      <Footer />
     </motion.div>
   );
 };

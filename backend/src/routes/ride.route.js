@@ -6,11 +6,14 @@ const router = express.Router();
 // POST - Offer a ride
 router.post("/offerride", async (req, res) => {
   try {
-    const { from, to, passengers, contribution } = req.body;
+    const { from, to, date, time, transport, passengers, contribution } = req.body;
 
     const ride = new Ride({
       from,
       to,
+      date,
+      time,
+      transport,
       passengers,
       contribution,
     });

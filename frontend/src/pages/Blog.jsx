@@ -375,36 +375,6 @@ export default function Blog() {
           </div>
         </div>
       </section>
-
-      {/* Newsletter Signup */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <motion.div className="text-center max-w-3xl mx-auto" {...fadeInUp}>
-            <Card className="backdrop-blur-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border-white/30 rounded-3xl p-8">
-              <CardContent className="p-0">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-6">
-                  <TrendingUp className="w-8 h-8" />
-                </div>
-                <h2 className="text-3xl font-bold text-slate-800 mb-4">Stay Updated</h2>
-                <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                  Subscribe to our newsletter and get the latest insights on sustainable transportation, money-saving
-                  tips, and mobility trends delivered to your inbox.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 rounded-xl border border-white/50 bg-white/80 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                  <Button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl font-semibold">
-                    Subscribe
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
     </div>
   )
 }

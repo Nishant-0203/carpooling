@@ -17,6 +17,19 @@ const rideSchema = new mongoose.Schema(
       required: true,
       min: 1,
     },
+    date: { 
+      type: String, 
+      required: true 
+    }, // or type: Date if you prefer
+    time: { 
+      type: String, 
+      required: true 
+    },
+    transport: { 
+      type: String, 
+      required: true, 
+      trim: true 
+    },
     contribution: {
       type: Number,
       required: true,

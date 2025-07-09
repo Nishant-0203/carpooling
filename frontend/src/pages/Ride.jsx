@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { useLocation } from "react-router-dom";
 import {
   Select,
   SelectContent,
@@ -41,8 +42,25 @@ const staggerContainer = {
 }
 
 export default function RidesPage() {
-  const [selectedFilter, setSelectedFilter] = useState("all")
-  const [searchQuery, setSearchQuery] = useState("")
+const location = useLocation();
+const rideQuery = location.state || {};
+
+const {
+  fromLocation,
+  toLocation,
+  date,
+  time,
+  transportMode,
+} = rideQuery;
+
+const [searchQuery, setSearchQuery] = useState(`${fromLocation || ""} ${toLocation || ""}`);
+const [selectedFilter, setSelectedFilter] = useState(transportMode || "all");
+const [sortOption, setSortOption] = useState("recommended");
+
+const [dateFilter, setDateFilter] = useState(date || "");
+const [timeFilter, setTimeFilter] = useState(time || "");
+const [fromFilter, setFromFilter] = useState(fromLocation || "");
+const [toFilter, setToFilter] = useState(toLocation || "");
 
   const rides = [
     {
@@ -162,14 +180,54 @@ export default function RidesPage() {
   ]
 
   const filteredRides = rides.filter((ride) => {
-    const matchesFilter =
-      selectedFilter === "all" || ride.transport.toLowerCase() === selectedFilter
-    const matchesSearch =
-      searchQuery === "" ||
-      ride.from.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      ride.to.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesFilter && matchesSearch
-  })
+  const matchesTransport =
+    selectedFilter === "all" || ride.transport.toLowerCase() === selectedFilter;
+
+  const matchesFrom =
+    !fromFilter || ride.from.toLowerCase().includes(fromFilter.toLowerCase());
+
+  const matchesTo =
+    !toFilter || ride.to.toLowerCase().includes(toFilter.toLowerCase());
+
+  const matchesDate =
+    !dateFilter || ride.date.toLowerCase() === formatDate(dateFilter);
+
+  const matchesTime =
+    !timeFilter || ride.time === formatTime(timeFilter);
+
+  return (
+    matchesTransport &&
+    matchesFrom &&
+    matchesTo &&
+    matchesDate &&
+    matchesTime
+  );
+});
+
+  // Apply sorting after filtering
+const sortedRides = [...filteredRides].sort((a, b) => {
+  switch (sortOption) {
+    case "price-low":
+      return a.price - b.price;
+    case "price-high":
+      return b.price - a.price;
+    case "time": {
+      const parseTime = (timeStr) => {
+        const [time, modifier] = timeStr.split(" ");
+        let [hours, minutes] = time.split(":").map(Number);
+        if (modifier === "PM" && hours !== 12) hours += 12;
+        if (modifier === "AM" && hours === 12) hours = 0;
+        return hours * 60 + minutes;
+      };
+      return parseTime(a.time) - parseTime(b.time);
+    }
+    case "rating":
+      return b.driver.rating - a.driver.rating;
+    default:
+      return 0; // recommended (no specific sort)
+  }
+});
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -200,36 +258,53 @@ export default function RidesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <Input
-                  placeholder="Search by location..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
-                />
-              </div>
+           <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+  <Input
+    placeholder="From"
+    value={fromFilter}
+    onChange={(e) => setFromFilter(e.target.value)}
+    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 px-4"
+  />
 
-              <Select value={selectedFilter} onValueChange={setSelectedFilter}>
-                <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
-                  <SelectValue placeholder="Transport type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Vehicles</SelectItem>
-                  <SelectItem value="car">Car</SelectItem>
-                  <SelectItem value="bike">Bike</SelectItem>
-                  <SelectItem value="auto">Auto</SelectItem>
-                </SelectContent>
-              </Select>
+  <Input
+    placeholder="To"
+    value={toFilter}
+    onChange={(e) => setToFilter(e.target.value)}
+    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 px-4"
+  />
 
-              <Input type="date" className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12" />
+  <Input
+    type="date"
+    value={dateFilter}
+    onChange={(e) => setDateFilter(e.target.value)}
+    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 px-4"
+  />
 
-              <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl h-12 font-semibold">
-                <Filter className="w-4 h-4 mr-2" />
-                Apply Filters
-              </Button>
-            </div>
+  <Input
+    type="time"
+    value={timeFilter}
+    onChange={(e) => setTimeFilter(e.target.value)}
+    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 px-4"
+  />
+
+  <Select value={selectedFilter} onValueChange={setSelectedFilter}>
+    <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
+      <SelectValue placeholder="Transport type" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="all">All Vehicles</SelectItem>
+      <SelectItem value="car">Car</SelectItem>
+      <SelectItem value="bike">Bike</SelectItem>
+      <SelectItem value="auto">Auto</SelectItem>
+    </SelectContent>
+  </Select>
+
+  <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl h-12 font-semibold w-full">
+    <Filter className="w-4 h-4 mr-2" />
+    Apply Filters
+  </Button>
+</div>
+
           </motion.div>
         </div>
       </section>
@@ -243,7 +318,7 @@ export default function RidesPage() {
               <p className="text-slate-600">{filteredRides.length} rides found</p>
             </div>
 
-            <Select defaultValue="recommended">
+            <Select value={sortOption} onValueChange={setSortOption}>
               <SelectTrigger className="w-48 bg-white/80 border-white/50 backdrop-blur-sm rounded-xl">
                 <SelectValue />
               </SelectTrigger>
@@ -263,7 +338,7 @@ export default function RidesPage() {
             initial="initial"
             animate="animate"
           >
-            {filteredRides.map((ride, index) => (
+            {sortedRides.map((ride, index) => (
               <motion.div key={ride.id} variants={fadeInUp}>
                 <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 group">
                   <CardContent className="p-6">

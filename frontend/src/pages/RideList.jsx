@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,7 @@ const staggerContainer = {
 export default function RideSearchPage() {
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
 const [suggestionsTo, setSuggestionsTo] = useState([]);
+const navigate = useNavigate();
 
 const locations = [
     // Chandigarh & Tricity
@@ -482,7 +484,8 @@ const handleSearch = async () => {
 
                           {/* Action Buttons */}
                           <div className="flex gap-3">
-                            <Button className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 rounded-xl">
+                            <Button className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 rounded-xl"
+                            onClick={() => navigate(`/book-ride/${ride._id}`)}>
                               Book Ride
                             </Button>
                             <Button

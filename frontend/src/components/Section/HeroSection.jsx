@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -165,6 +165,11 @@ const HeroSection = () => {
 
 const [fromSuggestions, setFromSuggestions] = useState([]);
 const [toSuggestions, setToSuggestions] = useState([]);
+const navigate = useNavigate();
+
+const handleOfferRide = () => {
+    navigate("/OfferRide"); // ✅ Replace with your actual route
+  };
 
 const handleFromChange = (value) => {
   setFromLocation(value);
@@ -201,6 +206,15 @@ const handleSubmitRide = async () => {
   const data = await response.json();
   if (response.ok) {
     alert("Ride submitted successfully!");
+    navigate("/rides", {
+  state: {
+    fromLocation,
+    toLocation,
+    date: date ? date.toISOString().split('T')[0] : null,
+    time,
+    transportMode,
+  },
+});
   } else {
     alert("Error: " + data.message);
   }
@@ -211,11 +225,14 @@ const handleSuggestionClick = (value, type) => {
   if (type === "from") {
     setFromLocation(value);
     setFromSuggestions([]);
+    document.getElementById("from-input")?.blur(); // blur the input to stop re-triggering
   } else {
     setToLocation(value);
     setToSuggestions([]);
+    document.getElementById("to-input")?.blur(); // same for 'to'
   }
 };
+
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
   const [date, setDate] = useState(null);
@@ -263,6 +280,7 @@ const handleSuggestionClick = (value, type) => {
                 <label className="text-sm font-medium text-gray-300">From</label>
                 <div className="relative">
   <Input
+  id="from-input"
     placeholder="Enter pickup location"
     value={fromLocation}
     onChange={(e) => handleFromChange(e.target.value)}
@@ -289,6 +307,7 @@ const handleSuggestionClick = (value, type) => {
                 <label className="text-sm font-medium text-gray-300">To</label>
                 <div className="relative">
   <Input
+    id="to-input"
     placeholder="Enter destination"
     value={toLocation}
     onChange={(e) => handleToChange(e.target.value)}
@@ -374,6 +393,13 @@ const handleSuggestionClick = (value, type) => {
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Button
   size="lg"
+  disabled={
+    !fromLocation.trim() ||
+    !toLocation.trim() ||
+    !date ||
+    !time ||
+    !transportMode
+  }
   className="w-full bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white font-semibold py-4 text-lg glow-cyan hover:glow-purple transition-all duration-300"
   onClick={handleSubmitRide}
 >
@@ -395,6 +421,7 @@ const handleSuggestionClick = (value, type) => {
           <Button
             variant="outline"
             size="lg"
+            onClick={handleOfferRide} // ✅ Attach handler here
             className="border-white/30 text-white hover:bg-white/10 hover:border-cyan-400"
           >
             Offer a Ride

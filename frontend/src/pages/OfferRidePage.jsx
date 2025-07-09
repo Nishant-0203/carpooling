@@ -38,6 +38,9 @@ export default function OfferRidePage() {
   const [toLocation, setToLocation] = useState("");
   const [fromSuggestions, setFromSuggestions] = useState([]);
   const [toSuggestions, setToSuggestions] = useState([]);
+  const [date, setDate] = useState("");
+const [time, setTime] = useState("");
+const [modeOfTransport, setModeOfTransport] = useState("Car"); // default value
   const locationOptions = [
     // Chandigarh & Tricity
     "Chandigarh, Chandigarh, India",
@@ -209,11 +212,15 @@ export default function OfferRidePage() {
   };
   const handleSubmit = async () => {
     const rideData = {
-      from: fromLocation,
-      to: toLocation,
-      passengers,
-      contribution,
-    };
+  from: fromLocation,
+  to: toLocation,
+  date,
+  time,
+  transport: modeOfTransport,
+  passengers,
+  contribution,
+};
+
 
     try {
       const response = await fetch("http://localhost:5000/api/ride/offerride", {
@@ -365,6 +372,42 @@ export default function OfferRidePage() {
                         </ul>
                       )}
                     </div>
+
+                    {/* Date Input */}
+<div className="flex items-center gap-3 p-4 bg-white/60 rounded-xl border border-white/50">
+  <Input
+    type="date"
+    value={date}
+    onChange={(e) => setDate(e.target.value)}
+    className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none"
+  />
+</div>
+
+{/* Time Input */}
+<div className="flex items-center gap-3 p-4 bg-white/60 rounded-xl border border-white/50">
+  <Input
+    type="time"
+    value={time}
+    onChange={(e) => setTime(e.target.value)}
+    className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none"
+  />
+</div>
+
+{/* Mode of Transport */}
+<div className="flex items-center gap-3 p-4 bg-white/60 rounded-xl border border-white/50">
+  <Car className="w-5 h-5 text-slate-600" />
+  <select
+    value={modeOfTransport}
+    onChange={(e) => setModeOfTransport(e.target.value)}
+    className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none"
+  >
+    {["Car", "Bike", "Auto", "Bus", "Taxi"].map((option) => (
+      <option key={option} value={option} className="text-slate-800 bg-white">
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
 
 
                     {/* Passengers */}
