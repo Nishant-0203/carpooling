@@ -210,7 +210,7 @@ const handleSubmitRide = async () => {
   state: {
     fromLocation,
     toLocation,
-    date: date ? date.toISOString().split('T')[0] : null,
+    date: date ? new Date(date).toISOString().split('T')[0] : null,
     time,
     transportMode,
   },
