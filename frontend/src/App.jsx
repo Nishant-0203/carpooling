@@ -5,9 +5,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import ContactPage from './pages/Contact';
 import BookRidePage from "./pages/BookRidePage";
+import BookRide from './pages/BookRide';
 import Blog from './pages/Blog';
 import Register from './pages/Register';
-import RideList from './pages/RideList';
 import About from './pages/About';
 import RidesPage from './pages/Ride';
 import Footer from './components/layout/Footer';
@@ -21,8 +21,8 @@ const App = () => {
         <Route path="/About" element={<About />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/book-ride/:id" element={<BookRidePage />} />
+          <Route path="/book-ride/:rideId" element={<BookRide />} />
         <Route path="/Contact" element={<ContactPage />} />
-        <Route path="/RideList" element={<RideList />} />
         <Route path="/rides" element={<RidesPage />} />
         <Route path="/Blog" element={<Blog />} />
         <Route path="/OfferRide" element={<PublishRide />} />

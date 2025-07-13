@@ -234,12 +234,6 @@ const [modeOfTransport, setModeOfTransport] = useState("Car"); // default value
       const result = await response.json();
       if (response.ok) {
         alert("Ride published successfully!");
-        // Optionally reset state
-        setFrom("");
-        setTo("");
-        setPassengers(2);
-        setContribution(200);
-        navigate("/RideList");
       } else {
         alert("Failed to publish ride: " + result.message);
       }
