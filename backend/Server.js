@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import rideRoutes from './src/routes/rideRoutes.js';
 import Ride from './src/routes/ride.route.js'; // 👈 NEW
+import adminRoutes from './src/routes/adminRoutes.js';
 import session from 'express-session';
 import passport from 'passport';
 import connectDB from './src/config/db.js';
@@ -28,6 +29,7 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
+app.use('/api/admin', adminRoutes);
 app.use('/api/rides', rideRoutes);
 app.use('/api/ride', Ride); // 👈 NEW
 app.use(passport.session());

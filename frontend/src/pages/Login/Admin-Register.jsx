@@ -2,54 +2,51 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
-import { Label } from "../components/ui/label"
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from "../components/ui/card"
+} from "../../components/ui/card"
 
-export default function Register() {
+export default function AdminRegister() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include", // important if you're using cookies/sessions
-      body: JSON.stringify({ name, email, password })
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/admin/register", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ name, email, password })
+});
+      const data = await response.json()
 
-    const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed")
+      }
 
-    if (!response.ok) {
-      throw new Error(data.message || "Registration failed");
+      alert("✅ Admin Registered successfully!")
+      // Optionally redirect:
+      // window.location.href = "/admin-login";
+    } catch (error) {
+      alert(`❌ ${error.message}`)
+    } finally {
+      setIsLoading(false)
     }
-
-    alert("✅ Registered successfully!");
-    // Optionally redirect to login:
-    // window.location.href = "/login";
-  } catch (error) {
-    alert(`❌ ${error.message}`);
-  } finally {
-    setIsLoading(false);
   }
-};
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
@@ -61,13 +58,12 @@ const handleSubmit = async (e) => {
       >
         <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
           <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-3xl font-bold text-white">Create Account</CardTitle>
-            <CardDescription className="text-gray-300">Register to get started</CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Admin Registration</CardTitle>
+            <CardDescription className="text-gray-300">Register as an Admin</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name Field */}
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-white font-medium">Full Name</Label>
                 <div className="relative">
@@ -84,7 +80,6 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* Email Field */}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-white font-medium">Email Address</Label>
                 <div className="relative">
@@ -101,7 +96,6 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-white font-medium">Password</Label>
                 <div className="relative">
@@ -125,7 +119,6 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* Register Button */}
               <div>
                 <Button
                   type="submit"
@@ -145,11 +138,10 @@ const handleSubmit = async (e) => {
               </div>
             </form>
 
-            {/* Already have account */}
             <div className="text-center">
               <p className="text-gray-300">
-                Already have an account?{" "}
-                <a href="/login" className="text-white font-semibold hover:underline">Sign In</a>
+                Already an admin?{" "}
+                <a href="/admin-login" className="text-white font-semibold hover:underline">Sign In</a>
               </p>
             </div>
           </CardContent>

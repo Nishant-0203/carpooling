@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -44,30 +44,29 @@ const staggerContainer = {
 };
 
 export default function RideSearchPage() {
-const location = useLocation();
-const rideQuery = location.state || {};
+  const location = useLocation();
+  const rideQuery = location.state || {};
 
-const {
-  fromLocation = "",
-  toLocation = "",
-  date: queryDate = "",
-  time: queryTime = "",
-  transportMode = "",
-} = rideQuery;
-useEffect(() => {
-  if (fromLocation) setFrom(fromLocation);
-  if (toLocation) setTo(toLocation);
-  if (queryDate) setDate(queryDate);
-  if (queryTime) setTime(queryTime);
-  if (transportMode) setTransport(transportMode);
-}, [fromLocation, toLocation, queryDate, queryTime, transportMode]);
+  const {
+    fromLocation = "",
+    toLocation = "",
+    date: queryDate = "",
+    time: queryTime = "",
+    transportMode = "",
+  } = rideQuery;
+  useEffect(() => {
+    if (fromLocation) setFrom(fromLocation);
+    if (toLocation) setTo(toLocation);
+    if (queryDate) setDate(queryDate);
+    if (queryTime) setTime(queryTime);
+    if (transportMode) setTransport(transportMode);
+  }, [fromLocation, toLocation, queryDate, queryTime, transportMode]);
 
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
-const [suggestionsTo, setSuggestionsTo] = useState([]);
-const navigate = useNavigate();
-const [sortOption, setSortOption] = useState("recommended");
+  const [suggestionsTo, setSuggestionsTo] = useState([]);
+  const [sortOption, setSortOption] = useState("recommended");
 
-const locations = [
+  const locations = [
     // Chandigarh & Tricity
     "Chandigarh, Chandigarh, India",
     "Chandigarh Airport, Chandigarh, India",
@@ -211,90 +210,90 @@ const locations = [
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
-const [time, setTime] = useState("");
-const [transport, setTransport] = useState("");
+  const [time, setTime] = useState("");
+  const [transport, setTransport] = useState("");
   const [rides, setRides] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
   const sortedRides = [...rides].sort((a, b) => {
-  switch (sortOption) {
-    case "price-low":
-      return a.contribution - b.contribution;
-    case "price-high":
-      return b.contribution - a.contribution;
-    case "time": {
-      const parseTime = (timeStr) => {
-        const [time, modifier] = timeStr.split(" ");
-        let [hours, minutes] = time.split(":").map(Number);
-        if (modifier === "PM" && hours !== 12) hours += 12;
-        if (modifier === "AM" && hours === 12) hours = 0;
-        return hours * 60 + minutes;
-      };
-      return parseTime(a.departureTime || "") - parseTime(b.departureTime || "");
-    }
-    case "rating":
-      return (b.driver?.rating || 0) - (a.driver?.rating || 0);
-    case "recommended":
-    default:
-      return new Date(b.createdAt) - new Date(a.createdAt); // Newest first
-  }
-});
-const handleSearch = async () => {
-  if (!from.trim() || !to.trim()) return;
-
-  setLoading(true);
-  setHasSearched(true);
-
-  // Clear suggestions
-  setSuggestionsFrom([]);
-  setSuggestionsTo([]);
-
-  try {
-    const response = await axios.get("http://localhost:5000/api/ride/allRides");
-  const filteredRides = response.data.filter((ride) => {
-  const rideFrom = (ride.from || "").trim().toLowerCase();
-  const rideTo = (ride.to || "").trim().toLowerCase();
-  const inputFrom = from.trim().toLowerCase();
-  const inputTo = to.trim().toLowerCase();
-
-  const matchesFromTo = rideFrom.includes(inputFrom) && rideTo.includes(inputTo);
-  const matchesDate = date ? ride.date === date : true;
-
-  // Time check: only pass rides where the ride's departure time is after or equal to the selected time
-  const matchesTime = time
-    ? (() => {
-        const rideTime = (ride.departureTime || "").trim();
-        if (!rideTime) return true;
-
-        const parseTime = (str) => {
-          const [timePart, modifier] = str.split(" ");
-          let [hours, minutes] = timePart.split(":").map(Number);
+    switch (sortOption) {
+      case "price-low":
+        return a.contribution - b.contribution;
+      case "price-high":
+        return b.contribution - a.contribution;
+      case "time": {
+        const parseTime = (timeStr) => {
+          const [time, modifier] = timeStr.split(" ");
+          let [hours, minutes] = time.split(":").map(Number);
           if (modifier === "PM" && hours !== 12) hours += 12;
           if (modifier === "AM" && hours === 12) hours = 0;
           return hours * 60 + minutes;
         };
+        return parseTime(a.departureTime || "") - parseTime(b.departureTime || "");
+      }
+      case "rating":
+        return (b.driver?.rating || 0) - (a.driver?.rating || 0);
+      case "recommended":
+      default:
+        return new Date(b.createdAt) - new Date(a.createdAt); // Newest first
+    }
+  });
+  const handleSearch = async () => {
+    if (!from.trim() || !to.trim()) return;
 
-        const selectedTimeMinutes = parseTime(time + " " + (parseInt(time.split(":")[0]) >= 12 ? "PM" : "AM"));
-        const rideTimeMinutes = parseTime(rideTime);
-        return rideTimeMinutes >= selectedTimeMinutes;
-      })()
-    : true;
+    setLoading(true);
+    setHasSearched(true);
 
-  const matchesTransport = transport
-    ? (ride.transport || "").toLowerCase().includes(transport.toLowerCase())
-    : true;
+    // Clear suggestions
+    setSuggestionsFrom([]);
+    setSuggestionsTo([]);
 
-  return matchesFromTo && matchesDate && matchesTime && matchesTransport;
-});
+    try {
+      const response = await axios.get("http://localhost:5000/api/ride/allRides");
+      const filteredRides = response.data.filter((ride) => {
+        const rideFrom = (ride.from || "").trim().toLowerCase();
+        const rideTo = (ride.to || "").trim().toLowerCase();
+        const inputFrom = from.trim().toLowerCase();
+        const inputTo = to.trim().toLowerCase();
 
-    setRides(filteredRides);
-  } catch (error) {
-    console.error("Error fetching rides:", error);
-  }
+        const matchesFromTo = rideFrom.includes(inputFrom) && rideTo.includes(inputTo);
+        const matchesDate = date ? ride.date === date : true;
 
-  setLoading(false);
-};
+        // Time check: only pass rides where the ride's departure time is after or equal to the selected time
+        const matchesTime = time
+          ? (() => {
+            const rideTime = (ride.departureTime || "").trim();
+            if (!rideTime) return true;
+
+            const parseTime = (str) => {
+              const [timePart, modifier] = str.split(" ");
+              let [hours, minutes] = timePart.split(":").map(Number);
+              if (modifier === "PM" && hours !== 12) hours += 12;
+              if (modifier === "AM" && hours === 12) hours = 0;
+              return hours * 60 + minutes;
+            };
+
+            const selectedTimeMinutes = parseTime(time + " " + (parseInt(time.split(":")[0]) >= 12 ? "PM" : "AM"));
+            const rideTimeMinutes = parseTime(rideTime);
+            return rideTimeMinutes >= selectedTimeMinutes;
+          })()
+          : true;
+
+        const matchesTransport = transport
+          ? (ride.transport || "").toLowerCase().includes(transport.toLowerCase())
+          : true;
+
+        return matchesFromTo && matchesDate && matchesTime && matchesTransport;
+      });
+
+      setRides(filteredRides);
+    } catch (error) {
+      console.error("Error fetching rides:", error);
+    }
+
+    setLoading(false);
+  };
 
 
 
@@ -306,7 +305,7 @@ const handleSearch = async () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-<section className="relative py-16 overflow-hidden">
+      <section className="relative py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
         <div className="absolute inset-0 hero-grid opacity-30" />
 
@@ -349,36 +348,36 @@ const handleSearch = async () => {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <Input
-  placeholder="Start location"
-  value={from}
-  onChange={(e) => {
-    const val = e.target.value;
-    setFrom(val);
-    setSuggestionsFrom(
-      locations.filter((loc) =>
-        loc.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  }}
-  onKeyPress={handleKeyPress}
-  className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
-/>
-{suggestionsFrom.length > 0 && (
-  <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
-    {suggestionsFrom.map((suggestion, index) => (
-      <div
-        key={index}
-        onClick={() => {
-          setFrom(suggestion);
-          setSuggestionsFrom([]);
-        }}
-        className="px-4 py-2 cursor-pointer hover:bg-slate-100 text-sm text-slate-700"
-      >
-        {suggestion}
-      </div>
-    ))}
-  </div>
-)}
+                      placeholder="Start location"
+                      value={from}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFrom(val);
+                        setSuggestionsFrom(
+                          locations.filter((loc) =>
+                            loc.toLowerCase().includes(val.toLowerCase())
+                          )
+                        );
+                      }}
+                      onKeyPress={handleKeyPress}
+                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
+                    />
+                    {suggestionsFrom.length > 0 && (
+                      <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
+                        {suggestionsFrom.map((suggestion, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              setFrom(suggestion);
+                              setSuggestionsFrom([]);
+                            }}
+                            className="px-4 py-2 cursor-pointer hover:bg-slate-100 text-sm text-slate-700"
+                          >
+                            {suggestion}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                   </div>
                 </div>
@@ -388,74 +387,74 @@ const handleSearch = async () => {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <Input
-  placeholder="Destination"
-  value={to}
-  onChange={(e) => {
-    const val = e.target.value;
-    setTo(val);
-    setSuggestionsTo(
-      locations.filter((loc) =>
-        loc.toLowerCase().includes(val.toLowerCase())
-      )
-    );
-  }}
-  onKeyPress={handleKeyPress}
-  className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
-/>
-{suggestionsTo.length > 0 && (
-  <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
-    {suggestionsTo.map((suggestion, index) => (
-      <div
-        key={index}
-        onClick={() => {
-          setTo(suggestion);
-          setSuggestionsTo([]);
-        }}
-        className="px-4 py-2 cursor-pointer hover:bg-slate-100 text-sm text-slate-700"
-      >
-        {suggestion}
-      </div>
-    ))}
-  </div>
-)}
+                      placeholder="Destination"
+                      value={to}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTo(val);
+                        setSuggestionsTo(
+                          locations.filter((loc) =>
+                            loc.toLowerCase().includes(val.toLowerCase())
+                          )
+                        );
+                      }}
+                      onKeyPress={handleKeyPress}
+                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
+                    />
+                    {suggestionsTo.length > 0 && (
+                      <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
+                        {suggestionsTo.map((suggestion, index) => (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              setTo(suggestion);
+                              setSuggestionsTo([]);
+                            }}
+                            className="px-4 py-2 cursor-pointer hover:bg-slate-100 text-sm text-slate-700"
+                          >
+                            {suggestion}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
 
                   </div>
                 </div>
                 <div className="space-y-2">
-  <label className="text-sm font-medium text-slate-700">Date</label>
-  <Input
-    type="date"
-    value={date}
-    onChange={(e) => setDate(e.target.value)}
-    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
-  />
-</div>
+                  <label className="text-sm font-medium text-slate-700">Date</label>
+                  <Input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                  />
+                </div>
 
-<div className="space-y-2">
-  <label className="text-sm font-medium text-slate-700">Time</label>
-  <Input
-    type="time"
-    value={time}
-    onChange={(e) => setTime(e.target.value)}
-    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
-  />
-</div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700">Time</label>
+                  <Input
+                    type="time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                  />
+                </div>
 
-<div className="space-y-2">
-  <label className="text-sm font-medium text-slate-700">Transport</label>
-  <Select value={transport} onValueChange={setTransport}>
-    <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
-      <SelectValue placeholder="Transport type" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem value="all">All Vehicles</SelectItem>
-      <SelectItem value="car">Car</SelectItem>
-      <SelectItem value="bike">Bike</SelectItem>
-      <SelectItem value="auto">Auto</SelectItem>
-    </SelectContent>
-  </Select>
-</div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-700">Transport</label>
+                  <Select value={transport} onValueChange={setTransport}>
+                    <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
+                      <SelectValue placeholder="Transport type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Vehicles</SelectItem>
+                      <SelectItem value="car">Car</SelectItem>
+                      <SelectItem value="bike">Bike</SelectItem>
+                      <SelectItem value="auto">Auto</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div className="flex items-end">
                   <Button
                     onClick={handleSearch}
@@ -499,17 +498,17 @@ const handleSearch = async () => {
                   </p>
                 </div>
                 <Select value={sortOption} onValueChange={setSortOption}>
-              <SelectTrigger className="w-48 bg-white/80 border-white/50 backdrop-blur-sm rounded-xl">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recommended">Recommended</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="time">Departure Time</SelectItem>
-                <SelectItem value="rating">Highest Rated</SelectItem>
-              </SelectContent>
-            </Select>
+                  <SelectTrigger className="w-48 bg-white/80 border-white/50 backdrop-blur-sm rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="recommended">Recommended</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                    <SelectItem value="time">Departure Time</SelectItem>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {loading ? (
@@ -538,9 +537,9 @@ const handleSearch = async () => {
                                 <AvatarFallback className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
                                   {ride.driverName
                                     ? ride.driverName
-                                        .split(" ")
-                                        .map((n) => n[0])
-                                        .join("")
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")
                                     : "D"}
                                 </AvatarFallback>
                               </Avatar>
@@ -614,7 +613,26 @@ const handleSearch = async () => {
                           {/* Action Buttons */}
                           <div className="flex gap-3">
                             <Button className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 rounded-xl"
-                            onClick={() => navigate(`/book-ride/${ride._id}`)}>
+                              onClick={() => {
+                                const now = new Date();
+                                const formattedTime = now.toLocaleString("en-IN", {
+                                  weekday: "long",
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                });
+
+                                toast("Ride Has Been Booked", {
+                                  description: `Booked on ${formattedTime}`,
+                                  action: {
+                                    label: "Read",
+                                    onClick: () => console.log("Undo"),
+                                  },
+                                });
+                              }}>
                               Book Ride
                             </Button>
                             <Button
