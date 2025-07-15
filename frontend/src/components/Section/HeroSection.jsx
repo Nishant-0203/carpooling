@@ -188,38 +188,17 @@ const handleToChange = (value) => {
     )
   );
 };
-const handleSubmitRide = async () => {
-  const response = await fetch("http://localhost:5000/api/rides/submit-ride", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+const handleSubmitRide = () => {
+  navigate("/rides", {
+    state: {
       fromLocation,
       toLocation,
       date: date ? date.toISOString().split('T')[0] : null,
       time,
       transportMode,
-    }),
+    },
   });
-
-  const data = await response.json();
-  if (response.ok) {
-    alert("Ride submitted successfully!");
-    navigate("/rides", {
-  state: {
-    fromLocation,
-    toLocation,
-    date: date ? new Date(date).toISOString().split('T')[0] : null,
-    time,
-    transportMode,
-  },
-});
-  } else {
-    alert("Error: " + data.message);
-  }
 };
-
 
 const handleSuggestionClick = (value, type) => {
   if (type === "from") {

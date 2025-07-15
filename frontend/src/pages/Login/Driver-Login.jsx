@@ -14,7 +14,7 @@ import {
   CardTitle
 } from "../../components/ui/card"
 
-export default function AdminLogin() {
+export default function DriverLogin() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -25,7 +25,7 @@ export default function AdminLogin() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch("http://localhost:5000/api/Driver/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -39,10 +39,10 @@ export default function AdminLogin() {
         throw new Error(data.message || "Login failed")
       }
 
-      alert("✅ Admin login successful!")
+      alert("✅ Driver login successful!")
       // Save token if needed
       // localStorage.setItem("token", data.token)
-      window.location.href = "/admin-dashboard" // Update with your actual route
+      window.location.href = "/Driver-dashboard" // Update with your actual route
     } catch (error) {
       alert(`❌ ${error.message}`)
     } finally {
@@ -106,9 +106,9 @@ export default function AdminLogin() {
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center space-y-2">
-              <CardTitle className="text-3xl font-bold text-white">Admin Login</CardTitle>
+              <CardTitle className="text-3xl font-bold text-white">Driver Login</CardTitle>
               <CardDescription className="text-gray-300">
-                Sign in to your admin account
+                Sign in to your Driver account
               </CardDescription>
             </CardHeader>
 
@@ -180,8 +180,8 @@ export default function AdminLogin() {
               {/* Register Link */}
               <div className="text-center">
                 <p className="text-gray-300">
-                  Don't have an admin account?{" "}
-                  <a href="/admin-register" className="text-white font-semibold hover:underline">
+                  Don't have an Driver account?{" "}
+                  <a href="/Driver-register" className="text-white font-semibold hover:underline">
                     Register
                   </a>
                 </p>

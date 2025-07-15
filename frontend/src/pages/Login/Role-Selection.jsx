@@ -67,22 +67,22 @@ export default function RoleSelectionPage() {
           initial="hidden"
           animate="visible"
         >
-          {/* Admin Card */}
+          {/* Driver Card */}
             <motion.div
               className="block cursor-pointer h-full"
               variants={itemVariants}
               whileHover={{ scale: 1.03, boxShadow: "0 10px 20px rgba(0,0,0,0.1)" }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleNavigate("/admin-register")}
+              onClick={() => handleNavigate("/Driver-register")}
             >
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-3xl p-8 text-center h-full flex flex-col justify-center">
                 <CardContent className="p-0">
                   <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white mx-auto mb-6 shadow-lg">
                     <Shield className="w-10 h-10" />
                   </div>
-                  <h2 className="text-2xl font-bold text-slate-800 mb-3">Admin</h2>
+                  <h2 className="text-2xl font-bold text-slate-800 mb-3">Driver</h2>
                   <p className="text-slate-600 leading-relaxed">
-                    Access the administrative dashboard to manage users, rides, and platform settings.
+                    Access the Driveristrative dashboard to manage users, rides, and platform settings.
                   </p>
                 </CardContent>
               </Card>

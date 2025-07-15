@@ -13,7 +13,7 @@ import {
   CardTitle
 } from "../../components/ui/card"
 
-export default function AdminRegister() {
+export default function DriverRegister() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -25,7 +25,7 @@ export default function AdminRegister() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/register", {
+      const response = await fetch("http://localhost:5000/api/Driver/register", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -38,9 +38,9 @@ export default function AdminRegister() {
         throw new Error(data.message || "Registration failed")
       }
 
-      alert("✅ Admin Registered successfully!")
+      alert("✅ Driver Registered successfully!")
       // Optionally redirect:
-      // window.location.href = "/admin-login";
+      // window.location.href = "/Driver-login";
     } catch (error) {
       alert(`❌ ${error.message}`)
     } finally {
@@ -58,8 +58,8 @@ export default function AdminRegister() {
       >
         <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
           <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-3xl font-bold text-white">Admin Registration</CardTitle>
-            <CardDescription className="text-gray-300">Register as an Admin</CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Driver Registration</CardTitle>
+            <CardDescription className="text-gray-300">Register as an Driver</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -140,8 +140,8 @@ export default function AdminRegister() {
 
             <div className="text-center">
               <p className="text-gray-300">
-                Already an admin?{" "}
-                <a href="/admin-login" className="text-white font-semibold hover:underline">Sign In</a>
+                Already an Driver?{" "}
+                <a href="/Driver-login" className="text-white font-semibold hover:underline">Sign In</a>
               </p>
             </div>
           </CardContent>
