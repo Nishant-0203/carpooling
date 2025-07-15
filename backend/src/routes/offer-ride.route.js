@@ -1,12 +1,19 @@
 import express from "express";
-import Ride from "../models/rideRoute.js";
+import Ride from "../models/offer-rides.model.js";
+import Driver from "../models/driver.model.js";
 
 const router = express.Router();
 
 // POST - Offer a ride
-router.post("/offerride", async (req, res) => {
+router.post("/offer-ride", async (req, res) => {
   try {
-    const { from, to, date, time, transport, passengers, contribution } = req.body;
+    const { from, to, date, time, transport, passengers, contribution, driver, confirmedRiders } = req.body;
+
+    const DriverExists = await Driver.findOne({ driver });
+
+    if (!DriverExists) {
+      throw new Error ("Driver does not exist");
+    }
 
     const ride = new Ride({
       from,
@@ -16,6 +23,8 @@ router.post("/offerride", async (req, res) => {
       transport,
       passengers,
       contribution,
+      driver,
+      confirmedRiders
     });
 
     await ride.save();
@@ -25,7 +34,6 @@ router.post("/offerride", async (req, res) => {
   }
 });
 
-// ✅ NEW: GET - Fetch all rides
 router.get("/allRides", async (req, res) => {
   try {
     const rides = await Ride.find(); // Fetch all rides from MongoDB

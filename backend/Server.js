@@ -1,15 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import rideRoutes from './src/routes/rideRoutes.js';
-import Ride from './src/routes/ride.route.js'; // 👈 NEW
-import adminRoutes from './src/routes/adminRoutes.js';
+import rideRoutes from './src/routes/offer-ride.route.js'; // 👈 NEW
+import DriverRoutes from './src/routes/driver.route.js';
 import session from 'express-session';
 import passport from 'passport';
 import connectDB from './src/config/db.js';
-import authRoutes from './src/routes/authRoutes.js';
-import contactRoutes from './src/routes/contact.js'; // 👈 NEW
-import router from './src/routes/riderRoutes.js';
+import authRoutes from './src/routes/auth.route.js';
+import contactRoutes from './src/routes/contact.route.js';
 import './src/config/passport.js';
 
 dotenv.config();
@@ -30,14 +28,15 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
-app.use('/api/admin', adminRoutes);
-app.use("/api", router);
+app.use('/api/driver', DriverRoutes);
 app.use('/api/rides', rideRoutes);
-app.use('/api/ride', Ride); // 👈 NEW
 app.use(passport.session());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes); // 👈 NEW
+
+import confirmRideRoutes from './src/routes/confirm-ride.route.js';
+app.use('/api/confirm-ride', confirmRideRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

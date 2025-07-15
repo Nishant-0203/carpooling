@@ -17,28 +17,39 @@ const rideSchema = new mongoose.Schema(
       required: true,
       min: 1,
     },
-    date: { 
-      type: String, 
-      required: true 
+    date: {
+      type: String,
+      required: true
     }, // or type: Date if you prefer
-    time: { 
-      type: String, 
-      required: true 
+    time: {
+      type: String,
+      required: true
     },
-    transport: { 
-      type: String, 
-      required: true, 
-      trim: true 
+    transport: {
+      type: String,
+      required: true,
+      trim: true
     },
     contribution: {
       type: Number,
       required: true,
       min: 0,
     },
+    driver: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    confirmedRiders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Rider',
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const Ride = mongoose.model("rideRoute", rideSchema);
+const Ride = mongoose.model("Ride", rideSchema);
 
 export default Ride;
