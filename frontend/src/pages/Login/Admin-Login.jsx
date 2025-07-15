@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react"
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "../../components/ui/button"
@@ -156,6 +157,7 @@ export default function AdminLogin() {
 
                 {/* Submit Button */}
                 <div>
+                  <Link to="/rider-dashboard">
                   <Button
                     type="submit"
                     disabled={isLoading}
@@ -171,6 +173,7 @@ export default function AdminLogin() {
                       "Sign In"
                     )}
                   </Button>
+                  </Link>
                 </div>
               </form>
 

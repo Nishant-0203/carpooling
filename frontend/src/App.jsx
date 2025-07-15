@@ -10,6 +10,8 @@ import Blog from './pages/Blog';
 import Register from './pages/Login/User-Register';
 import AdminRegister from './pages/Login/Admin-Register';
 import AdminLogin from './pages/Login/Admin-Login';
+import AdminDashboard from './pages/AdminDashbar';
+import RiderDashboard from './pages/Login/DriverDashboard';
 import About from './pages/About';
 import RidesPage from './pages/Ride';
 import Footer from './components/layout/Footer';
@@ -31,6 +33,8 @@ const App = () => {
           <Route path="/Register" element={<Register />} />
           <Route path="/admin-register" element={<AdminRegister />} />
           <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/rider-dashboard" element={<RiderDashboard />} />
       </Routes>
       <Footer />
     </>

@@ -9,6 +9,7 @@ import passport from 'passport';
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
 import contactRoutes from './src/routes/contact.js'; // 👈 NEW
+import router from './src/routes/riderRoutes.js';
 import './src/config/passport.js';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use('/api/admin', adminRoutes);
+app.use("/api", router);
 app.use('/api/rides', rideRoutes);
 app.use('/api/ride', Ride); // 👈 NEW
 app.use(passport.session());
