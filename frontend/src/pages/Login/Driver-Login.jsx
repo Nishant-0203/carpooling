@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from "react"
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "../../components/ui/button"
@@ -13,8 +12,10 @@ import {
   CardHeader,
   CardTitle
 } from "../../components/ui/card"
+import { useNavigate } from "react-router-dom" 
 
 export default function DriverLogin() {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -40,9 +41,12 @@ export default function DriverLogin() {
       }
 
       alert("✅ Driver login successful!")
+      // After successful login
+// sessionStorage.setItem("driverId", user._id); // or whatever your user ID field is
+sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id);
       // Save token if needed
       // localStorage.setItem("token", data.token)
-      window.location.href = "/Driver-dashboard" // Update with your actual route
+      navigate("/rider-dashboard");
     } catch (error) {
       alert(`❌ ${error.message}`)
     } finally {
@@ -157,7 +161,6 @@ export default function DriverLogin() {
 
                 {/* Submit Button */}
                 <div>
-                  <Link to="/rider-dashboard">
                   <Button
                     type="submit"
                     disabled={isLoading}
@@ -173,7 +176,6 @@ export default function DriverLogin() {
                       "Sign In"
                     )}
                   </Button>
-                  </Link>
                 </div>
               </form>
 

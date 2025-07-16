@@ -26,11 +26,11 @@ const App = () => {
         <Route path="/Contact" element={<ContactPage />} />
         <Route path="/rides" element={<RidesPage />} />
         <Route path="/Blog" element={<Blog />} />
-        <Route path="/OfferRide" element={<PublishRide />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/Driver-register" element={<DriverRegister />} />
           <Route path="/Driver-login" element={<DriverLogin />} />
         <Route path="/rider-dashboard" element={<RiderDashboard />} />
+          <Route path="/rider-dasboard/offer-ride" element={<PublishRide />} />
       </Routes>
       <Footer/>
     </>

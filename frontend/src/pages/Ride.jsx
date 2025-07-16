@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
@@ -216,29 +217,48 @@ export default function RideSearchPage() {
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
+  // Helper function to extract city name from location string
+  const extractCityName = (location) => {
+    if (!location) return "";
+    
+    // Remove common suffixes and extract the main city name
+    const cleaned = location
+      .replace(/,.*$/, '') // Remove everything after first comma
+      .replace(/\s+(Airport|Railway Station|Bus Stand|Metro Station)\s*$/i, '') // Remove transport hubs
+      .trim()
+      .toLowerCase();
+    
+    return cleaned;
+  };
+
   const sortedRides = [...rides].sort((a, b) => {
     switch (sortOption) {
       case "price-low":
-        return a.contribution - b.contribution;
+        return (a.contribution || 0) - (b.contribution || 0);
       case "price-high":
-        return b.contribution - a.contribution;
+        return (b.contribution || 0) - (a.contribution || 0);
       case "time": {
         const parseTime = (timeStr) => {
-          const [time, modifier] = timeStr.split(" ");
+          if (!timeStr || !timeStr.includes(':')) return 0;
+          
+          const [time, modifier] = timeStr.trim().split(/\s+/);
           let [hours, minutes] = time.split(":").map(Number);
-          if (modifier === "PM" && hours !== 12) hours += 12;
-          if (modifier === "AM" && hours === 12) hours = 0;
+          
+          if (modifier && modifier.toUpperCase() === "PM" && hours !== 12) hours += 12;
+          if (modifier && modifier.toUpperCase() === "AM" && hours === 12) hours = 0;
+          
           return hours * 60 + minutes;
         };
-        return parseTime(a.departureTime || "") - parseTime(b.departureTime || "");
+        return parseTime(a.time || a.departureTime || "") - parseTime(b.time || b.departureTime || "");
       }
       case "rating":
         return (b.driver?.rating || 0) - (a.driver?.rating || 0);
       case "recommended":
       default:
-        return new Date(b.createdAt) - new Date(a.createdAt); // Newest first
+        return new Date(b.createdAt || Date.now()) - new Date(a.createdAt || Date.now()); // Newest first
     }
   });
+
   const handleSearch = async () => {
     if (!from.trim() || !to.trim()) return;
 
@@ -250,38 +270,69 @@ export default function RideSearchPage() {
     setSuggestionsTo([]);
 
     try {
-      const response = await axios.get("http://localhost:5000/api/ride/allRides");
+      const response = await axios.get("http://localhost:5000/api/rides/allRides");
       const filteredRides = response.data.filter((ride) => {
-        const rideFrom = (ride.from || "").trim().toLowerCase();
-        const rideTo = (ride.to || "").trim().toLowerCase();
-        const inputFrom = from.trim().toLowerCase();
-        const inputTo = to.trim().toLowerCase();
+        // Handle inconsistent field names in your data
+        const rideFromFull = (ride.from || ride.fromLocation || "").trim().toLowerCase();
+        const rideToFull = (ride.to || ride.toLocation || "").trim().toLowerCase();
+        const inputFromFull = from.trim().toLowerCase();
+        const inputToFull = to.trim().toLowerCase();
 
-        const matchesFromTo = rideFrom.includes(inputFrom) && rideTo.includes(inputTo);
+        // Try exact/partial matching first
+        let matchesFromTo = rideFromFull.includes(inputFromFull) && rideToFull.includes(inputToFull);
+
+        // If no match, try city name matching
+        if (!matchesFromTo) {
+          const rideFromCity = extractCityName(rideFromFull);
+          const rideToCity = extractCityName(rideToFull);
+          const inputFromCity = extractCityName(inputFromFull);
+          const inputToCity = extractCityName(inputToFull);
+
+          matchesFromTo = rideFromCity.includes(inputFromCity) && rideToCity.includes(inputToCity);
+        }
+        
+        // Date filtering
         const matchesDate = date ? ride.date === date : true;
 
-        // Time check: only pass rides where the ride's departure time is after or equal to the selected time
+        // Time filtering - handle both 24hr (from input) and 12hr (from data) formats
         const matchesTime = time
           ? (() => {
-            const rideTime = (ride.departureTime || "").trim();
-            if (!rideTime) return true;
+              const parseTime12To24 = (time12h) => {
+                if (!time12h || !time12h.includes(':')) return null;
+                
+                const [time, modifier] = time12h.trim().split(/\s+/);
+                let [hours, minutes] = time.split(':').map(Number);
+                
+                if (modifier && modifier.toUpperCase() === 'PM' && hours !== 12) {
+                  hours += 12;
+                }
+                if (modifier && modifier.toUpperCase() === 'AM' && hours === 12) {
+                  hours = 0;
+                }
+                
+                return hours * 60 + minutes;
+              };
 
-            const parseTime = (str) => {
-              const [timePart, modifier] = str.split(" ");
-              let [hours, minutes] = timePart.split(":").map(Number);
-              if (modifier === "PM" && hours !== 12) hours += 12;
-              if (modifier === "AM" && hours === 12) hours = 0;
-              return hours * 60 + minutes;
-            };
+              const [inputHour, inputMinute] = time.split(':').map(Number);
+              const inputTimeMinutes = inputHour * 60 + inputMinute;
 
-            const selectedTimeMinutes = parseTime(time + " " + (parseInt(time.split(":")[0]) >= 12 ? "PM" : "AM"));
-            const rideTimeMinutes = parseTime(rideTime);
-            return rideTimeMinutes >= selectedTimeMinutes;
-          })()
+              // Handle both 'time' and 'departureTime' fields
+              const rideTimeStr = ride.time || ride.departureTime || "";
+              if (!rideTimeStr) return true; // If no time specified, include the ride
+
+              const rideTimeMinutes = parseTime12To24(rideTimeStr);
+              if (rideTimeMinutes === null) return true; // If can't parse, include the ride
+
+              return rideTimeMinutes >= inputTimeMinutes;
+            })()
           : true;
 
-        const matchesTransport = transport
-          ? (ride.transport || "").toLowerCase().includes(transport.toLowerCase())
+        // Transport filtering - handle both 'transport' and 'transportMode' fields
+        const matchesTransport = transport && transport !== 'all'
+          ? (() => {
+              const rideTransport = (ride.transport || ride.transportMode || "").toLowerCase();
+              return rideTransport.includes(transport.toLowerCase());
+            })()
           : true;
 
         return matchesFromTo && matchesDate && matchesTime && matchesTransport;
@@ -290,12 +341,11 @@ export default function RideSearchPage() {
       setRides(filteredRides);
     } catch (error) {
       console.error("Error fetching rides:", error);
+      toast.error("Failed to fetch rides. Please try again.");
     }
 
     setLoading(false);
   };
-
-
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -378,7 +428,6 @@ export default function RideSearchPage() {
                         ))}
                       </div>
                     )}
-
                   </div>
                 </div>
 
@@ -417,10 +466,9 @@ export default function RideSearchPage() {
                         ))}
                       </div>
                     )}
-
-
                   </div>
                 </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">Date</label>
                   <Input
@@ -452,9 +500,12 @@ export default function RideSearchPage() {
                       <SelectItem value="car">Car</SelectItem>
                       <SelectItem value="bike">Bike</SelectItem>
                       <SelectItem value="auto">Auto</SelectItem>
+                      <SelectItem value="bus">Bus</SelectItem>
+                      <SelectItem value="sedan">Sedan</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+
                 <div className="flex items-end">
                   <Button
                     onClick={handleSearch}
@@ -558,7 +609,7 @@ export default function RideSearchPage() {
                             </div>
 
                             <div className="text-right">
-                              <div className="text-2xl font-bold text-blue-600">₹{ride.contribution}</div>
+                              <div className="text-2xl font-bold text-blue-600">₹{ride.contribution || "N/A"}</div>
                               <div className="text-sm text-slate-500">per person</div>
                             </div>
                           </div>
@@ -567,7 +618,7 @@ export default function RideSearchPage() {
                           <div className="space-y-3 mb-4">
                             <div className="flex items-center gap-3">
                               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                              <span className="font-medium text-slate-800">{ride.from}</span>
+                              <span className="font-medium text-slate-800">{ride.from || ride.fromLocation}</span>
                             </div>
                             <div className="flex items-center gap-3 ml-1">
                               <div className="w-1 h-8 bg-slate-300 rounded-full"></div>
@@ -577,7 +628,7 @@ export default function RideSearchPage() {
                             </div>
                             <div className="flex items-center gap-3">
                               <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                              <span className="font-medium text-slate-800">{ride.to}</span>
+                              <span className="font-medium text-slate-800">{ride.to || ride.toLocation}</span>
                             </div>
                           </div>
 
@@ -586,17 +637,24 @@ export default function RideSearchPage() {
                             <div className="flex items-center gap-4">
                               <div className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
-                                <span>{new Date(ride.date + "T00:00:00").toLocaleDateString("en-GB")}</span>
+                                <span>{ride.date ? new Date(ride.date + "T00:00:00").toLocaleDateString("en-GB") : "Date TBD"}</span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />
-                                <span>{ride.departureTime || "Flexible"}</span>
+                                <span>{ride.time || ride.departureTime || "Flexible"}</span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <Users className="w-4 h-4" />
-                                <span>{ride.passengers} seats</span>
+                                <span>{ride.passengers || "N/A"} seats</span>
                               </div>
                             </div>
+                          </div>
+
+                          {/* Transport Type */}
+                          <div className="mb-4">
+                            <Badge variant="outline" className="text-xs bg-white/50 border-slate-200">
+                              {ride.transport || ride.transportMode || "Vehicle"}
+                            </Badge>
                           </div>
 
                           {/* Features */}

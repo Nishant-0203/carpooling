@@ -19,6 +19,10 @@ export default function DriverRegister() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [carNumber, setCarNumber] = useState("")
+const [gender, setGender] = useState("")
+const [phoneNumber, setPhoneNumber] = useState("")
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -30,7 +34,14 @@ export default function DriverRegister() {
   headers: {
     "Content-Type": "application/json"
   },
-  body: JSON.stringify({ name, email, password })
+  body: JSON.stringify({
+  name,
+  email,
+  password,
+  gender,
+  phone: phoneNumber,     // 🔁 match backend's `phone`
+  carnumber: carNumber     // 🔁 match backend's `carnumber`
+})
 });
       const data = await response.json()
 
@@ -118,6 +129,55 @@ export default function DriverRegister() {
                   </button>
                 </div>
               </div>
+              <div className="space-y-2">
+  <Label htmlFor="carNumber" className="text-white font-medium">Car Number</Label>
+  <div className="relative">
+    <Input
+      id="carNumber"
+      type="text"
+      value={carNumber}
+      onChange={(e) => setCarNumber(e.target.value)}
+      className="pl-3 bg-white/10 border-white/20 text-white"
+      placeholder="Enter your car number"
+      required
+    />
+  </div>
+</div>
+
+<div className="space-y-2">
+  <Label htmlFor="gender" className="text-white font-medium">Gender</Label>
+  <div className="relative">
+    <select
+      id="gender"
+      value={gender}
+      onChange={(e) => setGender(e.target.value)}
+      className="w-full bg-white/10 border-white/20 text-white p-2 rounded"
+      required
+    >
+      <option value="">Select Gender</option>
+      <option value="Male" className="text-black">Male</option>
+      <option value="Female" className="text-black">Female</option>
+      <option value="Other" className="text-black">Other</option>
+    </select>
+  </div>
+</div>
+
+<div className="space-y-2">
+  <Label htmlFor="phoneNumber" className="text-white font-medium">Phone Number</Label>
+  <div className="relative">
+    <Input
+      id="phoneNumber"
+      type="tel"
+      value={phoneNumber}
+      onChange={(e) => setPhoneNumber(e.target.value)}
+      className="pl-3 bg-white/10 border-white/20 text-white"
+      placeholder="Enter your phone number"
+      pattern="[0-9]{10}"
+      required
+    />
+  </div>
+</div>
+
 
               <div>
                 <Button
