@@ -633,7 +633,8 @@ export default function RideSearchPage() {
                               </Avatar>
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <h3 className="font-semibold text-slate-800">{ride.driverName || "Driver"}</h3>
+                                  <h3 className="font-semibold text-slate-800">{ride.driver?.name || "Driver"}</h3>
+                                  
                                   <Badge className="bg-green-100 text-green-700 border-green-200 text-xs px-2 py-0">
                                     Verified
                                   </Badge>

@@ -266,40 +266,7 @@ export default function RiderDashboard() {
 
   const [activeSection, setActiveSection] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      title: "Ride #RS1001 confirmed!",
-      message: "Your ride from Koramangala to Electronic City is confirmed for 9:30 AM.",
-      timestamp: "5 minutes ago",
-      type: "success",
-      read: false,
-    },
-    {
-      id: 2,
-      title: "New feature: Ride Credits",
-      message: "Earn credits for every ride you complete. Check your wallet balance!",
-      timestamp: "1 hour ago",
-      type: "info",
-      read: false,
-    },
-    {
-      id: 3,
-      title: "Ride #RS9876 cancelled",
-      message: "Driver cancelled your ride from HSR Layout to Indiranagar.",
-      timestamp: "3 hours ago",
-      type: "alert",
-      read: true,
-    },
-    {
-      id: 4,
-      title: "Profile update reminder",
-      message: "Complete your profile for a better matching experience.",
-      timestamp: "1 day ago",
-      type: "info",
-      read: false,
-    },
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
   const sidebarItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -585,6 +552,13 @@ export default function RiderDashboard() {
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
+                          </div>
+
+                          {/* Driver Name Badge */}
+                          <div className="mb-2">
+                            <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs px-2 py-1">
+                              {driverProfile.name || "Driver"}
+                            </Badge>
                           </div>
 
                           {/* Route Information */}

@@ -55,7 +55,7 @@ router.post("/offer-ride", async (req, res) => {
 
 router.get("/allRides", async (req, res) => {
   try {
-    const rides = await Ride.find(); // Fetch all rides from MongoDB
+    const rides = await Ride.find().populate('driver', 'name'); // Fetch all rides and populate driver name
     res.status(200).json(rides);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch rides", error });
