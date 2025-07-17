@@ -231,6 +231,60 @@ export default function RideSearchPage() {
     return cleaned;
   };
 
+  // Unified time parsing function that handles both 12-hour and 24-hour formats
+  const parseTimeToMinutes = (timeStr) => {
+    if (!timeStr || typeof timeStr !== 'string') return null;
+    
+    const trimmedTime = timeStr.trim();
+    if (!trimmedTime.includes(':')) return null;
+    
+    // Handle 12-hour format (e.g., "2:30 PM", "11:45 AM")
+    if (trimmedTime.includes('AM') || trimmedTime.includes('PM')) {
+      const [timePart, modifier] = trimmedTime.split(/\s+/);
+      let [hours, minutes] = timePart.split(':').map(Number);
+      
+      if (isNaN(hours) || isNaN(minutes)) return null;
+      
+      // Validate hours and minutes ranges
+      if (hours < 1 || hours > 12 || minutes < 0 || minutes > 59) return null;
+      
+      if (modifier && modifier.toUpperCase() === 'PM' && hours !== 12) {
+        hours += 12;
+      }
+      if (modifier && modifier.toUpperCase() === 'AM' && hours === 12) {
+        hours = 0;
+      }
+      
+      return hours * 60 + minutes;
+    }
+    
+    // Handle 24-hour format (e.g., "14:30", "09:45")
+    const [hours, minutes] = trimmedTime.split(':').map(Number);
+    if (isNaN(hours) || isNaN(minutes)) return null;
+    
+    // Validate hours and minutes ranges for 24-hour format
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) return null;
+    
+    return hours * 60 + minutes;
+  };
+
+  // Helper function to format time for display (converts to 12-hour format)
+  const formatTimeForDisplay = (timeStr) => {
+    if (!timeStr) return "Flexible";
+    
+    const minutes = parseTimeToMinutes(timeStr);
+    if (minutes === null) return timeStr; // Return original if can't parse
+    
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    
+    // Convert to 12-hour format
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+    
+    return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+  };
+
   const sortedRides = [...rides].sort((a, b) => {
     switch (sortOption) {
       case "price-low":
@@ -238,18 +292,15 @@ export default function RideSearchPage() {
       case "price-high":
         return (b.contribution || 0) - (a.contribution || 0);
       case "time": {
-        const parseTime = (timeStr) => {
-          if (!timeStr || !timeStr.includes(':')) return 0;
-          
-          const [time, modifier] = timeStr.trim().split(/\s+/);
-          let [hours, minutes] = time.split(":").map(Number);
-          
-          if (modifier && modifier.toUpperCase() === "PM" && hours !== 12) hours += 12;
-          if (modifier && modifier.toUpperCase() === "AM" && hours === 12) hours = 0;
-          
-          return hours * 60 + minutes;
-        };
-        return parseTime(a.time || a.departureTime || "") - parseTime(b.time || b.departureTime || "");
+        const timeA = parseTimeToMinutes(a.time || a.departureTime || "");
+        const timeB = parseTimeToMinutes(b.time || b.departureTime || "");
+        
+        // Handle cases where time parsing fails
+        if (timeA === null && timeB === null) return 0;
+        if (timeA === null) return 1; // Put rides without time at the end
+        if (timeB === null) return -1;
+        
+        return timeA - timeB;
       }
       case "rating":
         return (b.driver?.rating || 0) - (a.driver?.rating || 0);
@@ -297,32 +348,18 @@ export default function RideSearchPage() {
         // Time filtering - handle both 24hr (from input) and 12hr (from data) formats
         const matchesTime = time
           ? (() => {
-              const parseTime12To24 = (time12h) => {
-                if (!time12h || !time12h.includes(':')) return null;
-                
-                const [time, modifier] = time12h.trim().split(/\s+/);
-                let [hours, minutes] = time.split(':').map(Number);
-                
-                if (modifier && modifier.toUpperCase() === 'PM' && hours !== 12) {
-                  hours += 12;
-                }
-                if (modifier && modifier.toUpperCase() === 'AM' && hours === 12) {
-                  hours = 0;
-                }
-                
-                return hours * 60 + minutes;
-              };
-
-              const [inputHour, inputMinute] = time.split(':').map(Number);
-              const inputTimeMinutes = inputHour * 60 + inputMinute;
+              // Parse input time (24-hour format from HTML time input)
+              const inputTimeMinutes = parseTimeToMinutes(time);
+              if (inputTimeMinutes === null) return true; // If can't parse input time, include all rides
 
               // Handle both 'time' and 'departureTime' fields
               const rideTimeStr = ride.time || ride.departureTime || "";
               if (!rideTimeStr) return true; // If no time specified, include the ride
 
-              const rideTimeMinutes = parseTime12To24(rideTimeStr);
-              if (rideTimeMinutes === null) return true; // If can't parse, include the ride
+              const rideTimeMinutes = parseTimeToMinutes(rideTimeStr);
+              if (rideTimeMinutes === null) return true; // If can't parse ride time, include the ride
 
+              // Show rides that depart at or after the selected time
               return rideTimeMinutes >= inputTimeMinutes;
             })()
           : true;
@@ -641,7 +678,7 @@ export default function RideSearchPage() {
                               </div>
                               <div className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />
-                                <span>{ride.time || ride.departureTime || "Flexible"}</span>
+                                <span>{formatTimeForDisplay(ride.time || ride.departureTime)}</span>
                               </div>
                               <div className="flex items-center gap-1">
                                 <Users className="w-4 h-4" />

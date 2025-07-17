@@ -88,4 +88,33 @@ router.get("/my-rides", async (req, res) => {
   }
 });
 
+// PATCH - Edit a ride
+router.patch("/rides/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const update = req.body;
+    const ride = await Ride.findByIdAndUpdate(id, update, { new: true });
+    if (!ride) {
+      return res.status(404).json({ message: "Ride not found" });
+    }
+    res.status(200).json({ message: "Ride updated", ride });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// DELETE - Delete a ride
+router.delete("/rides/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ride = await Ride.findByIdAndDelete(id);
+    if (!ride) {
+      return res.status(404).json({ message: "Ride not found" });
+    }
+    res.status(200).json({ message: "Ride deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;

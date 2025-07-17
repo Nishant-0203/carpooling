@@ -2,17 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Navigation } from "lucide-react";
-import { useLocation } from "react-router-dom";
 
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-const pathname = location.pathname;
+  const pathname = location.pathname;
+  const navigate = useNavigate();
+
+  // Always check driver login on route change
+  const [isDriverLoggedIn, setIsDriverLoggedIn] = useState(!!sessionStorage.getItem("driverId"));
+  useEffect(() => {
+    setIsDriverLoggedIn(!!sessionStorage.getItem("driverId"));
+  }, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +35,12 @@ const pathname = location.pathname;
     { name: "Blog", href: "/Blog" },
     { name: "Contact", href: "/Contact" },
   ];
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("driverId");
+    setIsDriverLoggedIn(false);
+    navigate("/");
+  };
 
   return (
     <motion.nav
@@ -78,11 +90,17 @@ const pathname = location.pathname;
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <Link to="/Role-Selection">
-            <Button variant="ghost" className="text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
-              Sign In
-            </Button>
-            </Link>
+            {isDriverLoggedIn ? (
+              <Button variant="ghost" className="text-slate-700 hover:text-red-600 hover:bg-red-50 rounded-xl" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Link to="/Role-Selection">
+                <Button variant="ghost" className="text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
+                  Sign In
+                </Button>
+              </Link>
+            )}
             <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               Get Started
             </Button>

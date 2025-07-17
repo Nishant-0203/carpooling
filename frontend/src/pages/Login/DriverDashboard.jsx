@@ -56,6 +56,125 @@ export default function RiderDashboard() {
 
   const [offeredRides, setOfferedRides] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [editRide, setEditRide] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [viewRide, setViewRide] = useState(null);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showAllRides, setShowAllRides] = useState(false);
+
+  // Add location options array (same as OfferRidePage)
+  const locationOptions = [
+    "Chandigarh, Chandigarh, India",
+    "Chandigarh Airport, Chandigarh, India",
+    "Chandigarh Railway Station, Chandigarh, India",
+    "Sector 17, Chandigarh, India",
+    "Sector 43, Chandigarh, India",
+    "Panchkula, Haryana, India",
+    "Mohali, Punjab, India",
+    "Zirakpur, Punjab, India",
+    "Manimajra, Chandigarh, India",
+    "IT Park, Chandigarh, India",
+    "New Delhi, Delhi, India",
+    "Old Delhi, Delhi, India",
+    "Delhi Airport (IGI), Delhi, India",
+    "Delhi Railway Station, Delhi, India",
+    "Connaught Place, Delhi, India",
+    "Saket, Delhi, India",
+    "Noida, Uttar Pradesh, India",
+    "Greater Noida, Uttar Pradesh, India",
+    "Gurgaon, Haryana, India",
+    "Faridabad, Haryana, India",
+    "Ghaziabad, Uttar Pradesh, India",
+    "Mumbai, Maharashtra, India",
+    "Mumbai Airport (BOM), Maharashtra, India",
+    "Mumbai Central Railway Station, Maharashtra, India",
+    "Andheri, Maharashtra, India",
+    "Bandra, Maharashtra, India",
+    "Borivali, Maharashtra, India",
+    "Navi Mumbai, Maharashtra, India",
+    "Thane, Maharashtra, India",
+    "Bengaluru, Karnataka, India",
+    "Bangalore Airport (BLR), Karnataka, India",
+    "Majestic Bus Stand, Karnataka, India",
+    "KR Puram, Karnataka, India",
+    "Electronic City, Karnataka, India",
+    "Whitefield, Karnataka, India",
+    "Hyderabad, Telangana, India",
+    "Hyderabad Airport (RGIA), Telangana, India",
+    "Secunderabad, Telangana, India",
+    "Gachibowli, Telangana, India",
+    "Hitech City, Telangana, India",
+    "Kolkata, West Bengal, India",
+    "Howrah Railway Station, West Bengal, India",
+    "Sealdah Railway Station, West Bengal, India",
+    "Kolkata Airport (CCU), West Bengal, India",
+    "Salt Lake City, West Bengal, India",
+    "Chennai, Tamil Nadu, India",
+    "Chennai Airport (MAA), Tamil Nadu, India",
+    "Chennai Central Railway Station, Tamil Nadu, India",
+    "T Nagar, Tamil Nadu, India",
+    "Velachery, Tamil Nadu, India",
+    "Pune, Maharashtra, India",
+    "Shivajinagar, Maharashtra, India",
+    "Pune Railway Station, Maharashtra, India",
+    "Hinjewadi, Maharashtra, India",
+    "Kothrud, Maharashtra, India",
+    "Jaipur, Rajasthan, India",
+    "Jaipur Railway Station, Rajasthan, India",
+    "Jaipur Airport (JAI), Rajasthan, India",
+    "Malviya Nagar, Rajasthan, India",
+    "Lucknow, Uttar Pradesh, India",
+    "Charbagh Railway Station, Uttar Pradesh, India",
+    "Hazratganj, Uttar Pradesh, India",
+    "Ahmedabad, Gujarat, India",
+    "Ahmedabad Airport (AMD), Gujarat, India",
+    "Sabarmati, Gujarat, India",
+    "Maninagar, Gujarat, India",
+    "Bhopal, Madhya Pradesh, India",
+    "Habibganj Railway Station, Madhya Pradesh, India",
+    "Indore, Madhya Pradesh, India",
+    "Raipur, Chhattisgarh, India",
+    "Nagpur, Maharashtra, India",
+    "Jabalpur, Madhya Pradesh, India",
+    "Guwahati, Assam, India",
+    "Dispur, Assam, India",
+    "Shillong, Meghalaya, India",
+    "Agartala, Tripura, India",
+    "Kohima, Nagaland, India",
+    "Shimla, Himachal Pradesh, India",
+    "Manali, Himachal Pradesh, India",
+    "Dharamshala, Himachal Pradesh, India",
+    "Nainital, Uttarakhand, India",
+    "Mussoorie, Uttarakhand, India",
+    "Ooty, Tamil Nadu, India",
+    "Munnar, Kerala, India",
+    "Darjeeling, West Bengal, India",
+    "Gangtok, Sikkim, India",
+    "Goa, Goa, India",
+    "Panaji, Goa, India",
+    "Vasco da Gama, Goa, India",
+    "Madgaon Railway Station, Goa, India",
+    "Varanasi, Uttar Pradesh, India",
+    "Patna, Bihar, India",
+    "Ranchi, Jharkhand, India",
+    "Jamshedpur, Jharkhand, India",
+    "Kanpur, Uttar Pradesh, India",
+    "Agra, Uttar Pradesh, India",
+    "Amritsar, Punjab, India",
+    "Ludhiana, Punjab, India",
+    "Surat, Gujarat, India",
+    "Rajkot, Gujarat, India",
+    "Coimbatore, Tamil Nadu, India",
+    "Madurai, Tamil Nadu, India",
+    "Vijayawada, Andhra Pradesh, India",
+    "Visakhapatnam, Andhra Pradesh, India",
+    "Trivandrum, Kerala, India",
+    "Kochi, Kerala, India",
+    "Ernakulam, Kerala, India"
+  ];
+
+  const [editFromSuggestions, setEditFromSuggestions] = useState([]);
+  const [editToSuggestions, setEditToSuggestions] = useState([]);
 
   // Fetch driver's offered rides
   const fetchOfferedRides = async () => {
@@ -86,7 +205,7 @@ export default function RiderDashboard() {
     if (!confirm("Are you sure you want to delete this ride?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/rides/${rideId}`, {
+      const response = await fetch(`http://localhost:5000/api/rides/rides/${rideId}`, {
         method: "DELETE",
       });
 
@@ -225,14 +344,6 @@ export default function RiderDashboard() {
     },
   ];
 
-  const rideHistory = [
-    { id: 1, pickup: "Koramangala", destination: "Electronic City", date: "2024-07-10", status: "Completed", price: "₹120" },
-    { id: 2, pickup: "Whitefield", destination: "MG Road", date: "2024-07-08", status: "Completed", price: "₹80" },
-    { id: 3, pickup: "HSR Layout", destination: "Indiranagar", date: "2024-07-05", status: "Cancelled", price: "₹60" },
-    { id: 4, pickup: "Jayanagar", destination: "Banashankari", date: "2024-07-03", status: "Completed", price: "₹90" },
-    { id: 5, pickup: "Marathahalli", destination: "Silk Board", date: "2024-07-01", status: "Completed", price: "₹70" },
-  ];
-
   const markAsRead = (id) => {
     setNotifications((prev) => prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif)));
   };
@@ -291,6 +402,41 @@ export default function RiderDashboard() {
       return { status: "Upcoming", color: "bg-green-100 text-green-700" };
     } else {
       return { status: "Completed", color: "bg-gray-100 text-gray-700" };
+    }
+  };
+
+  // Edit ride handler
+  const handleEditRide = (ride) => {
+    setEditRide({ ...ride });
+    setShowEditModal(true);
+  };
+
+  // View ride handler
+  const handleViewRide = (ride) => {
+    setViewRide(ride);
+    setShowViewModal(true);
+  };
+
+  // Save edited ride
+  const saveEditedRide = async () => {
+    if (!editRide) return;
+    try {
+      const response = await fetch(`http://localhost:5000/api/rides/rides/${editRide._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editRide),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setOfferedRides((prev) => prev.map((r) => (r._id === editRide._id ? data.ride : r)));
+        setShowEditModal(false);
+        setEditRide(null);
+        alert("Ride updated successfully!");
+      } else {
+        alert("Failed to update ride");
+      }
+    } catch (error) {
+      alert("Error updating ride");
     }
   };
 
@@ -423,6 +569,7 @@ export default function RiderDashboard() {
                                 variant="ghost"
                                 size="sm"
                                 className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg p-1"
+                                onClick={() => handleEditRide(ride)}
                               >
                                 <Edit className="w-4 h-4" />
                               </Button>
@@ -488,10 +635,7 @@ export default function RiderDashboard() {
                           <div className="mt-4">
                             <Button
                               className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg text-sm py-2"
-                              onClick={() => {
-                                // Handle view ride details or manage bookings
-                                console.log("View ride details:", ride._id);
-                              }}
+                              onClick={() => handleViewRide(ride)}
                             >
                               View Details
                             </Button>
@@ -502,6 +646,111 @@ export default function RiderDashboard() {
                   );
                 })}
               </motion.div>
+            )}
+
+            {/* Edit Ride Modal */}
+            {showEditModal && editRide && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-xl relative">
+                  <button className="absolute top-3 right-3 text-xl" onClick={() => setShowEditModal(false)}>&times;</button>
+                  <h2 className="text-2xl font-bold mb-4">Edit Ride</h2>
+                  <div className="space-y-3">
+                    {/* From field with suggestions */}
+                    <div className="relative">
+                      <input
+                        className="w-full border rounded p-2"
+                        value={editRide.from}
+                        onChange={e => {
+                          setEditRide({ ...editRide, from: e.target.value });
+                          setEditFromSuggestions(
+                            locationOptions.filter(loc => loc.toLowerCase().includes(e.target.value.toLowerCase()))
+                          );
+                        }}
+                        placeholder="From"
+                        autoComplete="off"
+                      />
+                      {editFromSuggestions.length > 0 && (
+                        <ul className="absolute z-30 bg-white text-black w-full mt-1 rounded shadow max-h-48 overflow-y-auto">
+                          {editFromSuggestions.map((suggestion, idx) => (
+                            <li
+                              key={idx}
+                              className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                              onClick={() => {
+                                setEditRide({ ...editRide, from: suggestion });
+                                setEditFromSuggestions([]);
+                              }}
+                            >
+                              {suggestion}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    {/* To field with suggestions */}
+                    <div className="relative">
+                      <input
+                        className="w-full border rounded p-2"
+                        value={editRide.to}
+                        onChange={e => {
+                          setEditRide({ ...editRide, to: e.target.value });
+                          setEditToSuggestions(
+                            locationOptions.filter(loc => loc.toLowerCase().includes(e.target.value.toLowerCase()))
+                          );
+                        }}
+                        placeholder="To"
+                        autoComplete="off"
+                      />
+                      {editToSuggestions.length > 0 && (
+                        <ul className="absolute z-30 bg-white text-black w-full mt-1 rounded shadow max-h-48 overflow-y-auto">
+                          {editToSuggestions.map((suggestion, idx) => (
+                            <li
+                              key={idx}
+                              className="px-4 py-2 hover:bg-blue-100 cursor-pointer"
+                              onClick={() => {
+                                setEditRide({ ...editRide, to: suggestion });
+                                setEditToSuggestions([]);
+                              }}
+                            >
+                              {suggestion}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    <input className="w-full border rounded p-2" type="date" value={editRide.date} onChange={e => setEditRide({ ...editRide, date: e.target.value })} />
+                    <input className="w-full border rounded p-2" type="time" value={editRide.time} onChange={e => setEditRide({ ...editRide, time: e.target.value })} />
+                    <input className="w-full border rounded p-2" type="number" min="1" value={editRide.passengers} onChange={e => setEditRide({ ...editRide, passengers: Number(e.target.value) })} placeholder="Passengers" />
+                    <input className="w-full border rounded p-2" value={editRide.transport} onChange={e => setEditRide({ ...editRide, transport: e.target.value })} placeholder="Transport" />
+                    <input className="w-full border rounded p-2" type="number" min="0" value={editRide.contribution} onChange={e => setEditRide({ ...editRide, contribution: Number(e.target.value) })} placeholder="Contribution" />
+                  </div>
+                  <div className="flex gap-2 mt-6">
+                    <Button className="flex-1" onClick={saveEditedRide}>Save</Button>
+                    <Button className="flex-1" variant="outline" onClick={() => setShowEditModal(false)}>Cancel</Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* View Ride Modal */}
+            {showViewModal && viewRide && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-xl relative">
+                  <button className="absolute top-3 right-3 text-xl" onClick={() => setShowViewModal(false)}>&times;</button>
+                  <h2 className="text-2xl font-bold mb-4">Ride Details</h2>
+                  <div className="space-y-2">
+                    <div><strong>From:</strong> {viewRide.from}</div>
+                    <div><strong>To:</strong> {viewRide.to}</div>
+                    <div><strong>Date:</strong> {formatDate(viewRide.date)}</div>
+                    <div><strong>Time:</strong> {formatTime(viewRide.time)}</div>
+                    <div><strong>Passengers:</strong> {viewRide.passengers}</div>
+                    <div><strong>Transport:</strong> {viewRide.transport}</div>
+                    <div><strong>Contribution:</strong> ₹{viewRide.contribution}</div>
+                  </div>
+                  <div className="flex gap-2 mt-6">
+                    <Button className="flex-1" variant="outline" onClick={() => setShowViewModal(false)}>Close</Button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         )
@@ -653,35 +902,47 @@ export default function RiderDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {rideHistory.map((ride) => (
-                        <tr key={ride.id} className="border-b border-slate-200/30 last:border-b-0">
-                          <td className="py-3 px-4 text-slate-800 font-medium">{ride.pickup}</td>
-                          <td className="py-3 px-4 text-slate-800 font-medium">{ride.destination}</td>
-                          <td className="py-3 px-4 text-slate-600 text-sm">
-                            {new Date(ride.date).toLocaleDateString()}
-                          </td>
-                          <td className="py-3 px-4">
-                            <Badge
-                              className={`text-xs px-2 py-1 ${
-                                ride.status === "Completed"
-                                  ? "bg-green-100 text-green-700 border-green-200"
-                                  : "bg-red-100 text-red-700 border-red-200"
-                              }`}
-                            >
-                              {ride.status}
-                            </Badge>
-                          </td>
-                          <td className="py-3 px-4 text-right text-slate-800 font-semibold">{ride.price}</td>
-                        </tr>
-                      ))}
+                      {(showAllRides
+                        ? offeredRides.slice().sort((a, b) => new Date(b.date) - new Date(a.date))
+                        : offeredRides.slice().sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5)
+                      ).map((ride) => {
+                        const rideStatus = getRideStatus(ride.date);
+                        return (
+                          <tr key={ride._id} className="border-b border-slate-200/30 last:border-b-0">
+                            <td className="py-3 px-4 text-slate-800 font-medium">{ride.from}</td>
+                            <td className="py-3 px-4 text-slate-800 font-medium">{ride.to}</td>
+                            <td className="py-3 px-4 text-slate-600 text-sm">{new Date(ride.date).toLocaleDateString()}</td>
+                            <td className="py-3 px-4">
+                              <Badge
+                                className={`text-xs px-2 py-1 ${
+                                  rideStatus.status === "Completed"
+                                    ? "bg-green-100 text-green-700 border-green-200"
+                                    : rideStatus.status === "Upcoming"
+                                    ? "bg-blue-100 text-blue-700 border-blue-200"
+                                    : "bg-gray-100 text-gray-700 border-gray-200"
+                                }`}
+                              >
+                                {rideStatus.status}
+                              </Badge>
+                            </td>
+                            <td className="py-3 px-4 text-right text-slate-800 font-semibold">₹{ride.contribution}</td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
-                <div className="text-center mt-6">
-                  <Button variant="outline" className="rounded-xl border-slate-200 hover:bg-slate-50 bg-transparent">
-                    View All Rides
-                  </Button>
-                </div>
+                {offeredRides.length > 5 && (
+                  <div className="text-center mt-6">
+                    <Button
+                      variant="outline"
+                      className="rounded-xl border-slate-200 hover:bg-slate-50 bg-transparent"
+                      onClick={() => setShowAllRides((prev) => !prev)}
+                    >
+                      {showAllRides ? "Hide" : "View All Rides"}
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
