@@ -42,7 +42,7 @@ export default function DriverLogin() {
 
       alert("✅ Driver login successful!")
       // After successful login
-// sessionStorage.setItem("driverId", user._id); // or whatever your user ID field is
+sessionStorage.setItem("driver", JSON.stringify(data.driver)); // Save all driver details
 sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id);
       // Save token if needed
       // localStorage.setItem("token", data.token)

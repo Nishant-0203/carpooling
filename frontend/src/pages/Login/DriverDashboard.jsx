@@ -553,7 +553,10 @@ export default function RiderDashboard() {
                 initial="initial"
                 animate="animate"
               >
-                {offeredRides.map((ride) => {
+                {offeredRides
+                  .slice()
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .map((ride) => {
                   const rideStatus = getRideStatus(ride.date);
                   return (
                     <motion.div key={ride._id} variants={fadeInUp}>
@@ -758,86 +761,16 @@ export default function RiderDashboard() {
       case "profile":
         return (
           <div className="space-y-6 mt-16">
-            <h1 className="text-3xl font-bold text-slate-800">Profile Settings</h1>
+            <h1 className="text-3xl font-bold text-slate-800">Profile</h1>
             <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-8">
               <CardContent className="p-0">
-                <form
-                  className="space-y-6"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    saveProfileToBackend();
-                  }}
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={profile.name}
-                        onChange={handleProfileChange}
-                        className="w-full px-4 py-2 border rounded-xl bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={profile.email}
-                        onChange={handleProfileChange}
-                        className="w-full px-4 py-2 border rounded-xl bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-                      <input
-                        type="text"
-                        name="phone"
-                        value={profile.phone}
-                        onChange={handleProfileChange}
-                        className="w-full px-4 py-2 border rounded-xl bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Gender</label>
-                      <select
-                        name="gender"
-                        value={profile.gender}
-                        onChange={handleProfileChange}
-                        className="w-full px-4 py-2 border rounded-xl bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
-                      >
-                        <option value="">Select</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-1">Date of Birth</label>
-                      <input
-                        type="date"
-                        name="dob"
-                        value={profile.dob}
-                        onChange={handleProfileChange}
-                        className="w-full px-4 py-2 border rounded-xl bg-white text-slate-800 focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl"
-                  >
-                    Save Changes
-                  </Button>
-                </form>
+                <div className="space-y-4">
+                  <div><span className="font-medium text-slate-700">Name:</span> {driverProfile.name}</div>
+                  <div><span className="font-medium text-slate-700">Email:</span> {driverProfile.email}</div>
+                  <div><span className="font-medium text-slate-700">Phone:</span> {driverProfile.phone}</div>
+                  <div><span className="font-medium text-slate-700">Gender:</span> {driverProfile.gender}</div>
+                  <div><span className="font-medium text-slate-700">Car Number:</span> {driverProfile.carnumber}</div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -848,7 +781,7 @@ export default function RiderDashboard() {
           <div className="space-y-6 mt-16">
             <div className="flex items-center justify-between">
               <h1 className="text-3xl font-bold text-slate-800">Driver Dashboard</h1>
-              <Badge className="bg-green-100 text-green-700 border-green-200">Welcome, Driver!</Badge>
+              <Badge className="bg-green-100 text-green-700 border-green-200">Welcome, {driverProfile.name || "Driver"}</Badge>
             </div>
 
             {/* Stats Cards */}
@@ -952,10 +885,28 @@ export default function RiderDashboard() {
 
   // Load rides when component mounts or when activeSection changes to "my-rides"
   useEffect(() => {
-    if (activeSection === "my-rides") {
-      fetchOfferedRides();
-    }
-  }, [activeSection]);
+    fetchOfferedRides();
+  }, []);
+
+  const [driverProfile, setDriverProfile] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    gender: "",
+    carnumber: ""
+  });
+
+  useEffect(() => {
+    // Try to get from sessionStorage (set this on login/register)
+    const driver = JSON.parse(sessionStorage.getItem("driver")) || {};
+    setDriverProfile({
+      name: driver.name || "",
+      email: driver.email || "",
+      phone: driver.phone || "",
+      gender: driver.gender || "",
+      carnumber: driver.carnumber || ""
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex">

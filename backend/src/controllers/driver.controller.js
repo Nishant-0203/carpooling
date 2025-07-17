@@ -51,7 +51,7 @@ console.log(`✅ Driver logged in successfully: ${email}`);
 res.status(200).json({
   message: 'Login successful',
   token,
-  driver: { _id: driver._id, name: driver.name, email: driver.email }
+  driver: { _id: driver._id, name: driver.name, email: driver.email, carnumber: driver.carnumber, phone: driver.phone, gender: driver.gender }
 });
   } catch (error) {
     console.error(`❌ Server error during Driver login:`, error.message);

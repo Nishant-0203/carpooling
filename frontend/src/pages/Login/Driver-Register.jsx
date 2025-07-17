@@ -50,6 +50,8 @@ const [phoneNumber, setPhoneNumber] = useState("")
       }
 
       alert("✅ Driver Registered successfully!")
+      sessionStorage.setItem("driver", JSON.stringify(data.driver));
+      sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id);
       // Optionally redirect:
       // window.location.href = "/Driver-login";
     } catch (error) {
