@@ -46,6 +46,10 @@ const rideSchema = new mongoose.Schema(
         ref: 'Rider',
       },
     ],
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

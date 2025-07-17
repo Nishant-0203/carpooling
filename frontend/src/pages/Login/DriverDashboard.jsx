@@ -359,16 +359,11 @@ export default function RiderDashboard() {
     });
   };
 
-  const getRideStatus = (rideDate) => {
-    const today = new Date();
-    const ride = new Date(rideDate);
-    
-    if (ride.toDateString() === today.toDateString()) {
-      return { status: "Today", color: "bg-blue-100 text-blue-700" };
-    } else if (ride > today) {
-      return { status: "Upcoming", color: "bg-green-100 text-green-700" };
+  const getRideStatus = (ride) => {
+    if (ride.completed) {
+      return { status: "Completed", color: "bg-green-100 text-green-700" };
     } else {
-      return { status: "Completed", color: "bg-gray-100 text-gray-700" };
+      return { status: "Pending", color: "bg-yellow-100 text-yellow-700" };
     }
   };
 
@@ -524,16 +519,21 @@ export default function RiderDashboard() {
                   .slice()
                   .sort((a, b) => new Date(b.date) - new Date(a.date))
                   .map((ride) => {
-                  const rideStatus = getRideStatus(ride.date);
+                  const rideStatus = getRideStatus(ride);
                   return (
                     <motion.div key={ride._id} variants={fadeInUp}>
                       <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 hover:shadow-lg">
                         <CardContent className="p-6">
                           {/* Header with Status */}
                           <div className="flex items-center justify-between mb-4">
-                            <Badge className={`${rideStatus.color} text-xs px-3 py-1`}>
-                              {rideStatus.status}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <Badge className={`${rideStatus.color} text-xs px-3 py-1`}>
+                                {rideStatus.status}
+                              </Badge>
+                              {ride.completed && (
+                                <Badge className="bg-green-600 text-white text-xs px-2 py-1 ml-2">Completed</Badge>
+                              )}
+                            </div>
                             <div className="flex items-center gap-2">
                               <Button
                                 variant="ghost"
@@ -813,7 +813,7 @@ export default function RiderDashboard() {
                         ? offeredRides.slice().sort((a, b) => new Date(b.date) - new Date(a.date))
                         : offeredRides.slice().sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5)
                       ).map((ride) => {
-                        const rideStatus = getRideStatus(ride.date);
+                        const rideStatus = getRideStatus(ride);
                         return (
                           <tr key={ride._id} className="border-b border-slate-200/30 last:border-b-0">
                             <td className="py-3 px-4 text-slate-800 font-medium">{ride.from}</td>

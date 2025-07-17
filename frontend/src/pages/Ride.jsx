@@ -725,7 +725,12 @@ export default function RideSearchPage() {
                                   description: `Booked on ${formattedTime}`,
                                   action: {
                                     label: "Read",
-                                    onClick: () => console.log("Undo"),
+                                    onClick: async () => {
+                                      // Mark ride as completed in backend
+                                      await fetch(`http://localhost:5000/api/rides/rides/${ride._id}/complete`, {
+                                        method: "PATCH",
+                                      });
+                                    },
                                   },
                                 });
                               }}>

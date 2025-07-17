@@ -103,6 +103,20 @@ router.patch("/rides/:id", async (req, res) => {
   }
 });
 
+// PATCH - Mark a ride as completed
+router.patch("/rides/:id/complete", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ride = await Ride.findByIdAndUpdate(id, { completed: true }, { new: true });
+    if (!ride) {
+      return res.status(404).json({ message: "Ride not found" });
+    }
+    res.status(200).json({ message: "Ride marked as completed", ride });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // DELETE - Delete a ride
 router.delete("/rides/:id", async (req, res) => {
   try {
