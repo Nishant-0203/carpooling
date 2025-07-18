@@ -45,6 +45,11 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    // Prevent password login for Google accounts
+    if (user.password === 'GOOGLE_AUTH') {
+      return res.status(400).json({ message: 'Please login with Google for this account.' });
+    }
+
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       console.log("❌ Login failed: Incorrect password");

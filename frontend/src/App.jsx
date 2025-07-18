@@ -14,6 +14,7 @@ import About from './pages/About';
 import RidesPage from './pages/Ride';
 import Footer from './components/layout/Footer';
 import PublishRide from './pages/OfferRidePage';
+import UserDashboard from './pages/Login/UserDashboard';
 const App = () => {
   return (
     <>
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/Driver-login" element={<DriverLogin />} />
         <Route path="/rider-dashboard" element={<RiderDashboard />} />
           <Route path="/rider-dasboard/offer-ride" element={<PublishRide />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
       </Routes>
       <Footer/>
     </>

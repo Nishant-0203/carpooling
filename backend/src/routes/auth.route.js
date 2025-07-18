@@ -1,7 +1,8 @@
 import express from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import { registerUser, loginUser } from '../controllers/auth.controller.js';
+import { registerUser, loginUser, getUserProfile } from '../controllers/auth.controller.js';
+import protect from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -30,5 +31,7 @@ function generateJwt(user, expiresIn = '1d') {
 // Normal login & register
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+// User profile
+router.get('/profile', protect, getUserProfile);
 
 export default router;

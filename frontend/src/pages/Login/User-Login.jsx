@@ -53,7 +53,10 @@ const handleSubmit = async (e) => {
     }
 
     alert("✅ Login successful!");
-    window.location.href = "/";
+    // Store user info in sessionStorage and redirect to user dashboard
+    sessionStorage.setItem("user", JSON.stringify(data.user));
+    sessionStorage.setItem("userId", data.user.id);
+    window.location.href = "/user-dashboard";
     // You can redirect or store token here:
     // localStorage.setItem("token", data.token);
     // window.location.href = "/dashboard";
