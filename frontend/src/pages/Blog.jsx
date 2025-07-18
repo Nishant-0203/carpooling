@@ -211,7 +211,7 @@ export default function Blog() {
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
-
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Blog Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-4xl mx-auto"
@@ -220,13 +220,12 @@ export default function Blog() {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight"
+              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight drop-shadow-lg"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              RideSphere{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Blog</span>
+              CarpoolConnect <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Blog</span>
             </motion.h1>
 
             <motion.p
@@ -235,7 +234,7 @@ export default function Blog() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Insights, tips, and stories about the future of shared transportation and sustainable mobility
+              Insights, tips, and stories about the future of carpooling, shared rides, and sustainable mobility in India.
             </motion.p>
           </motion.div>
         </div>

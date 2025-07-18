@@ -285,10 +285,10 @@ export default function OfferRidePage() {
                       <div className="flex items-center gap-3 p-4 bg-white/60 rounded-xl border border-white/50">
                         <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                         <Input
-                          placeholder="From"
+                          placeholder="Enter pickup location"
                           value={fromLocation}
                           onChange={(e) => handleFromChange(e.target.value)}
-                          className="border-0 bg-transparent text-slate-800 font-medium text-lg p-0 focus:ring-0"
+                          className="border-0 bg-transparent text-slate-800 font-medium text-lg p-0 focus:ring-0 placeholder:text-slate-600"
                         />
                       </div>
                       {fromSuggestions.length > 0 && (
@@ -310,10 +310,10 @@ export default function OfferRidePage() {
                       <div className="flex items-center gap-3 p-4 bg-white/60 rounded-xl border border-white/50">
                         <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                         <Input
-                          placeholder="To"
+                          placeholder="Enter destination"
                           value={toLocation}
                           onChange={(e) => handleToChange(e.target.value)}
-                          className="border-0 bg-transparent text-slate-800 font-medium text-lg p-0 focus:ring-0"
+                          className="border-0 bg-transparent text-slate-800 font-medium text-lg p-0 focus:ring-0 placeholder:text-slate-600"
                         />
                       </div>
                       {toSuggestions.length > 0 && (
@@ -337,7 +337,7 @@ export default function OfferRidePage() {
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none"
+                        className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none placeholder:text-slate-600"
                       />
                     </div>
 
@@ -347,7 +347,7 @@ export default function OfferRidePage() {
                         type="time"
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
-                        className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none"
+                        className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none placeholder:text-slate-600"
                       />
                     </div>
 
@@ -389,10 +389,10 @@ export default function OfferRidePage() {
                     <span className="text-green-600 text-xl font-bold">₹</span>
                     <Input
                       type="number"
-                      placeholder="Contribution per passenger"
+                      placeholder="Enter amount per passenger"
                       value={contribution}
                       onChange={(e) => setContribution(Number(e.target.value))}
-                      className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none w-[76%]"
+                      className="bg-transparent border-0 text-slate-800 font-medium focus:outline-none w-[76%] placeholder:text-slate-600"
                     />
                     <span className="text-slate-600">per passenger</span>
                   </div>

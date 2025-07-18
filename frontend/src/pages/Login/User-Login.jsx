@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "../../components/ui/button";
@@ -18,6 +18,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+  // Handle Google OAuth token in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      // Optionally, remove token from URL for cleanliness
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // Redirect to home or dashboard
+      window.location.href = "/";
+    }
+  }, []);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -60,6 +73,8 @@ const handleSubmit = async (e) => {
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {/* Animated Background */}
       <div className="absolute inset-0">
+        {/* Background Image */}
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Login" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         {/* Gradient Animation */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20"
@@ -119,8 +134,8 @@ const handleSubmit = async (e) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <CardTitle className="text-3xl font-bold text-white">Welcome Back</CardTitle>
-                <CardDescription className="text-gray-300">Sign in to your account to continue</CardDescription>
+                <CardTitle className="text-3xl font-bold text-white">Welcome to CarpoolConnect</CardTitle>
+                <CardDescription className="text-gray-300">Sign in to your account to find or offer rides</CardDescription>
               </motion.div>
             </CardHeader>
 
@@ -143,8 +158,8 @@ const handleSubmit = async (e) => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
-                      placeholder="Enter your email"
+                      className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
+                      placeholder="Enter your email address"
                       required
                     />
                   </div>
@@ -167,7 +182,7 @@ const handleSubmit = async (e) => {
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
+                      className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
                       placeholder="Enter your password"
                       required
                     />

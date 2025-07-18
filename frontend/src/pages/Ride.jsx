@@ -33,14 +33,39 @@ import {
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 },
+  transition: { duration: 0.8, ease: "easeOut" },
 };
 
 const staggerContainer = {
   animate: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
     },
+  },
+};
+
+const cardHover = {
+  hover: {
+    y: -8,
+    scale: 1.02,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+};
+
+const buttonHover = {
+  hover: {
+    scale: 1.05,
+    transition: {
+      duration: 0.2,
+      ease: "easeOut",
+    },
+  },
+  tap: {
+    scale: 0.95,
   },
 };
 
@@ -394,8 +419,7 @@ export default function RideSearchPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <section className="relative py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
-        <div className="absolute inset-0 hero-grid opacity-30" />
-
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Search Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-6xl mx-auto"
@@ -404,13 +428,13 @@ export default function RideSearchPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-4xl md:text-5xl font-bold text-slate-800 mb-4 leading-tight"
+              className="text-4xl md:text-5xl font-bold text-slate-800 mb-4 leading-tight drop-shadow-lg"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               Find Your Perfect{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Ride</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Carpool</span>
             </motion.h1>
 
             <motion.p
@@ -419,7 +443,7 @@ export default function RideSearchPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Search for available rides and connect with verified drivers in your area
+              Search for available carpool rides and connect with verified drivers in your area. Save money, reduce emissions, and make new friends on your journey.
             </motion.p>
 
             {/* Search Form */}
@@ -427,7 +451,8 @@ export default function RideSearchPage() {
               className="backdrop-blur-xl bg-white/20 rounded-3xl p-8 border border-white/30 shadow-2xl max-w-9xl mx-auto"
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+              whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                 <div className="space-y-2">
@@ -435,7 +460,7 @@ export default function RideSearchPage() {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <Input
-                      placeholder="Start location"
+                      placeholder="Enter pickup location"
                       value={from}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -447,7 +472,7 @@ export default function RideSearchPage() {
                         );
                       }}
                       onKeyPress={handleKeyPress}
-                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
+                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10 placeholder:text-slate-600"
                     />
                     {suggestionsFrom.length > 0 && (
                       <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
@@ -473,7 +498,7 @@ export default function RideSearchPage() {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
                     <Input
-                      placeholder="Destination"
+                      placeholder="Enter destination"
                       value={to}
                       onChange={(e) => {
                         const val = e.target.value;
@@ -485,7 +510,7 @@ export default function RideSearchPage() {
                         );
                       }}
                       onKeyPress={handleKeyPress}
-                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10"
+                      className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 pl-10 placeholder:text-slate-600"
                     />
                     {suggestionsTo.length > 0 && (
                       <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-md max-h-40 overflow-y-auto border border-slate-200">
@@ -512,7 +537,7 @@ export default function RideSearchPage() {
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                   />
                 </div>
 
@@ -522,7 +547,7 @@ export default function RideSearchPage() {
                     type="time"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                    className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                   />
                 </div>
 
@@ -530,7 +555,7 @@ export default function RideSearchPage() {
                   <label className="text-sm font-medium text-slate-700">Transport</label>
                   <Select value={transport} onValueChange={setTransport}>
                     <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
-                      <SelectValue placeholder="Transport type" />
+                      <SelectValue placeholder="Choose transport type" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Vehicles</SelectItem>
@@ -548,6 +573,8 @@ export default function RideSearchPage() {
                     onClick={handleSearch}
                     disabled={loading || !from.trim() || !to.trim()}
                     className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {loading ? (
                       <>
@@ -602,7 +629,12 @@ export default function RideSearchPage() {
               {loading ? (
                 <div className="flex justify-center items-center py-20">
                   <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
+                    </motion.div>
                     <p className="text-slate-600">Searching for rides...</p>
                   </div>
                 </div>
@@ -615,7 +647,11 @@ export default function RideSearchPage() {
                 >
                   {sortedRides.map((ride, index) => (
                     <motion.div key={ride._id} variants={fadeInUp}>
-                      <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 group">
+                      <Card 
+                        className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 group"
+                        whileHover={{ y: -8, scale: 1.02 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                      >
                         <CardContent className="p-6">
                           {/* Driver Info */}
                           <div className="flex items-center justify-between mb-4">
@@ -708,7 +744,10 @@ export default function RideSearchPage() {
 
                           {/* Action Buttons */}
                           <div className="flex gap-3">
-                            <Button className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 rounded-xl"
+                            <Button 
+                              className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 rounded-xl"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
                               onClick={() => {
                                 const now = new Date();
                                 const formattedTime = now.toLocaleString("en-IN", {
@@ -740,6 +779,8 @@ export default function RideSearchPage() {
                               variant="outline"
                               size="sm"
                               className="rounded-xl border-slate-200 hover:bg-slate-50 bg-transparent"
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              whileTap={{ scale: 0.9 }}
                             >
                               <MessageCircle className="w-4 h-4" />
                             </Button>
@@ -747,6 +788,8 @@ export default function RideSearchPage() {
                               variant="outline"
                               size="sm"
                               className="rounded-xl border-slate-200 hover:bg-slate-50 bg-transparent"
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              whileTap={{ scale: 0.9 }}
                             >
                               <Phone className="w-4 h-4" />
                             </Button>

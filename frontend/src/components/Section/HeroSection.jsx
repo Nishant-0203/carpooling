@@ -263,7 +263,7 @@ const handleSuggestionClick = (value, type) => {
     placeholder="Enter pickup location"
     value={fromLocation}
     onChange={(e) => handleFromChange(e.target.value)}
-    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
+    className="glass border-white/20 text-white placeholder:text-gray-300 focus:border-cyan-400 focus:ring-cyan-400"
   />
   {fromSuggestions.length > 0 && (
     <ul className="absolute z-20 bg-white text-black w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto">
@@ -290,7 +290,7 @@ const handleSuggestionClick = (value, type) => {
     placeholder="Enter destination"
     value={toLocation}
     onChange={(e) => handleToChange(e.target.value)}
-    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400"
+    className="glass border-white/20 text-white placeholder:text-gray-300 focus:border-cyan-400 focus:ring-cyan-400"
   />
   {toSuggestions.length > 0 && (
     <ul className="absolute z-20 bg-white text-black w-full mt-1 rounded shadow-lg max-h-40 overflow-y-auto">
@@ -346,7 +346,7 @@ const handleSuggestionClick = (value, type) => {
                     type="time"
                     value={time}
                     onChange={(e) => setTime(e.target.value)}
-                    className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:ring-cyan-400 pl-10"
+                    className="glass border-white/20 text-white placeholder:text-gray-300 focus:border-cyan-400 focus:ring-cyan-400 pl-10"
                   />
                 </div>
               </div>
@@ -357,7 +357,7 @@ const handleSuggestionClick = (value, type) => {
               <label className="text-sm font-medium text-gray-300">Transport Mode</label>
               <Select value={transportMode} onValueChange={setTransportMode}>
                 <SelectTrigger className="glass border-white/20 text-white focus:border-cyan-400 focus:ring-cyan-400">
-                  <SelectValue placeholder="Choose your ride type" />
+                  <SelectValue placeholder="Select transport mode" />
                 </SelectTrigger>
                 <SelectContent className="glass-strong border-white/20">
                   <SelectItem value="car">🚗 Car</SelectItem>

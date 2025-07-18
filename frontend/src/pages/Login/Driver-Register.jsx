@@ -63,16 +63,19 @@ const [phoneNumber, setPhoneNumber] = useState("")
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+      {/* Background Image */}
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Driver Registration" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-blue-900/80 to-indigo-900/80" />
       <motion.div
+        className="relative z-10 w-full max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
       >
         <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
           <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-3xl font-bold text-white">Driver Registration</CardTitle>
-            <CardDescription className="text-gray-300">Register as an Driver</CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Become a CarpoolConnect Driver</CardTitle>
+            <CardDescription className="text-gray-300">Join our community and start offering rides to earn money</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -86,7 +89,7 @@ const [phoneNumber, setPhoneNumber] = useState("")
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="pl-10 bg-white/10 border-white/20 text-white"
+                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
                     placeholder="Enter your full name"
                     required
                   />
@@ -102,8 +105,8 @@ const [phoneNumber, setPhoneNumber] = useState("")
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 bg-white/10 border-white/20 text-white"
-                    placeholder="Enter your email"
+                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+                    placeholder="Enter your email address"
                     required
                   />
                 </div>
@@ -118,8 +121,8 @@ const [phoneNumber, setPhoneNumber] = useState("")
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 bg-white/10 border-white/20 text-white"
-                    placeholder="Create a password"
+                    className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+                    placeholder="Create a strong password"
                     required
                   />
                   <button
@@ -139,8 +142,8 @@ const [phoneNumber, setPhoneNumber] = useState("")
       type="text"
       value={carNumber}
       onChange={(e) => setCarNumber(e.target.value)}
-      className="pl-3 bg-white/10 border-white/20 text-white"
-      placeholder="Enter your car number"
+      className="pl-3 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+      placeholder="Enter your vehicle number (e.g., DL01AB1234)"
       required
     />
   </div>
@@ -172,8 +175,8 @@ const [phoneNumber, setPhoneNumber] = useState("")
       type="tel"
       value={phoneNumber}
       onChange={(e) => setPhoneNumber(e.target.value)}
-      className="pl-3 bg-white/10 border-white/20 text-white"
-      placeholder="Enter your phone number"
+      className="pl-3 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+      placeholder="Enter your 10-digit phone number"
       pattern="[0-9]{10}"
       required
     />

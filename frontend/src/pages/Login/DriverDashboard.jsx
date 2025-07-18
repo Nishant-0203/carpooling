@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,8 @@ const staggerContainer = {
 };
 
 export default function RiderDashboard() {
+  const navigate = useNavigate();
+  
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -61,6 +64,13 @@ export default function RiderDashboard() {
   const [viewRide, setViewRide] = useState(null);
   const [showViewModal, setShowViewModal] = useState(false);
   const [showAllRides, setShowAllRides] = useState(false);
+
+  // Logout function
+  const handleLogout = () => {
+    sessionStorage.removeItem("driverId");
+    sessionStorage.removeItem("driver");
+    navigate("/");
+  };
 
   // Add location options array (same as OfferRidePage)
   const locationOptions = [
@@ -652,7 +662,7 @@ export default function RiderDashboard() {
                     {/* From field with suggestions */}
                     <div className="relative">
                       <input
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 placeholder:text-slate-600"
                         value={editRide.from}
                         onChange={e => {
                           setEditRide({ ...editRide, from: e.target.value });
@@ -660,7 +670,7 @@ export default function RiderDashboard() {
                             locationOptions.filter(loc => loc.toLowerCase().includes(e.target.value.toLowerCase()))
                           );
                         }}
-                        placeholder="From"
+                        placeholder="Enter pickup location"
                         autoComplete="off"
                       />
                       {editFromSuggestions.length > 0 && (
@@ -683,7 +693,7 @@ export default function RiderDashboard() {
                     {/* To field with suggestions */}
                     <div className="relative">
                       <input
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 placeholder:text-slate-600"
                         value={editRide.to}
                         onChange={e => {
                           setEditRide({ ...editRide, to: e.target.value });
@@ -691,7 +701,7 @@ export default function RiderDashboard() {
                             locationOptions.filter(loc => loc.toLowerCase().includes(e.target.value.toLowerCase()))
                           );
                         }}
-                        placeholder="To"
+                        placeholder="Enter destination"
                         autoComplete="off"
                       />
                       {editToSuggestions.length > 0 && (
@@ -711,11 +721,11 @@ export default function RiderDashboard() {
                         </ul>
                       )}
                     </div>
-                    <input className="w-full border rounded p-2" type="date" value={editRide.date} onChange={e => setEditRide({ ...editRide, date: e.target.value })} />
-                    <input className="w-full border rounded p-2" type="time" value={editRide.time} onChange={e => setEditRide({ ...editRide, time: e.target.value })} />
-                    <input className="w-full border rounded p-2" type="number" min="1" value={editRide.passengers} onChange={e => setEditRide({ ...editRide, passengers: Number(e.target.value) })} placeholder="Passengers" />
-                    <input className="w-full border rounded p-2" value={editRide.transport} onChange={e => setEditRide({ ...editRide, transport: e.target.value })} placeholder="Transport" />
-                    <input className="w-full border rounded p-2" type="number" min="0" value={editRide.contribution} onChange={e => setEditRide({ ...editRide, contribution: Number(e.target.value) })} placeholder="Contribution" />
+                    <input className="w-full border rounded p-2 placeholder:text-slate-600" type="date" value={editRide.date} onChange={e => setEditRide({ ...editRide, date: e.target.value })} />
+                    <input className="w-full border rounded p-2 placeholder:text-slate-600" type="time" value={editRide.time} onChange={e => setEditRide({ ...editRide, time: e.target.value })} />
+                    <input className="w-full border rounded p-2 placeholder:text-slate-600" type="number" min="1" value={editRide.passengers} onChange={e => setEditRide({ ...editRide, passengers: Number(e.target.value) })} placeholder="Number of passengers" />
+                    <input className="w-full border rounded p-2 placeholder:text-slate-600" value={editRide.transport} onChange={e => setEditRide({ ...editRide, transport: e.target.value })} placeholder="Transport type (Car, Bike, etc.)" />
+                    <input className="w-full border rounded p-2 placeholder:text-slate-600" type="number" min="0" value={editRide.contribution} onChange={e => setEditRide({ ...editRide, contribution: Number(e.target.value) })} placeholder="Amount per passenger (₹)" />
                   </div>
                   <div className="flex gap-2 mt-6">
                     <Button className="flex-1" onClick={saveEditedRide}>Save</Button>
@@ -978,7 +988,10 @@ export default function RiderDashboard() {
 
           {/* Logout */}
           <div className="p-4 border-t border-white/50">
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-red-50 hover:text-red-600 transition-all duration-200">
+            <button 
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+            >
               <LogOut className="w-5 h-5" />
               <span className="font-medium">Logout</span>
             </button>

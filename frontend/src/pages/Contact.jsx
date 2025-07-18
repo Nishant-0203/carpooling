@@ -257,7 +257,7 @@ export default function ContactPage() {
                           value={form.firstName}
                           onChange={handleChange}
                           placeholder="Enter your first name"
-                          className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                          className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                           required
                         />
                       </div>
@@ -268,7 +268,7 @@ export default function ContactPage() {
                           value={form.lastName}
                           onChange={handleChange}
                           placeholder="Enter your last name"
-                          className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                          className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                           required
                         />
                       </div>
@@ -282,7 +282,7 @@ export default function ContactPage() {
                         value={form.email}
                         onChange={handleChange}
                         placeholder="Enter your email address"
-                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                         required
                       />
                     </div>
@@ -295,7 +295,7 @@ export default function ContactPage() {
                         value={form.phone}
                         onChange={handleChange}
                         placeholder="Enter your phone number"
-                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                       />
                     </div>
 
@@ -305,8 +305,8 @@ export default function ContactPage() {
                         name="subject"
                         value={form.subject}
                         onChange={handleChange}
-                        placeholder="What's this about?"
-                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12"
+                        placeholder="Brief description of your inquiry"
+                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                         required
                       />
                     </div>
@@ -317,8 +317,8 @@ export default function ContactPage() {
                         name="message"
                         value={form.message}
                         onChange={handleChange}
-                        placeholder="Tell us more about your inquiry..."
-                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl min-h-[120px] resize-none"
+                        placeholder="Please provide details about your inquiry..."
+                        className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl min-h-[120px] resize-none placeholder:text-slate-600"
                         required
                       />
                     </div>

@@ -36,11 +36,7 @@ export default function Navbar() {
     { name: "Contact", href: "/Contact" },
   ];
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("driverId");
-    setIsDriverLoggedIn(false);
-    navigate("/");
-  };
+
 
   return (
     <motion.nav
@@ -90,11 +86,7 @@ export default function Navbar() {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            {isDriverLoggedIn ? (
-              <Button variant="ghost" className="text-slate-700 hover:text-red-600 hover:bg-red-50 rounded-xl" onClick={handleLogout}>
-                Logout
-              </Button>
-            ) : (
+            {!isDriverLoggedIn && (
               <Link to="/Role-Selection">
                 <Button variant="ghost" className="text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
                   Sign In
@@ -141,7 +133,7 @@ export default function Navbar() {
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
                       <Link
-                        href={item.href}
+                        to={item.href}
                         onClick={() => setIsOpen(false)}
                         className={`block text-2xl font-semibold py-3 px-4 rounded-xl transition-colors duration-200 ${
                           pathname === item.href
@@ -157,15 +149,17 @@ export default function Navbar() {
               </div>
 
               <div className="p-4 border-t border-slate-200 space-y-4">
-                <Link to="/Login">
-                <Button
-                  variant="outline"
-                  className="w-full py-3 text-lg rounded-xl border-2 border-blue-200 hover:bg-blue-50 bg-transparent"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign In
-                </Button>
-                </Link>
+                {!isDriverLoggedIn && (
+                  <Link to="/Role-Selection">
+                    <Button
+                      variant="outline"
+                      className="w-full py-3 text-lg rounded-xl border-2 border-blue-200 hover:bg-blue-50 bg-transparent"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
                 <Button
                   className="w-full py-3 text-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg"
                   onClick={() => setIsOpen(false)}

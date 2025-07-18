@@ -53,16 +53,19 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+      {/* Background Image */}
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Registration" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/80 via-blue-900/80 to-indigo-900/80" />
       <motion.div
+        className="relative z-10 w-full max-w-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
       >
         <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
           <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-3xl font-bold text-white">Create Account</CardTitle>
-            <CardDescription className="text-gray-300">Register to get started</CardDescription>
+            <CardTitle className="text-3xl font-bold text-white">Join CarpoolConnect</CardTitle>
+            <CardDescription className="text-gray-300">Create your account and start carpooling today</CardDescription>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -77,7 +80,7 @@ const handleSubmit = async (e) => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="pl-10 bg-white/10 border-white/20 text-white"
+                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
                     placeholder="Enter your full name"
                     required
                   />
@@ -94,8 +97,8 @@ const handleSubmit = async (e) => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 bg-white/10 border-white/20 text-white"
-                    placeholder="Enter your email"
+                    className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+                    placeholder="Enter your email address"
                     required
                   />
                 </div>
@@ -111,8 +114,8 @@ const handleSubmit = async (e) => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10 bg-white/10 border-white/20 text-white"
-                    placeholder="Create a password"
+                    className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+                    placeholder="Create a strong password"
                     required
                   />
                   <button

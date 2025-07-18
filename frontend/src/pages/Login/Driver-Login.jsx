@@ -58,6 +58,8 @@ sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id)
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {/* Animated Background */}
       <div className="absolute inset-0">
+        {/* Background Image */}
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Driver Login" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20"
           animate={{
@@ -110,9 +112,9 @@ sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id)
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center space-y-2">
-              <CardTitle className="text-3xl font-bold text-white">Driver Login</CardTitle>
+              <CardTitle className="text-3xl font-bold text-white">CarpoolConnect Driver</CardTitle>
               <CardDescription className="text-gray-300">
-                Sign in to your Driver account
+                Sign in to your driver account and start offering rides
               </CardDescription>
             </CardHeader>
 
@@ -128,8 +130,8 @@ sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id)
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 bg-white/10 border-white/20 text-white"
-                      placeholder="Enter your email"
+                      className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
+                      placeholder="Enter your email address"
                       required
                     />
                   </div>
@@ -145,7 +147,7 @@ sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id)
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-10 bg-white/10 border-white/20 text-white"
+                      className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300"
                       placeholder="Enter your password"
                       required
                     />

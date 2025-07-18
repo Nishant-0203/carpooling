@@ -31,36 +31,36 @@ const staggerContainer = {
 
 export default function About() {
   const stats = [
-    { number: "50K+", label: "Active Users", icon: <Users className="w-6 h-6" /> },
-    { number: "₹2M+", label: "Money Saved", icon: <DollarSign className="w-6 h-6" /> },
-    { number: "100K+", label: "Rides Completed", icon: <Globe className="w-6 h-6" /> },
-    { number: "500T", label: "CO₂ Reduced", icon: <Leaf className="w-6 h-6" /> },
+    { number: "75K+", label: "Rides Shared", icon: <Globe className="w-6 h-6" /> },
+    { number: "₹3M+", label: "Money Saved", icon: <DollarSign className="w-6 h-6" /> },
+    { number: "120K+", label: "Users Connected", icon: <Users className="w-6 h-6" /> },
+    { number: "800T", label: "CO₂ Saved", icon: <Leaf className="w-6 h-6" /> },
   ];
 
   const values = [
     {
-      icon: <Leaf className="w-8 h-8" />,
-      title: "Environmental Impact",
+      icon: <Leaf className="w-8 h-8" />, // Could use a carpool icon if available
+      title: "Eco-Friendly Travel",
       description:
-        "We're committed to reducing carbon emissions by promoting shared transportation and sustainable mobility solutions.",
+        "Every shared ride means fewer cars on the road, less pollution, and a greener planet.",
     },
     {
       icon: <Users className="w-8 h-8" />,
-      title: "Community First",
+      title: "Community Connections",
       description:
-        "Building strong connections between commuters and fostering a sense of community through shared journeys.",
+        "We bring people together, making commutes more social and building lasting connections.",
     },
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Safety & Trust",
       description:
-        "Your safety is our priority. We implement rigorous verification processes and safety measures for all users.",
+        "All users are verified, and our platform prioritizes your safety every step of the way.",
     },
     {
       icon: <Heart className="w-8 h-8" />,
-      title: "Accessibility",
+      title: "Affordable Journeys",
       description:
-        "Making transportation affordable and accessible for everyone, regardless of their economic background.",
+        "Share costs, save money, and make daily travel accessible for everyone.",
     },
   ];
 
@@ -68,26 +68,26 @@ export default function About() {
     {
       name: "Arjun Mehta",
       role: "CEO & Co-Founder",
-      bio: "Former Uber executive with 10+ years in mobility solutions",
-      avatar: "/placeholder.svg?height=120&width=120",
+      bio: "Urban mobility expert passionate about sustainable commuting.",
+      avatar: "/assets/team-arjun.jpg", // Replace with real image
     },
     {
       name: "Priya Sharma",
       role: "CTO & Co-Founder",
-      bio: "Ex-Google engineer specializing in AI and machine learning",
-      avatar: "/placeholder.svg?height=120&width=120",
+      bio: "Tech innovator with a vision for smarter, safer carpooling.",
+      avatar: "/assets/team-priya.jpg", // Replace with real image
     },
     {
       name: "Rajesh Kumar",
       role: "Head of Operations",
-      bio: "Transportation industry veteran with expertise in logistics",
-      avatar: "/placeholder.svg?height=120&width=120",
+      bio: "Logistics specialist ensuring smooth rides for all.",
+      avatar: "/assets/team-rajesh.jpg", // Replace with real image
     },
     {
       name: "Sneha Patel",
       role: "Head of Design",
-      bio: "Award-winning UX designer focused on mobility experiences",
-      avatar: "/placeholder.svg?height=120&width=120",
+      bio: "UX designer making carpooling delightful and easy to use.",
+      avatar: "/assets/team-sneha.jpg", // Replace with real image
     },
   ];
 
@@ -96,7 +96,7 @@ export default function About() {
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
-
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-4xl mx-auto"
@@ -105,15 +105,12 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight"
+              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight drop-shadow-lg"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Revolutionizing{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Urban Mobility
-              </span>
+              Welcome to <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
             </motion.h1>
 
             <motion.p
@@ -122,15 +119,14 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              RideSphere was born from a simple idea: make commuting more sustainable, affordable, and social. We're
-              building the future of shared transportation, one ride at a time.
+              CarpoolConnect is your trusted platform for sharing rides, saving money, and making commuting eco-friendly. Join a growing community of commuters making a difference—one shared ride at a time.
             </motion.p>
           </motion.div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white/50 backdrop-blur-sm">
+      <section className="py-16 bg-white/50 backdrop-blur-sm border-t border-b border-blue-100">
         <div className="container mx-auto px-4">
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-8"
@@ -168,21 +164,15 @@ export default function About() {
             >
               <Badge className="bg-blue-100 text-blue-700 border-blue-200 mb-4">Our Mission</Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-                Creating a More{" "}
-                <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                  Sustainable Future
-                </span>
+                Making Every Commute <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Smarter & Greener</span>
               </h2>
               <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                Our mission is to transform urban transportation by connecting people who share similar routes, reducing
-                traffic congestion, lowering carbon emissions, and making commuting more affordable for everyone.
+                We connect drivers and passengers heading the same way, reducing traffic, pollution, and travel costs. Our mission is to make carpooling the preferred choice for daily travel.
               </p>
               <p className="text-lg text-slate-600 leading-relaxed">
-                We believe that by bringing people together through shared rides, we can create stronger communities
-                while protecting our environment for future generations.
+                Together, we’re building a future where every seat is filled, every journey is social, and every commute is sustainable.
               </p>
             </motion.div>
-
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -190,22 +180,22 @@ export default function About() {
               viewport={{ once: true }}
               className="relative"
             >
-              <Card className="backdrop-blur-xl bg-gradient-to-br from-green-500/20 to-blue-500/20 border-white/30 rounded-3xl p-8">
+              <Card className="backdrop-blur-xl bg-gradient-to-br from-green-500/20 to-blue-500/20 border-white/30 rounded-3xl p-8 shadow-xl">
                 <CardContent className="p-0">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="text-center">
                       <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-4">
                         <Target className="w-8 h-8" />
                       </div>
-                      <h3 className="font-semibold text-slate-800 mb-2">Vision 2030</h3>
-                      <p className="text-sm text-slate-600">1M+ daily active users across India</p>
+                      <h3 className="font-semibold text-slate-800 mb-2">Vision 2026</h3>
+                      <p className="text-sm text-slate-600">2M+ daily rides shared nationwide</p>
                     </div>
                     <div className="text-center">
                       <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-white mx-auto mb-4">
                         <Award className="w-8 h-8" />
                       </div>
                       <h3 className="font-semibold text-slate-800 mb-2">Impact Goal</h3>
-                      <p className="text-sm text-slate-600">50% reduction in single-occupancy vehicles</p>
+                      <p className="text-sm text-slate-600">1B+ kg CO₂ saved by 2026</p>
                     </div>
                   </div>
                 </CardContent>
@@ -221,7 +211,7 @@ export default function About() {
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Our Core Values</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              The principles that guide everything we do at RideSphere
+              The values that drive our carpooling community forward
             </p>
           </motion.div>
 
@@ -255,7 +245,7 @@ export default function About() {
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Meet Our Team</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              The passionate individuals working to revolutionize urban transportation
+              The dedicated team making carpooling accessible and impactful
             </p>
           </motion.div>
 
@@ -268,10 +258,10 @@ export default function About() {
           >
             {team.map((member, index) => (
               <motion.div key={index} variants={fadeInUp}>
-                <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-6 text-center hover:bg-white/50 transition-all duration-300 group">
+                <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-6 text-center hover:bg-white/50 transition-all duration-300 group shadow-lg">
                   <CardContent className="p-0">
-                    <Avatar className="w-24 h-24 mx-auto mb-4 group-hover:scale-105 transition-transform duration-300">
-                      <AvatarImage src={member.avatar || "/placeholder.svg"} />
+                    <Avatar className="w-24 h-24 mx-auto mb-4 group-hover:scale-105 transition-transform duration-300 border-4 border-blue-200 shadow">
+                      <AvatarImage src={member.avatar} alt={member.name} />
                       <AvatarFallback className="text-lg font-semibold bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
                         {member.name
                           .split(" ")
@@ -296,7 +286,7 @@ export default function About() {
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Our Journey</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              From a simple idea to transforming urban mobility across India
+              From a simple idea to a thriving carpooling community across the country
             </p>
           </motion.div>
 
@@ -310,43 +300,44 @@ export default function About() {
             >
               {[
                 {
-                  year: "2022",
-                  title: "The Beginning",
+                  year: "January 2025",
+                  title: "The Idea",
                   description:
-                    "Founded by transportation enthusiasts who experienced the daily struggle of expensive and inefficient commuting in Bangalore.",
+                    "Started by commuters who wanted to make daily travel more affordable and eco-friendly by sharing rides in their city.",
+                  icon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png", // Lightbulb emoji icon
                 },
                 {
-                  year: "2023",
-                  title: "First Launch",
+                  year: "March 2025",
+                  title: "First Rides Shared",
                   description:
-                    "Launched our MVP in Bangalore with 1,000 beta users. Achieved 85% user satisfaction rate within the first month.",
+                    "Launched our platform in one city, quickly growing to thousands of users sharing rides and saving money every day.",
+                  icon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f697.png", // Car emoji icon
                 },
                 {
-                  year: "2024",
-                  title: "Rapid Growth",
+                  year: "May 2025",
+                  title: "Expanding Community",
                   description:
-                    "Expanded to 5 major cities across India. Reached 50,000+ active users and facilitated over 100,000 successful rides.",
+                    "Expanded to multiple cities, helping tens of thousands of people reduce costs, traffic, and emissions through carpooling.",
+                  icon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f465.png", // Busts in silhouette emoji icon
                 },
                 {
-                  year: "2025",
-                  title: "Future Vision",
+                  year: "June 2025",
+                  title: "Looking Ahead",
                   description:
-                    "Planning to expand to 25+ cities and introduce electric vehicle partnerships to further reduce our environmental impact.",
+                    "Aiming to connect even more commuters, partner with local organizations, and make carpooling the go-to choice for daily travel.",
+                  icon: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f680.png", // Rocket emoji icon
                 },
               ].map((milestone, index) => (
                 <motion.div key={index} variants={fadeInUp}>
-                  <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-8">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col md:flex-row gap-6 items-start">
-                        <div className="flex-shrink-0">
-                          <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-lg px-4 py-2">
-                            {milestone.year}
-                          </Badge>
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-semibold text-slate-800 mb-3">{milestone.title}</h3>
-                          <p className="text-slate-600 leading-relaxed">{milestone.description}</p>
-                        </div>
+                  <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-8 flex items-center gap-6 shadow">
+                    <CardContent className="p-0 flex items-center gap-6">
+                      <img src={milestone.icon} alt={milestone.title} className="w-16 h-16 rounded-xl border border-blue-100 bg-blue-50 object-cover" />
+                      <div>
+                        <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-lg px-4 py-2 mb-2">
+                          {milestone.year}
+                        </Badge>
+                        <h3 className="text-xl font-semibold text-slate-800 mb-1">{milestone.title}</h3>
+                        <p className="text-slate-600 leading-relaxed">{milestone.description}</p>
                       </div>
                     </CardContent>
                   </Card>

@@ -34,8 +34,8 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <Input
                 type="email"
-                placeholder="Enter your email"
-                className="glass border-white/20 text-white placeholder:text-gray-400 focus:border-cyan-400 flex-1"
+                placeholder="Enter your email address"
+                className="glass border-white/20 text-white placeholder:text-gray-300 focus:border-cyan-400 flex-1"
               />
               <Button className="bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white">
                 Subscribe

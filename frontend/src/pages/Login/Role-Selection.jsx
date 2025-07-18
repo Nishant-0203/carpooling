@@ -36,20 +36,23 @@ export default function RoleSelectionPage() {
   };
   return (
     <motion.div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4 relative overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="text-center max-w-3xl mx-auto">
+      {/* Background Image */}
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Role Selection" className="absolute inset-0 w-full h-full object-cover opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
+      <div className="relative z-10 text-center max-w-3xl mx-auto">
         <motion.h1
-          className="text-4xl md:text-5xl font-bold text-slate-800 mb-8 leading-tight"
+          className="text-4xl md:text-5xl font-bold text-slate-800 mb-8 leading-tight drop-shadow-lg"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Choose Your{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Role</span>
+          Welcome to{" "}
+          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
         </motion.h1>
 
         <motion.p
@@ -58,7 +61,7 @@ export default function RoleSelectionPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Select your role to proceed to the appropriate login or registration page.
+          Choose your role to join our carpooling community. Whether you're offering rides or looking for a lift, we've got you covered.
         </motion.p>
 
         <motion.div
