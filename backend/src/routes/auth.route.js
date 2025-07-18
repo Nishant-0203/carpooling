@@ -14,8 +14,8 @@ router.get('/google',
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    // Generate JWT token
-    const jwtToken = generateJwt(req.user);
+    // Generate JWT token with 24 hours expiry for Google login
+    const jwtToken = generateJwt(req.user, '24h');
 
     // Redirect to frontend with token as query param
     res.redirect(`${process.env.FRONTEND_URL}?token=${jwtToken}`);
@@ -23,8 +23,8 @@ router.get('/google/callback',
 );
 
 // Function to generate JWT
-function generateJwt(user) {
-  return jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
+function generateJwt(user, expiresIn = '1d') {
+  return jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn });
 }
 
 // Normal login & register

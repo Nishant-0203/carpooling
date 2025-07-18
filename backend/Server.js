@@ -18,19 +18,16 @@ app.use(express.json());
 connectDB();
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your_strong_secret',
+  secret: process.env.SESSION_SECRET || 'your-session-secret',
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    secure: false, // true if you're using HTTPS
-    maxAge: 24 * 60 * 60 * 1000,
-  },
+  cookie: { secure: false } // set to true if using HTTPS
 }));
-
 app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/api/driver', DriverRoutes);
 app.use('/api/rides', rideRoutes);
-app.use(passport.session());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes); // 👈 NEW

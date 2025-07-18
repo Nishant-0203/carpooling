@@ -19,7 +19,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [6, 'Password must be at least 6 characters long']
-  }
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true // Allows multiple null values for this field
+},
 }, { timestamps: true });
 
 // Hash password before save
