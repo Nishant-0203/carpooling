@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -286,20 +286,20 @@ export default function RiderDashboard() {
       bgColor: "bg-blue-50",
     },
     {
-      title: "Active Rides",
-      value: offeredRides.filter(ride => new Date(ride.date) >= new Date()).length.toString(),
-      change: "Available now",
+      title: "Pending Rides",
+      value: offeredRides.filter(ride => !ride.completed).length.toString(),
+      change: "Awaiting completion",
       icon: Clock,
-      color: "from-green-500 to-green-600",
-      bgColor: "bg-green-50",
+      color: "from-yellow-500 to-yellow-600",
+      bgColor: "bg-yellow-50",
     },
     {
       title: "Completed Rides",
-      value: offeredRides.filter(ride => new Date(ride.date) < new Date()).length.toString(),
+      value: offeredRides.filter(ride => ride.completed).length.toString(),
       change: "Total completed",
       icon: CheckCircle,
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50",
+      color: "from-green-500 to-green-600",
+      bgColor: "bg-green-50",
     },
     {
       title: "Total Earnings",
@@ -311,8 +311,25 @@ export default function RiderDashboard() {
     },
   ];
 
+  // Load notifications from localStorage on mount
+  useEffect(() => {
+    const savedNotifs = localStorage.getItem('driverNotifications');
+    if (savedNotifs) {
+      setNotifications(JSON.parse(savedNotifs));
+    }
+  }, []);
+
+  // Save notifications to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('driverNotifications', JSON.stringify(notifications));
+  }, [notifications]);
+
   const markAsRead = (id) => {
-    setNotifications((prev) => prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif)));
+    setNotifications((prev) => {
+      const updated = prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif));
+      localStorage.setItem('driverNotifications', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const getBadgeVariant = (type) => {
@@ -861,6 +878,31 @@ export default function RiderDashboard() {
   useEffect(() => {
     fetchOfferedRides();
   }, []);
+
+  const prevOfferedRidesRef = useRef([]);
+
+  useEffect(() => {
+    // Compare previous and current offeredRides to detect newly completed rides
+    const prev = prevOfferedRidesRef.current;
+    const newlyCompleted = offeredRides.filter(ride => {
+      const prevRide = prev.find(r => r._id === ride._id);
+      return ride.completed && (!prevRide || !prevRide.completed);
+    });
+    if (newlyCompleted.length > 0) {
+      setNotifications(prevNotifs => [
+        ...newlyCompleted.map(ride => ({
+          id: ride._id,
+          type: "success",
+          title: "Ride Completed",
+          message: `Your ride from ${ride.from} to ${ride.to} has been marked as completed!`,
+          timestamp: new Date().toLocaleString(),
+          read: false,
+        })),
+        ...prevNotifs,
+      ]);
+    }
+    prevOfferedRidesRef.current = offeredRides;
+  }, [offeredRides]);
 
   const [driverProfile, setDriverProfile] = useState({
     name: "",
