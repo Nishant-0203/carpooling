@@ -27,8 +27,8 @@ export default function LoginPage() {
       localStorage.setItem("token", token);
       // Optionally, remove token from URL for cleanliness
       window.history.replaceState({}, document.title, window.location.pathname);
-      // Redirect to home or dashboard
-      window.location.href = "/";
+      // Redirect to user dashboard after Google login
+      window.location.href = "/user-dashboard";
     }
   }, []);
 
@@ -94,7 +94,6 @@ const handleSubmit = async (e) => {
             ease: "linear"
           }}
         />
-
         {/* Floating Shapes */}
         {[...Array(6)].map((_, i) => (
           <motion.div
@@ -121,7 +120,6 @@ const handleSubmit = async (e) => {
           />
         ))}
       </div>
-
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <motion.div
@@ -132,14 +130,8 @@ const handleSubmit = async (e) => {
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center space-y-2">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <CardTitle className="text-3xl font-bold text-white">Welcome to CarpoolConnect</CardTitle>
-                <CardDescription className="text-gray-300">Sign in to your account to find or offer rides</CardDescription>
-              </motion.div>
+              <CardTitle className="text-3xl font-bold text-white">Welcome to CarpoolConnect</CardTitle>
+              <CardDescription className="text-gray-300">Sign in to your account to find or offer rides</CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-6">

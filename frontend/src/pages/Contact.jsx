@@ -58,7 +58,7 @@ export default function ContactPage() {
         body: JSON.stringify(form),
       });
       if (res.ok) {
-        setFeedback({ type: "success", message: "Message sent successfully!" });
+        setFeedback({ type: "success", message: "Thank you for reaching out! Your message has been sent successfully. Our team will get back to you soon." });
         setForm({
           firstName: "",
           lastName: "",
@@ -68,40 +68,40 @@ export default function ContactPage() {
           message: "",
         });
       } else {
-        setFeedback({ type: "error", message: "Failed to send message. Please try again." });
+        setFeedback({ type: "error", message: "Oops! Something went wrong. Please try again or contact us through another channel." });
       }
     } catch {
-      setFeedback({ type: "error", message: "Network error. Please try again." });
+      setFeedback({ type: "error", message: "Network error. Please check your connection and try again." });
     }
     setLoading(false);
   };
   const contactMethods = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: "Email Support",
-      description: "Get help via email within 24 hours",
-      contact: "support@ridesphere.com",
+      title: "Email Us",
+      description: "Drop us an email and our team will respond within 24 hours.",
+      contact: "support@carpoolconnect.com",
       action: "Send Email",
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: "Phone Support",
-      description: "Speak with our support team",
+      title: "Call Support",
+      description: "Speak directly with our support team for urgent queries.",
       contact: "+91 80-4567-8900",
       action: "Call Now",
     },
     {
       icon: <MessageCircle className="w-6 h-6" />,
       title: "Live Chat",
-      description: "Chat with us in real-time",
-      contact: "Available 9 AM - 9 PM",
+      description: "Chat with us in real-time for instant assistance.",
+      contact: "Available 9 AM - 9 PM IST",
       action: "Start Chat",
     },
     {
       icon: <Headphones className="w-6 h-6" />,
       title: "Help Center",
-      description: "Browse our knowledge base",
-      contact: "200+ articles available",
+      description: "Browse FAQs and guides for quick solutions.",
+      contact: "Comprehensive support articles",
       action: "Visit Help Center",
     },
   ];
@@ -111,19 +111,19 @@ export default function ContactPage() {
       city: "Bangalore",
       address: "WeWork, Prestige Atlanta, 80 Feet Rd, Koramangala",
       phone: "+91 80-4567-8900",
-      email: "bangalore@ridesphere.com",
+      email: "bangalore@carpoolconnect.com",
     },
     {
       city: "Mumbai",
       address: "Regus, Bandra Kurla Complex, G Block",
       phone: "+91 22-4567-8900",
-      email: "mumbai@ridesphere.com",
+      email: "mumbai@carpoolconnect.com",
     },
     {
       city: "Delhi",
       address: "91springboard, Connaught Place, New Delhi",
       phone: "+91 11-4567-8900",
-      email: "delhi@ridesphere.com",
+      email: "delhi@carpoolconnect.com",
     },
   ];
 
@@ -131,31 +131,31 @@ export default function ContactPage() {
     {
       icon: <Users className="w-5 h-5" />,
       title: "Account & Profile",
-      description: "Issues with registration, profile updates, verification",
+      description: "Help with registration, profile updates, or verification.",
     },
     {
       icon: <MapPin className="w-5 h-5" />,
-      title: "Rides & Booking",
-      description: "Help with finding rides, booking issues, cancellations",
+      title: "Rides & Bookings",
+      description: "Assistance with finding rides, booking, or cancellations.",
     },
     {
       icon: <FileText className="w-5 h-5" />,
       title: "Payments & Billing",
-      description: "Payment problems, refunds, billing questions",
+      description: "Questions about payments, refunds, or billing.",
     },
     {
       icon: <Headphones className="w-5 h-5" />,
       title: "Technical Support",
-      description: "App issues, bugs, technical difficulties",
+      description: "Report bugs or get help with technical issues.",
     },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
-
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Contact Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-4xl mx-auto"
@@ -164,23 +164,20 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
           >
             <motion.h1
-              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight"
+              className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight drop-shadow-lg"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Get in{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Touch</span>
+              Contact <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
             </motion.h1>
-
             <motion.p
               className="text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              We're here to help! Reach out to us through any of the channels below and we'll get back to you as soon as
-              possible.
+              Have a question, feedback, or need help? Our team is here to support your carpooling journey across India. Reach out and we’ll get back to you as soon as possible.
             </motion.p>
           </motion.div>
         </div>
@@ -234,8 +231,7 @@ export default function ContactPage() {
             >
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-3xl p-8">
                 <CardContent className="p-0">
-                  <h2 className="text-3xl font-bold text-slate-800 mb-6">Send us a Message</h2>
-
+                  <h2 className="text-3xl font-bold text-slate-800 mb-6">Send Us a Message</h2>
                   {feedback && (
                     <div
                       className={`mb-4 p-3 rounded-xl text-center ${
@@ -247,7 +243,6 @@ export default function ContactPage() {
                       {feedback.message}
                     </div>
                   )}
-
                   <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
@@ -273,7 +268,6 @@ export default function ContactPage() {
                         />
                       </div>
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Email</label>
                       <Input
@@ -286,7 +280,6 @@ export default function ContactPage() {
                         required
                       />
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Phone Number</label>
                       <Input
@@ -294,23 +287,21 @@ export default function ContactPage() {
                         type="tel"
                         value={form.phone}
                         onChange={handleChange}
-                        placeholder="Enter your phone number"
+                        placeholder="Enter your phone number (optional)"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                       />
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Subject</label>
                       <Input
                         name="subject"
                         value={form.subject}
                         onChange={handleChange}
-                        placeholder="Brief description of your inquiry"
+                        placeholder="How can we help you?"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                         required
                       />
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Message</label>
                       <Textarea
@@ -322,7 +313,6 @@ export default function ContactPage() {
                         required
                       />
                     </div>
-
                     <Button
                       type="submit"
                       className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
@@ -334,7 +324,6 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
             </motion.div>
-
             {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
@@ -346,7 +335,7 @@ export default function ContactPage() {
               {/* Support Categories */}
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-6">
                 <CardContent className="p-0">
-                  <h3 className="text-xl font-semibold text-slate-800 mb-4">What can we help you with?</h3>
+                  <h3 className="text-xl font-semibold text-slate-800 mb-4">How can we assist you?</h3>
                   <div className="space-y-4">
                     {supportCategories.map((category, index) => (
                       <div
@@ -365,7 +354,6 @@ export default function ContactPage() {
                   </div>
                 </CardContent>
               </Card>
-
               {/* Business Hours */}
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-6">
                 <CardContent className="p-0">
@@ -373,7 +361,7 @@ export default function ContactPage() {
                     <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center text-white">
                       <Clock className="w-4 h-4" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-800">Business Hours</h3>
+                    <h3 className="text-xl font-semibold text-slate-800">Support Hours</h3>
                   </div>
                   <div className="space-y-2 text-slate-600">
                     <div className="flex justify-between">
@@ -398,15 +386,13 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
       {/* Office Locations */}
       <section className="py-20 bg-gradient-to-r from-blue-50/50 to-indigo-50/50">
         <div className="container mx-auto px-4">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Our Offices</h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Visit us at any of our locations across India</p>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Visit CarpoolConnect at any of our locations across India.</p>
           </motion.div>
-
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
             variants={staggerContainer}
@@ -443,17 +429,15 @@ export default function ContactPage() {
           </motion.div>
         </div>
       </section>
-
       {/* FAQ Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <motion.div className="text-center mb-16" {...fadeInUp}>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Quick Answers</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Find answers to common questions before reaching out
+              Find quick answers to common questions about carpooling with CarpoolConnect.
             </p>
           </motion.div>
-
           <div className="max-w-3xl mx-auto">
             <motion.div
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
@@ -466,7 +450,7 @@ export default function ContactPage() {
                 {
                   question: "How quickly do you respond?",
                   answer:
-                    "We typically respond to emails within 24 hours and live chat within minutes during business hours.",
+                    "We typically respond to emails within 24 hours and live chat within minutes during support hours.",
                 },
                 {
                   question: "Do you offer phone support?",
@@ -474,11 +458,11 @@ export default function ContactPage() {
                 },
                 {
                   question: "Can I schedule a demo?",
-                  answer: "Contact our sales team to schedule a personalized demo of RideSphere's features.",
+                  answer: "Contact our team to schedule a personalized demo of CarpoolConnect’s features.",
                 },
                 {
                   question: "Where are you located?",
-                  answer: "We have offices in Bangalore, Mumbai, and Delhi. Visit our locations section for addresses.",
+                  answer: "We have offices in Bangalore, Mumbai, and Delhi. See our locations section for details.",
                 },
               ].map((faq, index) => (
                 <motion.div key={index} variants={fadeInUp}>

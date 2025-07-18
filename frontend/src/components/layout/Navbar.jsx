@@ -14,11 +14,25 @@ export default function Navbar() {
   const pathname = location.pathname;
   const navigate = useNavigate();
 
-  // Always check driver login on route change
-  const [isDriverLoggedIn, setIsDriverLoggedIn] = useState(!!sessionStorage.getItem("driverId"));
+  // Replace isDriverLoggedIn with isLoggedIn and update logic
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!sessionStorage.getItem("userId") || !!sessionStorage.getItem("driverId")
+  );
   useEffect(() => {
-    setIsDriverLoggedIn(!!sessionStorage.getItem("driverId"));
+    setIsLoggedIn(
+      !!sessionStorage.getItem("userId") || !!sessionStorage.getItem("driverId")
+    );
   }, [location]);
+  // Listen for storage changes (multi-tab support)
+  useEffect(() => {
+    const handleStorage = () => {
+      setIsLoggedIn(
+        !!sessionStorage.getItem("userId") || !!sessionStorage.getItem("driverId")
+      );
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,7 +100,7 @@ export default function Navbar() {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            {!isDriverLoggedIn && (
+            {!isLoggedIn && (
               <Link to="/Role-Selection">
                 <Button variant="ghost" className="text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl">
                   Sign In
@@ -149,7 +163,7 @@ export default function Navbar() {
               </div>
 
               <div className="p-4 border-t border-slate-200 space-y-4">
-                {!isDriverLoggedIn && (
+                {!isLoggedIn && (
                   <Link to="/Role-Selection">
                     <Button
                       variant="outline"
