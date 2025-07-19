@@ -110,7 +110,7 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Welcome to <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
+              Welcome to <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CoGo</span>
             </motion.h1>
 
             <motion.p
@@ -119,7 +119,7 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              CarpoolConnect is your trusted platform for sharing rides, saving money, and making commuting eco-friendly. Join a growing community of commuters making a difference—one shared ride at a time.
+              CoGo is your trusted platform for sharing rides, saving money, and making commuting eco-friendly. Join a growing community of commuters making a difference—one shared ride at a time.
             </motion.p>
           </motion.div>
         </div>

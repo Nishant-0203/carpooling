@@ -14,7 +14,7 @@ const Testimonials = () => {
       role: 'Marketing Manager',
       avatar: '👩‍💼',
       rating: 5,
-      text: "RideSphere completely transformed my daily commute. The app is intuitive, drivers are professional, and I've saved so much money while making new connections!",
+      text: "CoGo completely transformed my daily commute. The app is intuitive, drivers are professional, and I've saved so much money while making new connections!",
       location: 'San Francisco'
     },
     {
@@ -32,7 +32,7 @@ const Testimonials = () => {
       role: 'Environmental Scientist',
       avatar: '👩‍🔬',
       rating: 5,
-      text: "Finally, a platform that aligns with my values! RideSphere makes it easy to reduce my carbon footprint while meeting like-minded people.",
+      text: "Finally, a platform that aligns with my values! CoGo makes it easy to reduce my carbon footprint while meeting like-minded people.",
       location: 'Portland'
     },
     {

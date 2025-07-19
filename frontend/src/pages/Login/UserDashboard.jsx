@@ -633,7 +633,7 @@ export default function UserDashboard() {
               <Navigation className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-800">RideSphere</h1>
+              <h1 className="text-xl font-bold text-slate-800">CoGo</h1>
               <p className="text-sm text-slate-600">User Panel</p>
             </div>
           </div>
@@ -690,7 +690,7 @@ export default function UserDashboard() {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
               <Navigation className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-slate-800">RideSphere User</span>
+            <span className="font-bold text-slate-800">CoGo User</span>
           </div>
         </div>
         {/* Content */}

@@ -80,7 +80,7 @@ export default function ContactPage() {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
       description: "Drop us an email and our team will respond within 24 hours.",
-      contact: "support@carpoolconnect.com",
+      contact: "support@cogo.com",
       action: "Send Email",
     },
     {
@@ -111,19 +111,19 @@ export default function ContactPage() {
       city: "Bangalore",
       address: "WeWork, Prestige Atlanta, 80 Feet Rd, Koramangala",
       phone: "+91 80-4567-8900",
-      email: "bangalore@carpoolconnect.com",
+      email: "bangalore@cogo.com",
     },
     {
       city: "Mumbai",
       address: "Regus, Bandra Kurla Complex, G Block",
       phone: "+91 22-4567-8900",
-      email: "mumbai@carpoolconnect.com",
+      email: "mumbai@cogo.com",
     },
     {
       city: "Delhi",
       address: "91springboard, Connaught Place, New Delhi",
       phone: "+91 11-4567-8900",
-      email: "delhi@carpoolconnect.com",
+      email: "delhi@cogo.com",
     },
   ];
 
@@ -169,7 +169,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Contact <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
+              Contact <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CoGo</span>
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed"
@@ -391,7 +391,7 @@ export default function ContactPage() {
         <div className="container mx-auto px-4">
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Our Offices</h2>
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Visit CarpoolConnect at any of our locations across India.</p>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Visit CoGo at any of our locations across India.</p>
           </motion.div>
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
@@ -435,7 +435,7 @@ export default function ContactPage() {
           <motion.div className="text-center mb-16" {...fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Find quick answers to common questions about carpooling with CarpoolConnect.
+              Find quick answers to common questions about carpooling with CoGo.
             </p>
           </motion.div>
           <div className="max-w-3xl mx-auto">
@@ -458,7 +458,7 @@ export default function ContactPage() {
                 },
                 {
                   question: "Can I schedule a demo?",
-                  answer: "Contact our team to schedule a personalized demo of CarpoolConnect’s features.",
+                  answer: "Contact our team to schedule a personalized demo of CoGo's features.",
                 },
                 {
                   question: "Where are you located?",

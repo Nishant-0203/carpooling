@@ -52,7 +52,7 @@ export default function RoleSelectionPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           Welcome to{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CarpoolConnect</span>
+          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CoGo</span>
         </motion.h1>
 
         <motion.p

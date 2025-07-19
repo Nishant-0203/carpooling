@@ -112,7 +112,7 @@ sessionStorage.setItem("driverId", data.driver._id || data.driverId || data._id)
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center space-y-2">
-              <CardTitle className="text-3xl font-bold text-white">CarpoolConnect Driver</CardTitle>
+              <CardTitle className="text-3xl font-bold text-white">CoGo Driver</CardTitle>
               <CardDescription className="text-gray-300">
                 Sign in to your driver account and start offering rides
               </CardDescription>

@@ -119,7 +119,7 @@ const [phoneNumber, setPhoneNumber] = useState("")
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl mt-9">
             <CardHeader className="text-center p-0">
-              <CardTitle className="text-3xl font-bold text-white m-0">Become a Driver</CardTitle>
+              <CardTitle className="text-3xl font-bold text-white m-0">Become a CoGo Driver</CardTitle>
               <CardDescription className="text-gray-300 m-0">Join our community and start offering rides to earn money</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">

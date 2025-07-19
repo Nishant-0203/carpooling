@@ -419,7 +419,7 @@ export default function RideSearchPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       <section className="relative py-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Search Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="CoGo Search Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             className="text-center max-w-6xl mx-auto"
@@ -434,7 +434,7 @@ export default function RideSearchPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               Find Your Perfect{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Carpool</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">CoGo</span>
             </motion.h1>
 
             <motion.p

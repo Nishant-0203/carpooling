@@ -109,7 +109,7 @@ const handleSubmit = async (e) => {
         >
           <Card className="backdrop-blur-lg bg-white/10 border-white/20 shadow-2xl">
             <CardHeader className="text-center space-y-2">
-              <CardTitle className="text-3xl font-bold text-white">Join CarpoolConnect</CardTitle>
+              <CardTitle className="text-3xl font-bold text-white">Join CoGo</CardTitle>
               <CardDescription className="text-gray-300">Create your account and start carpooling today</CardDescription>
             </CardHeader>
 

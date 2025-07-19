@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Shield, Users, MapPin, Star } from 'lucide-react';
 
-const WhyRideSphere = () => {
+const WhyCoGo = () => {
   const features = [
     {
       icon: MapPin,
@@ -43,7 +43,7 @@ const WhyRideSphere = () => {
   ];
 
   return (
-    <section id="why-ridesphere" className="py-20 px-4">
+    <section id="why-cogo" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Section Title */}
         <motion.div
@@ -54,10 +54,7 @@ const WhyRideSphere = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Why Choose{' '}
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              RideSphere?
-            </span>
+            Why CoGo?
           </h2>
           <p className="text-xl text-gray-300 font-light max-w-2xl mx-auto">
             Experience the future of shared transportation with our premium features designed for modern travelers
@@ -133,4 +130,4 @@ const WhyRideSphere = () => {
   );
 };
 
-export default WhyRideSphere;
+export default WhyCoGo;

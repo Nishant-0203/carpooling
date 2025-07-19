@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Navigation } from 'lucide-react';
 
 const Footer = () => {
   const footerLinks = {
@@ -26,7 +27,7 @@ const Footer = () => {
         >
           <div className="max-w-2xl mx-auto glass-strong p-8 rounded-2xl neumorphic">
             <h3 className="text-2xl font-bold text-white mb-4">
-              Stay Updated with RideSphere
+              Stay Updated with CoGo
             </h3>
             <p className="text-gray-300 mb-6">
               Get the latest updates on new features, safety tips, and exclusive offers.
@@ -55,9 +56,9 @@ const Footer = () => {
           >
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center">
-                <span className="text-sm font-bold text-white">R</span>
+                <Navigation className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">RideSphere</span>
+              <span className="text-xl font-bold text-white">CoGo</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Redefining shared transportation with premium experiences for eco-conscious urban professionals.
@@ -126,7 +127,7 @@ const Footer = () => {
         >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 RideSphere. All rights reserved.
+              © 2024 CoGo. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">

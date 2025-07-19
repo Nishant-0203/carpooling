@@ -71,7 +71,7 @@ export default function Navbar() {
               <Navigation className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-200">
-              RideSphere
+              CoGo
             </span>
           </Link>
 

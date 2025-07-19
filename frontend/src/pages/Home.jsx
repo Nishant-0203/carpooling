@@ -6,8 +6,6 @@ import HowItWorks from '../components/Section/HowItWorks';
 import LiveRides from '../components/Section/LiveRides';
 import WhyRideSphere from '../components/Section/WhyRideSphere;';
 import Testimonials from '../components/Section/Testimonials';
-import Footer from '../components/layout/Footer';
-import Navbar from '../components/layout/Navbar';
 
 const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false);
