@@ -15,7 +15,9 @@ import {
   Headphones,
   Users,
   FileText,
+  Calendar,
 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -42,6 +44,7 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [date, setDate] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -190,8 +193,7 @@ export default function ContactPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             variants={staggerContainer}
             initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
+            animate="animate"
           >
             {contactMethods.map((method, index) => (
               <motion.div key={index} variants={fadeInUp}>
@@ -290,6 +292,28 @@ export default function ContactPage() {
                         placeholder="Enter your phone number (optional)"
                         className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 placeholder:text-slate-600"
                       />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-slate-700">Date</label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={`w-full justify-start text-left font-normal bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 ${!date ? "text-slate-600" : "text-black"}`}
+                          >
+                            <Calendar className="mr-2 h-4 w-4 text-blue-500" />
+                            {date ? new Date(date).toLocaleDateString() : "Pick a date"}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={date ? new Date(date) : undefined}
+                            onSelect={d => setDate(d ? d.toISOString().split('T')[0] : "")}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-slate-700">Subject</label>

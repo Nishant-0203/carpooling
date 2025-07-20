@@ -438,7 +438,7 @@ export default function RiderDashboard() {
               <h1 className="text-3xl font-bold text-slate-800">Notifications</h1>
               <Button
                 variant="outline"
-                className="rounded-xl border-slate-200 hover:bg-slate-50 bg-transparent"
+                className="rounded-xl border border-blue-300 bg-white text-black font-semibold hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
                 onClick={() => setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })))}
               >
                 Mark All as Read
@@ -536,120 +536,133 @@ export default function RiderDashboard() {
                 </CardContent>
               </Card>
             ) : (
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                variants={staggerContainer}
-                initial="initial"
-                animate="animate"
-              >
-                {offeredRides
-                  .slice()
-                  .sort((a, b) => new Date(b.date) - new Date(a.date))
-                  .map((ride) => {
-                  const rideStatus = getRideStatus(ride);
-                  return (
-                    <motion.div key={ride._id} variants={fadeInUp}>
-                      <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 hover:shadow-lg">
-                        <CardContent className="p-6">
-                          {/* Header with Status */}
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center gap-2">
-                              <Badge className={`${rideStatus.color} text-xs px-3 py-1`}>
-                                {rideStatus.status}
-                              </Badge>
-                              {ride.completed && (
-                                <Badge className="bg-green-600 text-white text-xs px-2 py-1 ml-2">Completed</Badge>
-                              )}
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg p-1"
-                                onClick={() => handleEditRide(ride)}
-                              >
-                                <Edit className="w-4 h-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => deleteRide(ride._id)}
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-1"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </div>
+              <>
+                <motion.div 
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  variants={staggerContainer}
+                  initial="initial"
+                  animate="animate"
+                >
+                  {(showAllRides ? offeredRides : offeredRides.slice(0, 6))
+                    .slice()
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .map((ride) => {
+                      const rideStatus = getRideStatus(ride);
+                      return (
+                        <motion.div key={ride._id} variants={fadeInUp}>
+                          <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 hover:shadow-lg">
+                            <CardContent className="p-6">
+                              {/* Header with Status */}
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-2">
+                                  <Badge className={`${rideStatus.color} text-xs px-3 py-1`}>
+                                    {rideStatus.status}
+                                  </Badge>
+                                  {ride.completed && (
+                                    <Badge className="bg-green-600 text-white text-xs px-2 py-1 ml-2">Completed</Badge>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg p-1"
+                                    onClick={() => handleEditRide(ride)}
+                                  >
+                                    <Edit className="w-4 h-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => deleteRide(ride._id)}
+                                    className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-1"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </div>
 
-                          {/* Driver Name Badge */}
-                          <div className="mb-2">
-                            <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs px-2 py-1">
-                              {driverProfile.name || "Driver"}
-                            </Badge>
-                          </div>
+                              {/* Driver Name Badge */}
+                              <div className="mb-2">
+                                <Badge className="bg-blue-100 text-blue-700 border-blue-200 text-xs px-2 py-1">
+                                  {driverProfile.name || "Driver"}
+                                </Badge>
+                              </div>
 
-                          {/* Route Information */}
-                          <div className="space-y-3 mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-slate-800 truncate">
-                                {ride.from}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                              <span className="text-sm font-medium text-slate-800 truncate">
-                                {ride.to}
-                              </span>
-                            </div>
-                          </div>
+                              {/* Route Information */}
+                              <div className="space-y-3 mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                  <span className="text-sm font-medium text-slate-800 truncate">
+                                    {ride.from}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                  <span className="text-sm font-medium text-slate-800 truncate">
+                                    {ride.to}
+                                  </span>
+                                </div>
+                              </div>
 
-                          {/* Date and Time */}
-                          <div className="flex items-center gap-4 mb-4 text-sm text-slate-600">
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              <span>{formatDate(ride.date)}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
-                              <span>{formatTime(ride.time)}</span>
-                            </div>
-                          </div>
+                              {/* Date and Time */}
+                              <div className="flex items-center gap-4 mb-4 text-sm text-slate-600">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-4 h-4" />
+                                  <span>{formatDate(ride.date)}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="w-4 h-4" />
+                                  <span>{formatTime(ride.time)}</span>
+                                </div>
+                              </div>
 
-                          {/* Ride Details */}
-                          <div className="grid grid-cols-3 gap-4 text-center">
-                            <div className="bg-white/50 rounded-lg p-3">
-                              <Users className="w-4 h-4 text-slate-600 mx-auto mb-1" />
-                              <p className="text-xs text-slate-600">Passengers</p>
-                              <p className="text-sm font-semibold text-slate-800">{ride.passengers}</p>
-                            </div>
-                            <div className="bg-white/50 rounded-lg p-3">
-                              <Car className="w-4 h-4 text-slate-600 mx-auto mb-1" />
-                              <p className="text-xs text-slate-600">Transport</p>
-                              <p className="text-sm font-semibold text-slate-800">{ride.transport}</p>
-                            </div>
-                            <div className="bg-white/50 rounded-lg p-3">
-                              <DollarSign className="w-4 h-4 text-slate-600 mx-auto mb-1" />
-                              <p className="text-xs text-slate-600">Per Person</p>
-                              <p className="text-sm font-semibold text-slate-800">₹{ride.contribution}</p>
-                            </div>
-                          </div>
+                              {/* Ride Details */}
+                              <div className="grid grid-cols-3 gap-4 text-center">
+                                <div className="bg-white/50 rounded-lg p-3">
+                                  <Users className="w-4 h-4 text-slate-600 mx-auto mb-1" />
+                                  <p className="text-xs text-slate-600">Passengers</p>
+                                  <p className="text-sm font-semibold text-slate-800">{ride.passengers}</p>
+                                </div>
+                                <div className="bg-white/50 rounded-lg p-3">
+                                  <Car className="w-4 h-4 text-slate-600 mx-auto mb-1" />
+                                  <p className="text-xs text-slate-600">Transport</p>
+                                  <p className="text-sm font-semibold text-slate-800">{ride.transport}</p>
+                                </div>
+                                <div className="bg-white/50 rounded-lg p-3">
+                                  <DollarSign className="w-4 h-4 text-slate-600 mx-auto mb-1" />
+                                  <p className="text-xs text-slate-600">Per Person</p>
+                                  <p className="text-sm font-semibold text-slate-800">₹{ride.contribution}</p>
+                                </div>
+                              </div>
 
-                          {/* Action Button */}
-                          <div className="mt-4">
-                            <Button
-                              className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg text-sm py-2"
-                              onClick={() => handleViewRide(ride)}
-                            >
-                              View Details
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
+                              {/* Action Button */}
+                              <div className="mt-4">
+                                <Button
+                                  className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg text-sm py-2"
+                                  onClick={() => handleViewRide(ride)}
+                                >
+                                  View Details
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      );
+                    })}
+                </motion.div>
+                {offeredRides.length > 6 && (
+                  <div className="text-center mt-6">
+                    <Button
+                      variant="outline"
+                      className="rounded-xl border border-blue-300 bg-white text-black font-semibold hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
+                      onClick={() => setShowAllRides((prev) => !prev)}
+                    >
+                      {showAllRides ? "Show Less" : "Load More"}
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
 
             {/* Edit Ride Modal */}
@@ -738,17 +751,17 @@ export default function RiderDashboard() {
             {/* View Ride Modal */}
             {showViewModal && viewRide && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-xl relative">
+                <div className="bg-white rounded-2xl p-8 w-full max-w-lg shadow-xl relative text-black">
                   <button className="absolute top-3 right-3 text-xl" onClick={() => setShowViewModal(false)}>&times;</button>
-                  <h2 className="text-2xl font-bold mb-4">Ride Details</h2>
+                  <h2 className="text-2xl font-bold mb-4 text-slate-800">Ride Details</h2>
                   <div className="space-y-2">
-                    <div><strong>From:</strong> {viewRide.from}</div>
-                    <div><strong>To:</strong> {viewRide.to}</div>
-                    <div><strong>Date:</strong> {formatDate(viewRide.date)}</div>
-                    <div><strong>Time:</strong> {formatTime(viewRide.time)}</div>
-                    <div><strong>Passengers:</strong> {viewRide.passengers}</div>
-                    <div><strong>Transport:</strong> {viewRide.transport}</div>
-                    <div><strong>Contribution:</strong> ₹{viewRide.contribution}</div>
+                    <div><strong className="text-slate-800">From:</strong> <span className="text-slate-700">{viewRide.from}</span></div>
+                    <div><strong className="text-slate-800">To:</strong> <span className="text-slate-700">{viewRide.to}</span></div>
+                    <div><strong className="text-slate-800">Date:</strong> <span className="text-slate-700">{formatDate(viewRide.date)}</span></div>
+                    <div><strong className="text-slate-800">Time:</strong> <span className="text-slate-700">{formatTime(viewRide.time)}</span></div>
+                    <div><strong className="text-slate-800">Passengers:</strong> <span className="text-slate-700">{viewRide.passengers}</span></div>
+                    <div><strong className="text-slate-800">Transport:</strong> <span className="text-slate-700">{viewRide.transport}</span></div>
+                    <div><strong className="text-slate-800">Contribution:</strong> <span className="text-slate-700">₹{viewRide.contribution}</span></div>
                   </div>
                   <div className="flex gap-2 mt-6">
                     <Button className="flex-1" variant="outline" onClick={() => setShowViewModal(false)}>Close</Button>
@@ -938,24 +951,14 @@ export default function RiderDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white/80 backdrop-blur-xl border-r border-white/50 shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white/80 backdrop-blur-xl border-r border-white/50 shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center gap-3 p-6 border-b border-white/50">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
-              <Navigation className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-800">CoGo</h1>
-              <p className="text-sm text-slate-600">Rider Panel</p>
-            </div>
-          </div>
-
+          {/* Logo and text removed */}
           {/* Navigation */}
-          <nav className="flex-1 p-4">
+          <nav className="flex-1 p-4 mt-18">
             <div className="space-y-2">
               {sidebarItems.map((item) => {
                 const Icon = item.icon
@@ -985,7 +988,6 @@ export default function RiderDashboard() {
               })}
             </div>
           </nav>
-
           {/* Logout */}
           <div className="p-4 border-t border-white/50">
             <button 

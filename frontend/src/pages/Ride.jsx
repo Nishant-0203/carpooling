@@ -554,7 +554,7 @@ export default function RideSearchPage() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-700">Transport</label>
                   <Select value={transport} onValueChange={setTransport}>
-                    <SelectTrigger className="bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12">
+                    <SelectTrigger className="w-full bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 text-base pl-4">
                       <SelectValue placeholder="Choose transport type" />
                     </SelectTrigger>
                     <SelectContent>

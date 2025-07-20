@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -24,159 +23,120 @@ const staggerContainer = {
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState("All Posts");
+  const [selectedTag, setSelectedTag] = useState(null);
 
   const featuredPost = {
     id: 1,
-    title: "The Future of Urban Mobility: How Carpooling is Reshaping Indian Cities",
+    title: "How Carpooling Apps Are Transforming Indian Commutes",
     excerpt:
-      "Discover how shared transportation is revolutionizing the way we commute in India's bustling metropolitan areas, reducing traffic congestion and environmental impact.",
+      "Explore how digital platforms are making shared rides safer, more convenient, and more affordable for millions of daily commuters.",
     content:
-      "As India's urban population continues to grow at an unprecedented rate, our cities are facing mounting challenges with traffic congestion, air pollution, and transportation costs. Carpooling is emerging as a sustainable solution, offering not just cost savings but also a way to build community and reduce our carbon footprint. In this article, we explore the latest trends, government initiatives, and real-life stories of commuters who have embraced ride-sharing as a way of life...",
+      "With the rise of carpooling apps, Indian cities are witnessing a shift in how people travel. This article delves into the technology, safety features, and community impact of these platforms, featuring interviews with both drivers and riders.",
     author: {
-      name: "Dr. Arjun Mehta",
-      role: "Urban Planning Expert",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+      name: "Neha Bansal",
+      role: "Mobility Tech Journalist",
+      avatar: "https://randomuser.me/api/portraits/women/21.jpg",
     },
-    publishedAt: "2024-12-15",
-    readTime: "8 min read",
+    publishedAt: "2024-12-20",
+    readTime: "7 min read",
     category: "Urban Planning",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    tags: ["Sustainability", "Urban Mobility", "Future Tech"],
-  }
+    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80", // commute, city, carpool
+    tags: ["Carpooling", "Technology", "Urban Mobility"],
+  };
 
-  // Add more blog posts for each category
   const blogPosts = [
-    // Urban Planning
     {
       id: 2,
-      title: "Smart Cities: Integrating Carpooling into Urban Infrastructure",
-      excerpt: "How Indian cities are leveraging technology to make carpooling a seamless part of daily commutes.",
+      title: "Why Shared Rides Are the Future of Sustainable Cities",
+      excerpt: "Shared mobility is key to reducing congestion and pollution. Learn how carpooling is helping cities breathe easier.",
       author: {
-        name: "Ritika Singh",
-        role: "Smart City Analyst",
-        avatar: "https://randomuser.me/api/portraits/women/45.jpg",
+        name: "Amit Sinha",
+        role: "Urban Policy Analyst",
+        avatar: "https://randomuser.me/api/portraits/men/34.jpg",
       },
-      publishedAt: "2024-12-12",
+      publishedAt: "2024-12-18",
       readTime: "6 min read",
-      category: "Urban Planning",
-      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
-      tags: ["Smart Cities", "Urban Planning", "Mobility"],
+      category: "Environment",
+      image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80", // city, shared rides
+      tags: ["Sustainability", "Urban Planning", "Environment"],
     },
-    // Finance
     {
       id: 3,
-      title: "5 Ways Carpooling Can Save You Money This Year",
-      excerpt:
-        "Learn practical strategies to reduce your commuting costs while contributing to a greener environment through smart ride-sharing decisions.",
+      title: "How to Stay Safe When Carpooling with Strangers",
+      excerpt: "Safety is a top concern for carpoolers. Here are expert tips and app features that keep your ride secure.",
       author: {
-        name: "Priya Sharma",
-        role: "Financial Advisor",
-        avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+        name: "Priya Deshmukh",
+        role: "Safety Consultant",
+        avatar: "https://randomuser.me/api/portraits/women/47.jpg",
       },
-      publishedAt: "2024-12-10",
+      publishedAt: "2024-12-15",
       readTime: "5 min read",
-      category: "Finance",
-      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
-      tags: ["Money Saving", "Tips", "Budgeting"],
+      category: "Safety",
+      image: "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=800&q=80", // seatbelt, safety
+      tags: ["Safety", "Tips", "Trust"],
     },
     {
       id: 4,
-      title: "Carpooling vs. Owning a Car: The Real Cost Breakdown",
-      excerpt: "A detailed look at how much you can save by sharing rides instead of owning a vehicle in India.",
+      title: "The Real Cost Savings of Carpooling: A Monthly Breakdown",
+      excerpt: "See how much you can save each month by sharing rides instead of driving solo, with real user stories and numbers.",
       author: {
-        name: "Anil Kapoor",
-        role: "Transport Economist",
-        avatar: "https://randomuser.me/api/portraits/men/41.jpg",
+        name: "Rohit Agarwal",
+        role: "Financial Blogger",
+        avatar: "https://randomuser.me/api/portraits/men/52.jpg",
       },
-      publishedAt: "2024-12-09",
-      readTime: "7 min read",
+      publishedAt: "2024-12-10",
+      readTime: "4 min read",
       category: "Finance",
-      image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80",
-      tags: ["Finance", "Car Ownership", "Comparison"],
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80", // hands holding coins, savings
+      tags: ["Money Saving", "Finance", "Budgeting"],
     },
-    // Safety
     {
       id: 5,
-      title: "Building Trust in the Sharing Economy: Safety First",
-      excerpt:
-        "Explore the comprehensive safety measures and verification processes that make modern carpooling platforms secure for all users.",
+      title: "Women’s Experiences: Carpooling in Indian Cities",
+      excerpt: "Hear from women who use carpooling apps about safety, convenience, and the features that matter most to them.",
       author: {
-        name: "Rajesh Kumar",
-        role: "Safety & Security Expert",
-        avatar: "https://randomuser.me/api/portraits/men/65.jpg",
+        name: "Shreya Iyer",
+        role: "Community Writer",
+        avatar: "https://randomuser.me/api/portraits/women/60.jpg",
       },
-      publishedAt: "2024-12-05",
+      publishedAt: "2024-12-08",
       readTime: "6 min read",
       category: "Safety",
-      image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80",
-      tags: ["Safety", "Trust", "Verification"],
+      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80", // women, city commute
+      tags: ["Women", "Safety", "Community"],
     },
     {
       id: 6,
-      title: "Women’s Safety in Carpooling: What You Need to Know",
-      excerpt: "Tips and features that make carpooling safer for women in Indian cities.",
+      title: "How to Start a Carpool: Step-by-Step for Beginners",
+      excerpt: "New to carpooling? This guide walks you through finding, joining, or starting your first shared ride.",
       author: {
-        name: "Meera Joshi",
-        role: "Women’s Rights Advocate",
-        avatar: "https://randomuser.me/api/portraits/women/67.jpg",
+        name: "Deepak Verma",
+        role: "Mobility Blogger",
+        avatar: "https://randomuser.me/api/portraits/men/23.jpg",
       },
-      publishedAt: "2024-12-03",
+      publishedAt: "2024-12-05",
       readTime: "5 min read",
-      category: "Safety",
-      image: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80",
-      tags: ["Safety", "Women", "Tips"],
+      category: "How-To",
+      image: "https://images.unsplash.com/photo-1524253482453-3fed8d2fe12b?auto=format&fit=crop&w=800&q=80", // group of friends in a car
+      tags: ["Guide", "Carpool", "Beginner"],
     },
-    // Environment
     {
       id: 7,
-      title: "The Environmental Impact of Shared Transportation",
-      excerpt:
-        "Understand how choosing carpooling over individual vehicle ownership can significantly reduce your carbon footprint and help combat climate change.",
-      author: {
-        name: "Dr. Sneha Patel",
-        role: "Environmental Scientist",
-        avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-      },
-      publishedAt: "2024-11-28",
-      readTime: "7 min read",
-      category: "Environment",
-      image: "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80",
-      tags: ["Environment", "Sustainability", "Climate Change"],
-    },
-    {
-      id: 8,
       title: "Green Commuting: How Carpooling Reduces Air Pollution",
-      excerpt: "A look at the positive effects of carpooling on air quality in major Indian cities.",
+      excerpt: "A look at the positive effects of carpooling on air quality in major Indian cities, with data and expert opinions.",
       author: {
         name: "Vikram Desai",
         role: "Environmental Journalist",
         avatar: "https://randomuser.me/api/portraits/men/55.jpg",
       },
-      publishedAt: "2024-11-25",
+      publishedAt: "2024-12-01",
       readTime: "6 min read",
       category: "Environment",
-      image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=800&q=80", // green city road
       tags: ["Green", "Commuting", "Air Pollution"],
     },
-    // How-To
     {
-      id: 9,
-      title: "How to Start a Carpool: A Step-by-Step Guide for Beginners",
-      excerpt:
-        "Starting a carpool is easier than you think! Follow our simple guide to set up your first ride and invite friends or colleagues.",
-      author: {
-        name: "Amit Verma",
-        role: "Mobility Blogger",
-        avatar: "https://randomuser.me/api/portraits/men/23.jpg",
-      },
-      publishedAt: "2024-11-20",
-      readTime: "4 min read",
-      category: "How-To",
-      image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80",
-      tags: ["Guide", "Carpool", "Beginner"],
-    },
-    {
-      id: 10,
+      id: 8,
       title: "Carpooling Etiquette: Do’s and Don’ts for a Smooth Ride",
       excerpt: "Master the art of carpooling with these essential etiquette tips for drivers and passengers.",
       author: {
@@ -184,11 +144,56 @@ export default function Blog() {
         role: "Community Manager",
         avatar: "https://randomuser.me/api/portraits/women/53.jpg",
       },
-      publishedAt: "2024-11-18",
+      publishedAt: "2024-11-28",
       readTime: "5 min read",
       category: "How-To",
-      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=800&q=80", // etiquette, car interior, people
       tags: ["Etiquette", "Tips", "Carpool"],
+    },
+    {
+      id: 9,
+      title: "How Carpooling Helps Fight Climate Change",
+      excerpt: "Carpooling is more than just saving money—it's a powerful tool for reducing your carbon footprint.",
+      author: {
+        name: "Dr. Sneha Patel",
+        role: "Environmental Scientist",
+        avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+      },
+      publishedAt: "2024-11-25",
+      readTime: "7 min read",
+      category: "Environment",
+      image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=800&q=80", // climate change, earth
+      tags: ["Environment", "Sustainability", "Climate Change"],
+    },
+    {
+      id: 10,
+      title: "The Social Side of Carpooling: Making Friends on the Road",
+      excerpt: "Discover how carpooling is helping people build new friendships and networks during their daily commutes.",
+      author: {
+        name: "Anjali Menon",
+        role: "Social Researcher",
+        avatar: "https://randomuser.me/api/portraits/women/50.jpg",
+      },
+      publishedAt: "2024-11-20",
+      readTime: "6 min read",
+      category: "Community",
+      image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80", // friends, road trip
+      tags: ["Community", "Social", "Carpool"],
+    },
+    {
+      id: 11,
+      title: "Designing Cities for People, Not Just Cars",
+      excerpt: "Explore how modern urban planning is shifting focus from vehicles to people, making cities more walkable, livable, and sustainable.",
+      author: {
+        name: "Ritika Singh",
+        role: "Urban Planner",
+        avatar: "https://randomuser.me/api/portraits/women/45.jpg",
+      },
+      publishedAt: "2024-12-22",
+      readTime: "6 min read",
+      category: "Urban Planning",
+      image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80", // modern city street
+      tags: ["Urban Planning", "Sustainability", "City Design"],
     },
   ];
 
@@ -199,12 +204,15 @@ export default function Blog() {
     { name: "Safety", count: blogPosts.filter(b => b.category === "Safety").length, active: selectedCategory === "Safety" },
     { name: "Environment", count: blogPosts.filter(b => b.category === "Environment").length, active: selectedCategory === "Environment" },
     { name: "How-To", count: blogPosts.filter(b => b.category === "How-To").length, active: selectedCategory === "How-To" },
+    { name: "Community", count: blogPosts.filter(b => b.category === "Community").length, active: selectedCategory === "Community" },
   ];
 
   // Filtered blogs
-  const filteredBlogs = selectedCategory === "All Posts"
-    ? blogPosts
-    : blogPosts.filter(post => post.category === selectedCategory);
+  const filteredBlogs = selectedTag
+    ? blogPosts.filter(post => post.tags.includes(selectedTag))
+    : selectedCategory === "All Posts"
+      ? blogPosts
+      : blogPosts.filter(post => post.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -213,30 +221,21 @@ export default function Blog() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-indigo-600/5 to-purple-600/10" />
         <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Blog Hero" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div
+          <div
             className="text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
           >
-            <motion.h1
+            <h1
               className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight drop-shadow-lg"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
             >
               CoGo <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Blog</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
+            <p
               className="text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
             >
               Insights, tips, and stories about the future of carpooling, shared rides, and sustainable mobility in India.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -244,51 +243,39 @@ export default function Blog() {
       {(selectedCategory === "All Posts" || selectedCategory === "Urban Planning") && (
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <motion.div
+            <div
               initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
             >
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-3xl overflow-hidden hover:bg-white/50 transition-all duration-300 group">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                  <motion.div
+                  <div
                     className="relative h-64 lg:h-auto overflow-hidden"
-                    whileHover={{ scale: 1.04 }}
-                    transition={{ duration: 0.5 }}
                   >
-                    <motion.img
+                    <img
                       src={featuredPost.image || "/placeholder.svg"}
                       alt={featuredPost.title}
-                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
-                      initial={{ scale: 1 }}
-                      whileHover={{ scale: 1.08 }}
+                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 rounded-lg"
                     />
                     <div className="absolute top-4 left-4">
                       <Badge className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">Featured</Badge>
                     </div>
-                  </motion.div>
+                  </div>
 
                   <CardContent className="p-8 lg:p-12 flex flex-col justify-center">
                     <Badge className="bg-blue-100 text-blue-700 border-blue-200 w-fit mb-4 animate-fadeInUp">
                       {featuredPost.category}
                     </Badge>
 
-                    <motion.h2
+                    <h2
                       className="text-2xl lg:text-3xl font-bold text-slate-800 mb-4 leading-tight"
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.7 }}
                     >
                       {featuredPost.title}
-                    </motion.h2>
+                    </h2>
 
-                    <motion.p
+                    <p
                       className="text-slate-600 mb-6 leading-relaxed"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.7, delay: 0.2 }}
-                    >{featuredPost.excerpt}</motion.p>
+                    >{featuredPost.excerpt}</p>
 
                     <div className="flex items-center gap-4 mb-6">
                       <Avatar className="w-12 h-12">
@@ -325,7 +312,7 @@ export default function Blog() {
 
                     <div className="flex flex-wrap gap-2 mb-6">
                       {featuredPost.tags.map((tag, index) => (
-                        <motion.div
+                        <div
                           key={index}
                           whileHover={{ scale: 1.1, backgroundColor: '#e0e7ff' }}
                           transition={{ type: 'spring', stiffness: 300 }}
@@ -334,20 +321,20 @@ export default function Blog() {
                           <Badge variant="outline" className="bg-white/50 border-slate-200 cursor-pointer">
                             {tag}
                           </Badge>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
 
-                    <motion.div whileHover={{ scale: 1.05 }}>
+                    <div whileHover={{ scale: 1.05 }}>
                       <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl w-fit shadow-lg">
                         Read Full Article
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
-                    </motion.div>
+                    </div>
                   </CardContent>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           </div>
         </section>
       )}
@@ -357,18 +344,16 @@ export default function Blog() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Categories Sidebar */}
-            <motion.div
+            <div
               initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
             >
               <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl p-6 sticky top-8">
                 <CardContent className="p-0">
                   <h3 className="text-lg font-semibold text-slate-800 mb-4">Categories</h3>
                   <div className="space-y-2">
                     {categories.map((category, index) => (
-                      <motion.button
+                      <button
                         key={index}
                         whileHover={{ scale: 1.04, backgroundColor: '#dbeafe', color: '#1e40af' }}
                         transition={{ type: 'spring', stiffness: 300 }}
@@ -377,45 +362,56 @@ export default function Blog() {
                             ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg"
                             : "hover:bg-white/50 text-slate-700"
                         }`}
-                        onClick={() => setSelectedCategory(category.name)}
+                        onClick={() => {
+                          setSelectedCategory(category.name);
+                          setSelectedTag(null);
+                        }}
                       >
                         <span>{category.name}</span>
                         <Badge variant={category.active ? "secondary" : "outline"} className="text-xs">
                           {category.count}
                         </Badge>
-                      </motion.button>
+                      </button>
                     ))}
                   </div>
 
                   <div className="mt-8 pt-6 border-t border-slate-200">
                     <h4 className="font-semibold text-slate-800 mb-4">Popular Tags</h4>
                     <div className="flex flex-wrap gap-2">
-                      {["Sustainability", "Money Saving", "Safety", "Urban Planning", "Environment", "Guide", "Carpool"].map(
+                      {["Sustainability", "Money Saving", "Safety", "Urban Planning", "Environment", "Guide", "Carpool", "Beginner", "Women", "Community", "Social", "Climate Change"].map(
                         (tag, index) => (
-                          <motion.div
+                          <button
                             key={index}
-                            whileHover={{ scale: 1.1, backgroundColor: '#e0e7ff' }}
-                            transition={{ type: 'spring', stiffness: 300 }}
-                            className="inline-block"
+                            className={`inline-block px-3 py-1 rounded-xl border border-slate-200 text-xs cursor-pointer transition-colors duration-200 ${selectedTag === tag ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg" : "bg-white/50 hover:bg-blue-50 text-slate-700"}`}
+                            onClick={() => {
+                              setSelectedTag(tag);
+                              setSelectedCategory(null);
+                            }}
                           >
-                            <Badge
-                              variant="outline"
-                              className="bg-white/50 border-slate-200 hover:bg-blue-50 cursor-pointer text-xs"
-                            >
-                              {tag}
-                            </Badge>
-                          </motion.div>
+                            {tag}
+                          </button>
                         ),
+                      )}
+                      {selectedTag && (
+                        <button
+                          className="inline-block px-3 py-1 rounded-xl border border-slate-200 text-xs cursor-pointer bg-red-100 text-red-700 ml-2"
+                          onClick={() => {
+                            setSelectedTag(null);
+                            setSelectedCategory("All Posts");
+                          }}
+                        >
+                          Clear Tag Filter
+                        </button>
                       )}
                     </div>
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
 
             {/* Blog Posts */}
             <div className="lg:col-span-3">
-              <motion.div
+              <div
                 className="space-y-8"
                 variants={staggerContainer}
                 initial="initial"
@@ -423,18 +419,16 @@ export default function Blog() {
                 key={selectedCategory}
               >
                 {filteredBlogs.map((post, index) => (
-                  <motion.div key={post.id} variants={fadeInUp} whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(30, 64, 175, 0.12)' }}>
+                  <div key={post.id} variants={fadeInUp} whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(30, 64, 175, 0.12)' }}>
                     <Card className="backdrop-blur-xl bg-white/40 border-white/50 rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 group shadow-md">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                        <motion.div className="relative w-full aspect-video overflow-hidden" whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
-                          <motion.img
+                        <div className="relative w-full aspect-video overflow-hidden" whileHover={{ scale: 1.05 }} transition={{ duration: 0.5 }}>
+                          <img
                             src={post.image || "/placeholder.svg"}
                             alt={post.title}
-                            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
-                            initial={{ scale: 1 }}
-                            whileHover={{ scale: 1.08 }}
+                            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 rounded-lg"
                           />
-                        </motion.div>
+                        </div>
 
                         <CardContent className="md:col-span-2 p-6 flex flex-col justify-center">
                           <div className="flex items-center gap-3 mb-3">
@@ -456,23 +450,17 @@ export default function Blog() {
                             </div>
                           </div>
 
-                          <motion.h3
+                          <h3
                             className="text-xl font-bold text-slate-800 mb-3 leading-tight group-hover:text-blue-600 transition-colors duration-200"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
                           >
                             {post.title}
-                          </motion.h3>
+                          </h3>
 
-                          <motion.p
+                          <p
                             className="text-slate-600 mb-4 leading-relaxed"
-                            initial={{ opacity: 0, y: 10 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
                           >
                             {post.excerpt}
-                          </motion.p>
+                          </p>
 
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -491,7 +479,7 @@ export default function Blog() {
                               </div>
                             </div>
 
-                            <motion.div whileHover={{ scale: 1.08 }}>
+                            <div whileHover={{ scale: 1.08 }}>
                               <Button
                                 variant="ghost"
                                 size="sm"
@@ -500,12 +488,12 @@ export default function Blog() {
                                 Read More
                                 <ArrowRight className="w-3 h-3 ml-1" />
                               </Button>
-                            </motion.div>
+                            </div>
                           </div>
 
                           <div className="flex flex-wrap gap-2 mt-4">
                             {post.tags.map((tag, tagIndex) => (
-                              <motion.div
+                              <div
                                 key={tagIndex}
                                 whileHover={{ scale: 1.1, backgroundColor: '#e0e7ff' }}
                                 transition={{ type: 'spring', stiffness: 300 }}
@@ -514,26 +502,26 @@ export default function Blog() {
                                 <Badge variant="outline" className="bg-white/50 border-slate-200 text-xs cursor-pointer">
                                   {tag}
                                 </Badge>
-                              </motion.div>
+                              </div>
                             ))}
                           </div>
                         </CardContent>
                       </div>
                     </Card>
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
 
               {/* Load More */}
               <div className="text-center mt-12">
-                <motion.div whileHover={{ scale: 1.07 }}>
+                <div whileHover={{ scale: 1.07 }}>
                   <Button
                     variant="outline"
                     className="px-8 py-3 rounded-xl border-2 border-blue-200 hover:bg-blue-50 bg-transparent shadow-md"
                   >
                     Load More Articles
                   </Button>
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
