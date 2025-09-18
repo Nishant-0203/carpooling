@@ -4,7 +4,7 @@ import HeroSection from '../components/Section/HeroSection';
 import TrustedBy from '../components/Section/TrustedBy';
 import HowItWorks from '../components/Section/HowItWorks';
 import LiveRides from '../components/Section/LiveRides';
-import WhyRideSphere from '../components/Section/WhyRideSphere;';
+import WhyRideSphere from '../components/Section/WhyRideSphere';
 import Testimonials from '../components/Section/Testimonials';
 
 const Home = () => {

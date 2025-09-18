@@ -2,12 +2,92 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>CoGo - Smart Carpooling Platform | Share Rides, Save Money, Save Planet</title>
+    <meta name="description" content="Join CoGo, the leading carpooling platform. Find rides, offer rides, and connect with verified drivers. Save money, reduce carbon footprint, and travel safely." />
+    <meta name="keywords" content="carpooling, rideshare, travel, eco-friendly, ride sharing, transportation, save money, verified drivers" />
+    <meta name="author" content="CoGo Team" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="CoGo - Smart Carpooling Platform" />
+    <meta property="og:description" content="Share rides, save money, and help the environment with CoGo's secure carpooling platform." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cogo-carpooling.com" />
+    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:site_name" content="CoGo" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CoGo - Smart Carpooling Platform" />
+    <meta name="twitter:description" content="Share rides, save money, and help the environment with CoGo's secure carpooling platform." />
+    <meta name="twitter:image" content="/twitter-image.jpg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/cogo-favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#3B82F6" />
+    <meta name="msapplication-TileColor" content="#3B82F6" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Critical CSS will be inlined here -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      html { line-height: 1.15; -webkit-text-size-adjust: 100%; }
+      body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      .loading-screen { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        z-index: 9999;
+      }
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255,255,255,0.3);
+        border-top: 4px solid #fff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-spinner"></div>
+    </div>
+    
     <div id="root"></div>
+    
+    <!-- Remove loading screen when app loads -->
+    <script>
+      window.addEventListener('load', () => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => loadingScreen.remove(), 300);
+        }
+      });
+    </script>
+    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

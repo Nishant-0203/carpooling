@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Mail, Lock, Eye, EyeOff } from "lucide-react"
+import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react"
+import { toast } from "sonner"
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -18,6 +19,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState({})
 
   // Handle Google OAuth token in URL
   useEffect(() => {
@@ -25,59 +27,120 @@ export default function LoginPage() {
     const token = urlParams.get("token");
     if (token) {
       localStorage.setItem("token", token);
-      // Optionally, remove token from URL for cleanliness
+      // Remove token from URL for security
       window.history.replaceState({}, document.title, window.location.pathname);
-      // Redirect to user dashboard after Google login
-      window.location.href = "/user-dashboard";
+      toast.success("Login successful! Redirecting to dashboard...");
+      setTimeout(() => {
+        window.location.href = "/user-dashboard";
+      }, 1000);
     }
   }, []);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsLoading(true);
-
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include", // for session cookie (since you use passport + cookie-session)
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Login failed");
+  // Form validation
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Please enter a valid email address";
     }
+    
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    alert("✅ Login successful!");
-    // Store user info in sessionStorage and redirect to user dashboard
-    sessionStorage.setItem("user", JSON.stringify(data.user));
-    sessionStorage.setItem("userId", data.user.id);
-    window.location.href = "/user-dashboard";
-    // You can redirect or store token here:
-    // localStorage.setItem("token", data.token);
-    // window.location.href = "/dashboard";
-  } catch (error) {
-    alert(`❌ ${error.message}`);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+    
+    setIsLoading(true);
+    setErrors({});
 
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
+      toast.success("Login successful! Welcome back!", {
+        icon: <CheckCircle className="w-4 h-4" />
+      });
+      
+      // Store user info securely
+      sessionStorage.setItem("user", JSON.stringify(data.user));
+      sessionStorage.setItem("userId", data.user.id);
+      
+      // Redirect after short delay for better UX
+      setTimeout(() => {
+        window.location.href = "/user-dashboard";
+      }, 1000);
+      
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error(error.message || "Login failed. Please try again.", {
+        icon: <AlertCircle className="w-4 h-4" />
+      });
+      
+      if (error.message.includes("Invalid")) {
+        setErrors({ general: "Invalid email or password" });
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleGoogleSignIn = () => {
+    toast.info("Redirecting to Google...");
     window.location.href = "http://localhost:5000/api/auth/google";
   }
+
+  // Clear errors when user starts typing
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (errors.email) {
+      setErrors({ ...errors, email: null });
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    if (errors.password) {
+      setErrors({ ...errors, password: null });
+    }
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {/* Background Image */}
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Carpooling Login" className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" />
+        <img 
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" 
+          alt="" 
+          className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" 
+          loading="lazy"
+        />
         {/* Gradient Animation */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20"
@@ -120,6 +183,7 @@ const handleSubmit = async (e) => {
           />
         ))}
       </div>
+      
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
         <motion.div
@@ -135,7 +199,18 @@ const handleSubmit = async (e) => {
             </CardHeader>
 
             <CardContent className="space-y-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
+              {errors.general && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 flex items-center space-x-2"
+                >
+                  <AlertCircle className="w-4 h-4 text-red-400" />
+                  <span className="text-red-200 text-sm">{errors.general}</span>
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 {/* Email Field */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -147,17 +222,34 @@ const handleSubmit = async (e) => {
                     Email Address
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" aria-hidden="true" />
                     <Input
                       id="email"
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
+                      onChange={handleEmailChange}
+                      className={`pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300 ${
+                        errors.email ? 'border-red-500/50 focus:border-red-500/50' : ''
+                      }`}
                       placeholder="Enter your email address"
                       required
+                      autoComplete="email"
+                      aria-describedby={errors.email ? "email-error" : undefined}
+                      aria-invalid={errors.email ? "true" : "false"}
                     />
                   </div>
+                  {errors.email && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      id="email-error"
+                      className="text-red-400 text-sm flex items-center space-x-1"
+                      role="alert"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      <span>{errors.email}</span>
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 {/* Password Field */}
@@ -171,24 +263,42 @@ const handleSubmit = async (e) => {
                     Password
                   </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" aria-hidden="true" />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300"
+                      onChange={handlePasswordChange}
+                      className={`pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-300 focus:border-white/40 focus:ring-white/20 transition-all duration-300 ${
+                        errors.password ? 'border-red-500/50 focus:border-red-500/50' : ''
+                      }`}
                       placeholder="Enter your password"
                       required
+                      autoComplete="current-password"
+                      aria-describedby={errors.password ? "password-error" : undefined}
+                      aria-invalid={errors.password ? "true" : "false"}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-white rounded"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
+                  {errors.password && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      id="password-error"
+                      className="text-red-400 text-sm flex items-center space-x-1"
+                      role="alert"
+                    >
+                      <AlertCircle className="w-3 h-3" />
+                      <span>{errors.password}</span>
+                    </motion.p>
+                  )}
                 </motion.div>
 
                 {/* Forgot Password */}
@@ -198,7 +308,10 @@ const handleSubmit = async (e) => {
                   transition={{ delay: 0.5, duration: 0.5 }}
                   className="text-right"
                 >
-                  <a href="#" className="text-sm text-gray-300 hover:text-white transition-colors duration-200">
+                  <a 
+                    href="#" 
+                    className="text-sm text-gray-300 hover:text-white transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-white rounded"
+                  >
                     Forgot your password?
                   </a>
                 </motion.div>
@@ -212,13 +325,14 @@ const handleSubmit = async (e) => {
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                   >
                     {isLoading ? (
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                        aria-label="Loading"
                       />
                     ) : (
                       "Sign In"
@@ -252,9 +366,9 @@ const handleSubmit = async (e) => {
                   type="button"
                   variant="outline"
                   onClick={handleGoogleSignIn}
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105"
+                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300 transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
-                  <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                     <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                     <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
@@ -273,7 +387,10 @@ const handleSubmit = async (e) => {
               >
                 <p className="text-gray-300">
                   {"Don't have an account? "}
-                  <a href="/register" className="text-white font-semibold hover:underline transition-all duration-200">
+                  <a 
+                    href="/register" 
+                    className="text-white font-semibold hover:underline transition-all duration-200 focus-visible:outline-2 focus-visible:outline-white rounded"
+                  >
                     Register
                   </a>
                 </p>
