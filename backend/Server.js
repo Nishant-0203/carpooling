@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import compression from 'compression';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import rideRoutes from './src/routes/offer-ride.route.js';
 import DriverRoutes from './src/routes/driver.route.js';
 import session from 'express-session';
@@ -12,9 +14,16 @@ import passport from 'passport';
 import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/auth.route.js';
 import contactRoutes from './src/routes/contact.route.js';
-import './src/config/passport.js';
 
-dotenv.config();
+// Get current directory in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load environment variables with explicit path
+dotenv.config({ path: path.join(__dirname, '.env') });
+
+// Import passport config after env variables are loaded
+import './src/config/passport.js';
 
 const app = express();
 
