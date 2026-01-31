@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Mail,
   Phone,
@@ -15,7 +16,7 @@ import {
   Headphones,
   Users,
   FileText,
-  Calendar,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -301,7 +302,7 @@ export default function ContactPage() {
                             variant="outline"
                             className={`w-full justify-start text-left font-normal bg-white/80 border-white/50 backdrop-blur-sm rounded-xl h-12 ${!date ? "text-slate-600" : "text-black"}`}
                           >
-                            <Calendar className="mr-2 h-4 w-4 text-blue-500" />
+                            <CalendarIcon className="mr-2 h-4 w-4 text-blue-500" />
                             {date ? new Date(date).toLocaleDateString() : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
@@ -309,7 +310,7 @@ export default function ContactPage() {
                           <Calendar
                             mode="single"
                             selected={date ? new Date(date) : undefined}
-                            onSelect={d => setDate(d ? d.toISOString().split('T')[0] : "")}
+                            onSelect={(d) => setDate(d ? d.toISOString().split('T')[0] : "")}
                             initialFocus
                           />
                         </PopoverContent>
