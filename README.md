@@ -15,8 +15,11 @@
 
 ## 🎯 Demo
 
-> 🚧 **Live Demo Coming Soon!** 
-> The application is currently in active development. Check back soon for a live demo.
+**Live Application:** [https://carpooling-app-chl.vercel.app](https://carpooling-app-chl.vercel.app)
+
+**API Backend:** [https://backend-kohl-six-71.vercel.app](https://backend-kohl-six-71.vercel.app)
+
+> 🚀 The application is deployed on Vercel with separate deployments for frontend and backend.
 
 ## ✨ Features
 
