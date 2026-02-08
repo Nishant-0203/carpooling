@@ -3,6 +3,8 @@ import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 import { Button } from "../../components/ui/button"
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import {
@@ -26,7 +28,7 @@ export default function DriverLogin() {
     setIsLoading(true)
 
     try {
-      const response = await fetch("http://localhost:5000/api/Driver/login", {
+      const response = await fetch(`${API_URL}/Driver/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -4,6 +4,8 @@ import { motion } from "framer-motion"
 import { Mail, Lock, Eye, EyeOff, AlertCircle, CheckCircle } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "../../components/ui/button";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import {
@@ -68,7 +70,7 @@ export default function LoginPage() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -111,7 +113,7 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = () => {
     toast.info("Redirecting to Google...");
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API_URL}/auth/google`;
   }
 
   // Clear errors when user starts typing

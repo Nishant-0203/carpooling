@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import {
   Users,
   ChevronLeft,
@@ -237,7 +239,7 @@ export default function OfferRidePage() {
 
 
     try {
-      const response = await fetch("http://localhost:5000/api/rides/offer-ride", {
+      const response = await fetch(`${API_URL}/rides/offer-ride`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

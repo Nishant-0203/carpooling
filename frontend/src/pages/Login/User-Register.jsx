@@ -3,6 +3,8 @@ import React, { useState } from "react"
 import { motion } from "framer-motion"
 import { Mail, Lock, User, Eye, EyeOff } from "lucide-react"
 import { Button } from "../../components/ui/button"
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
 import {
@@ -25,7 +27,7 @@ const handleSubmit = async (e) => {
   setIsLoading(true);
 
   try {
-    const response = await fetch("http://localhost:5000/api/auth/register", {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

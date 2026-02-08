@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import {
   LayoutDashboard,
   BookOpen,
@@ -195,7 +197,7 @@ export default function RiderDashboard() {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/rides/my-rides?driverId=${driverId}`);
+      const response = await fetch(`${API_URL}/rides/my-rides?driverId=${driverId}`);
       if (response.ok) {
         const data = await response.json();
         setOfferedRides(data);
@@ -212,7 +214,7 @@ export default function RiderDashboard() {
     if (!confirm("Are you sure you want to delete this ride?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/rides/rides/${rideId}`, {
+      const response = await fetch(`${API_URL}/rides/rides/${rideId}`, {
         method: "DELETE",
       });
 
@@ -230,7 +232,7 @@ export default function RiderDashboard() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/rider/profile/${profile.email}`);
+        const res = await fetch(`${API_URL}/rider/profile/${profile.email}`);
         if (res.ok) {
           const data = await res.json();
           setProfile(data);
@@ -250,7 +252,7 @@ export default function RiderDashboard() {
 
   const saveProfileToBackend = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/rider/profile", {
+      const res = await fetch(`${API_URL}/rider/profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -405,7 +407,7 @@ export default function RiderDashboard() {
   const saveEditedRide = async () => {
     if (!editRide) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/rides/rides/${editRide._id}`, {
+      const response = await fetch(`${API_URL}/rides/rides/${editRide._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editRide),

@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export default function BookRidePage() {
   const { id } = useParams();
   const [ride, setRide] = useState(null);
@@ -9,7 +11,7 @@ export default function BookRidePage() {
   useEffect(() => {
     async function fetchRide() {
       try {
-        const res = await axios.get(`http://localhost:5000/api/ride/${id}`);
+        const res = await axios.get(`${API_URL}/ride/${id}`);
         setRide(res.data.ride);
       } catch (err) {
         // Error fetching ride

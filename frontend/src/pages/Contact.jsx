@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import {
   Mail,
   Phone,
@@ -56,7 +58,7 @@ export default function ContactPage() {
     setLoading(true);
     setFeedback(null);
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch(`${API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

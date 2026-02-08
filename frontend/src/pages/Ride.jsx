@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -346,7 +348,7 @@ export default function RideSearchPage() {
     setSuggestionsTo([]);
 
     try {
-      const response = await axios.get("http://localhost:5000/api/rides/allRides");
+      const response = await axios.get(`${API_URL}/rides/allRides`);
       const filteredRides = response.data.filter((ride) => {
         // Handle inconsistent field names in your data
         const rideFromFull = (ride.from || ride.fromLocation || "").trim().toLowerCase();
@@ -765,7 +767,7 @@ export default function RideSearchPage() {
                                     label: "Read",
                                     onClick: async () => {
                                       // Mark ride as completed in backend
-                                      await fetch(`http://localhost:5000/api/rides/rides/${ride._id}/complete`, {
+                                      await fetch(`${API_URL}/rides/rides/${ride._id}/complete`, {
                                         method: "PATCH",
                                       });
                                     },
