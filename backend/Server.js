@@ -96,6 +96,22 @@ app.use('/api/contact', contactRoutes);
 import confirmRideRoutes from './src/routes/confirm-ride.route.js';
 app.use('/api/confirm-ride', confirmRideRoutes);
 
+// Root route - API health check
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'RideSphere API is running',
+    version: '1.0.0',
+    endpoints: {
+      auth: '/api/auth',
+      rides: '/api/rides',
+      driver: '/api/driver',
+      contact: '/api/contact',
+      confirmRide: '/api/confirm-ride'
+    }
+  });
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Error:', err.stack);
