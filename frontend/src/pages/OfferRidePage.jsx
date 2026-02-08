@@ -220,7 +220,6 @@ export default function OfferRidePage() {
 
   const handleSubmit = async () => {
     const driverId = sessionStorage.getItem("driverId");
-    console.log("Driver ID:", driverId);
     if (!driverId) {
       alert("Driver ID not found. Please log in as a driver.");
       return;
@@ -253,7 +252,6 @@ export default function OfferRidePage() {
         alert("Failed to publish ride: " + result.message);
       }
     } catch (error) {
-      console.error("Error:", error);
       alert("Something went wrong!");
     }
   };

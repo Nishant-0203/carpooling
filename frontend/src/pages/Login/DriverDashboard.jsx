@@ -192,7 +192,6 @@ export default function RiderDashboard() {
     try {
       const driverId = sessionStorage.getItem("driverId");
       if (!driverId) {
-        console.error("Driver ID not found");
         return;
       }
 
@@ -200,11 +199,9 @@ export default function RiderDashboard() {
       if (response.ok) {
         const data = await response.json();
         setOfferedRides(data);
-      } else {
-        console.error("Failed to fetch rides");
       }
     } catch (error) {
-      console.error("Error fetching rides:", error);
+      // Error fetching rides
     } finally {
       setLoading(false);
     }
@@ -226,7 +223,6 @@ export default function RiderDashboard() {
         alert("Failed to delete ride");
       }
     } catch (error) {
-      console.error("Error deleting ride:", error);
       alert("Error deleting ride");
     }
   };
@@ -240,7 +236,7 @@ export default function RiderDashboard() {
           setProfile(data);
         }
       } catch (err) {
-        console.error("Failed to load profile", err);
+        // Error loading profile
       }
     };
 
@@ -269,7 +265,6 @@ export default function RiderDashboard() {
         alert("❌ Failed to save profile: " + data.message);
       }
     } catch (error) {
-      console.error("Error saving profile:", error);
       alert("❌ Server error");
     }
   };

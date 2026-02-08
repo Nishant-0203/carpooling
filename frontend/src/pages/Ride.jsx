@@ -402,7 +402,6 @@ export default function RideSearchPage() {
 
       setRides(filteredRides);
     } catch (error) {
-      console.error("Error fetching rides:", error);
       toast.error("Failed to fetch rides. Please try again.");
     }
 

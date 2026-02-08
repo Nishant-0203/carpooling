@@ -97,7 +97,6 @@ export default function LoginPage() {
       }, 1000);
       
     } catch (error) {
-      console.error("Login error:", error);
       toast.error(error.message || "Login failed. Please try again.", {
         icon: <AlertCircle className="w-4 h-4" />
       });

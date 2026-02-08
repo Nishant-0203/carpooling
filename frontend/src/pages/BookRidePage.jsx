@@ -10,9 +10,9 @@ export default function BookRidePage() {
     async function fetchRide() {
       try {
         const res = await axios.get(`http://localhost:5000/api/ride/${id}`);
-        setRide(res.data.ride); // <-- FIXED
+        setRide(res.data.ride);
       } catch (err) {
-        console.error("Error fetching ride:", err);
+        // Error fetching ride
       }
     }
 

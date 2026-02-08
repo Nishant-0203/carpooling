@@ -42,10 +42,9 @@ driverSchema.pre('save', async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-    console.log("✅ Password hashed successfully for Driver:", this.email);
     next();
   } catch (error) {
-    console.error("❌ Error hashing password:", error.message);
+    console.error('Error hashing password:', error.message);
     next(error);
   }
 });
@@ -54,10 +53,9 @@ driverSchema.pre('save', async function (next) {
 driverSchema.methods.comparePassword = async function (candidatePassword) {
   try {
     const isMatch = await bcrypt.compare(candidatePassword, this.password);
-    console.log(`🔍 Password match: ${isMatch}`);
     return isMatch;
   } catch (error) {
-    console.error("❌ Error comparing password:", error.message);
+    console.error('Error comparing password:', error.message);
     throw error;
   }
 };
@@ -70,10 +68,9 @@ driverSchema.methods.generateAuthToken = function () {
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
-    console.log("🎟️ JWT token generated for Driver:", this.email);
     return token;
   } catch (error) {
-    console.error("❌ Error generating token:", error.message);
+    console.error('Error generating token:', error.message);
     throw error;
   }
 };

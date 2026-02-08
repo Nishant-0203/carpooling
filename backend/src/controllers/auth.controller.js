@@ -40,12 +40,9 @@ const createSendToken = (user, statusCode, res, message = 'Success') => {
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
-  console.log("🔐 Register attempt:", { name, email });
-
   // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    console.log("❌ Registration failed: User already exists");
     return res.status(409).json({ 
       success: false,
       message: 'User with this email already exists' 
@@ -55,20 +52,16 @@ export const registerUser = asyncHandler(async (req, res) => {
   // Create new user
   const newUser = await User.create({ name, email, password });
 
-  console.log("✅ Registration successful for:", email);
   createSendToken(newUser, 201, res, 'User registered successfully');
 });
 
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  console.log("🔓 Login attempt:", email);
-
   // Find user and explicitly select password
   const user = await User.findOne({ email }).select('+password');
   
   if (!user) {
-    console.log("❌ Login failed: User not found");
     return res.status(401).json({ 
       success: false,
       message: 'Invalid email or password' 
@@ -86,14 +79,12 @@ export const loginUser = asyncHandler(async (req, res) => {
   // Check password
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    console.log("❌ Login failed: Incorrect password");
     return res.status(401).json({ 
       success: false,
       message: 'Invalid email or password' 
     });
   }
 
-  console.log("✅ Login successful:", email);
   createSendToken(user, 200, res, 'Login successful');
 });
 
@@ -102,14 +93,12 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).select('-password');
   
   if (!user) {
-    console.log("❌ User not found:", req.user._id);
     return res.status(404).json({ 
       success: false,
       message: 'User not found' 
     });
   }
 
-  console.log("✅ User profile retrieved:", user.email);
   res.status(200).json({
     success: true,
     user

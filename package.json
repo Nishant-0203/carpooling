@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "cookie-session": "^2.1.1",
-    "express-session": "^1.18.2",
-    "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
-    "react-icons": "^5.5.0"
-  }
-}
